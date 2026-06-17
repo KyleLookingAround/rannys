@@ -162,7 +162,7 @@ if (!layout.includes('<!-- page:content -->') || !layout.includes('<!-- build:si
 const name = shop.name || 'Ranny’s';
 const loc = shop.locality || '';
 const pages = [
-  { src: 'home.html',     out: 'index.html',    nav: '',         title: `${name} — coffee, cake & a proper natter`, description: shop.description },
+  { src: 'home.html',     out: 'index.html',    nav: 'home',     title: `${name} — coffee, cake & a proper natter`, description: shop.description },
   { src: 'menu.html',     out: 'menu.html',     nav: 'menu',     title: `Menu — ${name}`,     description: `The ${name} menu — proper coffee, cake and the good stuff. ${loc}.` },
   { src: 'events.html',   out: 'events.html',   nav: 'events',   title: `Events — ${name}`,   description: `What's on at ${name}, ${shop.street}, ${loc}.` },
   { src: 'photos.html',   out: 'photos.html',   nav: 'photos',   title: `Photos — ${name}`,   description: `A look around ${name}, ${loc}.` },
@@ -176,7 +176,7 @@ for (const page of pages) {
   const inner = readFileSync(r('src/pages', page.src), 'utf8');
   const renderedInner = render(inner, ctx, ctx);
 
-  const nav = { menu: '', events: '', photos: '', bookings: '' };
+  const nav = { home: '', menu: '', events: '', photos: '', bookings: '' };
   if (page.nav) nav[page.nav] = 'active';
   const pageUrl = site.url ? (page.out === 'index.html' ? site.url : site.url + page.out) : '';
   const pageCtx = { ...ctx, nav, title: page.title, description: page.description, pageUrl };

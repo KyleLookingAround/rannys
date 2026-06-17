@@ -1,10 +1,11 @@
-<svg viewBox="0 0 220 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Coffee pouring into a mug" class="pour">
+<svg viewBox="0 0 220 210" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Coffee pouring into a cup" class="pour">
   <style>
     .pour .stream { transform-box: fill-box; transform-origin: top center; animation: pour-stream 4.2s ease-in-out infinite; }
     .pour .fill   { transform-box: fill-box; transform-origin: bottom center; animation: pour-fill 4.2s ease-in-out infinite; }
-    .pour .jug    { transform-box: fill-box; transform-origin: 70% 80%; animation: pour-tip 4.2s ease-in-out infinite; }
+    .pour .jug    { transform-box: fill-box; transform-origin: 72% 78%; animation: pour-tip 4.2s ease-in-out infinite; }
     .pour .steam  { opacity: 0; animation: pour-steam 4.2s ease-in-out infinite; }
-    .pour .steam.s2 { animation-delay: .35s; }
+    .pour .steam.s2 { animation-delay: .5s; }
+    .pour .steam.s3 { animation-delay: .9s; }
     @keyframes pour-stream {
       0%   { opacity: 0; transform: scaleY(0); }
       12%  { opacity: 1; transform: scaleY(1); }
@@ -13,57 +14,80 @@
       100% { opacity: 0; transform: scaleY(0); }
     }
     @keyframes pour-fill {
-      0%   { transform: scaleY(0.06); }
+      0%   { transform: scaleY(0.08); }
       58%  { transform: scaleY(1); }
       92%  { transform: scaleY(1); }
-      100% { transform: scaleY(0.06); }
+      100% { transform: scaleY(0.08); }
     }
     @keyframes pour-tip {
       0%, 100% { transform: rotate(0deg); }
-      12%, 62% { transform: rotate(-22deg); }
+      12%, 60% { transform: rotate(-26deg); }
     }
     @keyframes pour-steam {
       0%, 60% { opacity: 0; transform: translateY(0); }
-      78%     { opacity: .55; }
-      100%    { opacity: 0; transform: translateY(-16px); }
+      80%     { opacity: .5; }
+      100%    { opacity: 0; transform: translateY(-18px); }
     }
     @media (prefers-reduced-motion: reduce) {
       .pour .stream, .pour .fill, .pour .jug, .pour .steam { animation: none; }
       .pour .stream { opacity: 1; }
       .pour .fill { transform: none; }
-      .pour .jug { transform: rotate(-22deg); }
+      .pour .jug { transform: rotate(-26deg); }
       .pour .steam { opacity: .5; }
     }
   </style>
 
-  <!-- steam -->
-  <path class="steam s1" d="M96 70 q-8 -10 0 -20 q8 -10 0 -20" fill="none" stroke="#4a3220" stroke-width="3" stroke-linecap="round"/>
-  <path class="steam s2" d="M118 70 q8 -10 0 -20 q-8 -10 0 -20" fill="none" stroke="#4a3220" stroke-width="3" stroke-linecap="round"/>
+  <!-- steam wisps rising from the cup -->
+  <path class="steam s1" d="M98 92 q-9 -11 0 -22 q9 -11 0 -22" fill="none" stroke="#4a3220" stroke-width="3.5" stroke-linecap="round"/>
+  <path class="steam s2" d="M112 92 q9 -11 0 -22 q-9 -11 0 -22" fill="none" stroke="#4a3220" stroke-width="3.5" stroke-linecap="round"/>
+  <path class="steam s3" d="M126 92 q-9 -11 0 -22 q9 -11 0 -22" fill="none" stroke="#4a3220" stroke-width="3.5" stroke-linecap="round"/>
 
-  <!-- pouring jug (tilts to pour) -->
+  <!-- pouring pitcher (tilts to pour) -->
   <g class="jug">
-    <rect x="20" y="34" width="56" height="42" rx="12" fill="#c4612a" stroke="#2a1c10" stroke-width="3"/>
-    <!-- spout -->
-    <path d="M74 44 L98 52 L74 62 Z" fill="#c4612a" stroke="#2a1c10" stroke-width="3" stroke-linejoin="round"/>
     <!-- handle -->
-    <path d="M20 44 q-16 0 -16 14 q0 14 16 14" fill="none" stroke="#2a1c10" stroke-width="3"/>
+    <path d="M28 50 q-20 2 -20 20 q0 18 20 18" fill="none" stroke="#2a1c10" stroke-width="3.5" stroke-linecap="round"/>
+    <!-- body: a rounded creamer -->
+    <path d="M30 44
+             q0 -10 12 -10
+             h22
+             q14 0 14 14
+             v20
+             q0 18 -18 18
+             h-12
+             q-18 0 -18 -18
+             z"
+          fill="#c4612a" stroke="#2a1c10" stroke-width="3.5" stroke-linejoin="round"/>
+    <!-- spout: a clean pour lip -->
+    <path d="M70 44
+             Q93 43 103 57
+             Q97 61 88 59
+             Q78 57 70 60
+             Z"
+          fill="#c4612a" stroke="#2a1c10" stroke-width="3.5" stroke-linejoin="round"/>
+    <!-- highlight -->
+    <path d="M40 42 q-6 4 -6 16" fill="none" stroke="#e3a06b" stroke-width="3" stroke-linecap="round" opacity=".7"/>
   </g>
 
   <!-- the pour stream -->
-  <rect class="stream" x="104" y="60" width="7" height="58" rx="3.5" fill="#3a2415"/>
+  <rect class="stream" x="105" y="62" width="6.5" height="58" rx="3.25" fill="#3a2415"/>
 
-  <!-- mug -->
+  <!-- cup + saucer -->
   <g>
-    <!-- mug interior (clips the coffee fill) -->
-    <clipPath id="mugInside"><rect x="74" y="118" width="72" height="58" rx="8"/></clipPath>
-    <rect x="74" y="118" width="72" height="58" rx="8" fill="#f8f3e3"/>
-    <!-- coffee, rises as it fills -->
-    <rect class="fill" x="74" y="118" width="72" height="58" rx="8" fill="#3a2415" clip-path="url(#mugInside)"/>
-    <!-- mug outline -->
-    <rect x="74" y="118" width="72" height="58" rx="8" fill="none" stroke="#2a1c10" stroke-width="3"/>
-    <!-- handle -->
-    <path d="M146 132 q24 4 24 22 q0 18 -24 14" fill="none" stroke="#2a1c10" stroke-width="3"/>
     <!-- saucer -->
-    <ellipse cx="110" cy="182" rx="58" ry="9" fill="#c5dd24" stroke="#2a1c10" stroke-width="3"/>
+    <ellipse cx="112" cy="192" rx="60" ry="10" fill="#c5dd24" stroke="#2a1c10" stroke-width="3.5"/>
+    <ellipse cx="112" cy="190" rx="60" ry="10" fill="#d4e84a" stroke="#2a1c10" stroke-width="3.5"/>
+    <!-- handle -->
+    <path d="M146 138 q26 2 26 22 q0 20 -26 16" fill="none" stroke="#2a1c10" stroke-width="3.5"/>
+    <!-- cup shape (tapered) -->
+    <clipPath id="cupInside">
+      <path d="M80 130 L144 130 L138 176 q-1 6 -8 6 L94 182 q-7 0 -8 -6 Z"/>
+    </clipPath>
+    <path d="M80 130 L144 130 L138 176 q-1 6 -8 6 L94 182 q-7 0 -8 -6 Z" fill="#f8f3e3"/>
+    <!-- coffee, rises as it fills -->
+    <rect class="fill" x="80" y="130" width="64" height="54" fill="#3a2415" clip-path="url(#cupInside)"/>
+    <!-- cup outline on top -->
+    <path d="M80 130 L144 130 L138 176 q-1 6 -8 6 L94 182 q-7 0 -8 -6 Z" fill="none" stroke="#2a1c10" stroke-width="3.5" stroke-linejoin="round"/>
+    <!-- rim -->
+    <rect x="78" y="126" width="68" height="8" rx="4" fill="#f8f3e3" stroke="#2a1c10" stroke-width="3.5"/>
   </g>
 </svg>

@@ -40,7 +40,12 @@
 <!-- TOP BAR -->
 <header class="topbar">
   <a class="logo" href="./">{{shop.name}}</a>
+  <input type="checkbox" id="nav-toggle" class="nav-toggle" hidden>
+  <label for="nav-toggle" class="burger" aria-label="Open menu" title="Menu">
+    <span></span><span></span><span></span>
+  </label>
   <nav>
+    <a href="./" class="{{nav.home}}">Home</a>
     <a href="./menu.html" class="{{nav.menu}}">Menu</a>
     <a href="./events.html" class="{{nav.events}}">Events</a>
     <a href="./photos.html" class="{{nav.photos}}">Photos</a>
