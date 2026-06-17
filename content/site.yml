@@ -1,0 +1,189 @@
+# ════════════════════════════════════════════════════════════════════
+#  RANNY'S  ·  site content
+#
+#  Edit the text inside the "quotes". Keep the labels (the word before
+#  each colon) and the indentation exactly as they are (spaces, not tabs).
+#  After editing, the site rebuilds itself on push (or run `npm run build`).
+# ════════════════════════════════════════════════════════════════════
+
+site:
+  # The published web address (used for social-share + search metadata).
+  # While the site lives on GitHub Pages this is the github.io URL; swap it
+  # for your custom domain when you have one (and add a src/CNAME file).
+  url: "https://kylelookingaround.github.io/rannys/"
+
+shop:
+  name: "Ranny's"
+  description: "Independent coffee shop on Hempshaw Lane, Stockport. Good coffee, proper cake, no nonsense."
+  priceRange: "££"
+
+  # ── Address ────────────────────────────────────────────────────────
+  street: "407 Hempshaw Lane"
+  locality: "Stockport"
+  region: "Greater Manchester"
+  postcode: "SK1 4QA"
+  country: "GB"
+
+  # ── Contact + socials ──────────────────────────────────────────────
+  email: "info@auntyrannys.com"
+  instagramHandle: "@rannyscoffee"
+  instagram: "https://instagram.com/rannyscoffee"
+  facebook: "https://facebook.com/61583039575566"
+
+  # ── Images (files live in the assets/ folder) ──────────────────────
+  heroImage: "./assets/hero-bg.jpg"      # front-page background photo
+  menuImage: "./assets/menu.jpg"         # the Menu page is shown as this image
+  previewImage: "./assets/preview.jpg"   # social share card (WhatsApp/Twitter/Facebook)
+
+  # ── Opening status + hours ─────────────────────────────────────────
+  statusShort: "Open Tue–Sun"          # the little pill, top-right of every page
+  hoursShort: "Tue–Fri 7–4 · wknds 9–4" # short line in the hero
+  hours:
+    - day: "Tue – Fri"
+      time: "7:00am – 4:00pm"
+    - day: "Sat & Sun"
+      time: "9:00am – 4:00pm"
+    - day: "Monday"
+      time: "Closed"
+  # Same hours in the format Google/search engines read. Update if hours change.
+  openingHours:
+    - "Tu-Fr 07:00-16:00"
+    - "Sa-Su 09:00-16:00"
+
+  # ── Hero ───────────────────────────────────────────────────────────
+  eyebrow: "Hempshaw Lane · Stockport · Open now"
+  tagline: "A proper independent coffee shop on Hempshaw Lane. Good coffee, great cake, and a warm room to sit in. That's it, really."
+
+  # ── Scrolling marquee — add or remove lines freely ─────────────────
+  marquee:
+    - "Proper coffee"
+    - "Cake worth the calories"
+    - "Independent"
+    - "Locally roasted"
+    - "Stockport made"
+    - "Kettle's on"
+
+  # ── Story (Rhianne's bit — in her own words) ───────────────────────
+  story:
+    name: "Rhianne"
+    lede: "The girl covered in paint, fluffy socks and a half-ate butty in hand."
+    paragraphs:
+      - "I'm 26 and have spent most of my adult life managing independent bars in and around Stockport — learning the ropes, pouring the pints, knowing what makes a room actually feel good to be in."
+      - "Ranny's is me taking the leap and opening up a place I can call my own. A proper little coffee shop on Hempshaw Lane, with thoughtful coffee, ridiculously good cake, and the kind of vintage charm that makes you want to linger."
+      - "No airs, no graces — just a good brew and a warm welcome. Come and say hello."
+    signature: "— Rhianne x"
+
+  # ── "What you'll find inside" — three cards ────────────────────────
+  inside:
+    - title: "Coffee, done right"
+      body: "Locally roasted beans, dialled-in espresso, and folk behind the bar who actually care what's in your cup. Nothing flash — just good."
+    - title: "Cake worth the calories"
+      body: "Brownies, blondies, traybakes — Lotus, Oreo, raspberry and beyond. A rotating lineup from local bakers who know their stuff."
+    - title: "A room to linger in"
+      body: "Cappuccinos in tomato-soup mugs, cake on grandma's plates. Mismatched, mended and much loved — somewhere, not anywhere."
+
+  # ── Partners ("from our friends") ──────────────────────────────────
+  partners:
+    - category: "Cakes & Bakes"
+      name: "Silver Apples Bakery"
+      body: "Brownies, blondies, traybakes — Lotus, Oreo, raspberry and beyond. The cake stand wouldn't be the same without them."
+    - category: "Larder"
+      name: "Olives Et Al"
+      body: "Chilli puffs, stuffed olives, mixed nuts — proper grown-up snacks for when you fancy something alongside your cuppa."
+
+  # ── Community / "borrow the space" teaser ──────────────────────────
+  community:
+    blurb: "Got a group? We're happy to lend the room. Book clubs, running crews, new-mum hangs, board-game nights — if you've got the people, we've got the room and the cake."
+
+  # ════════════════════════════════════════════════════════════════
+  #  MENU  (menu.html)
+  #  The Menu page now shows the photo set in `menuImage` above. To swap the
+  #  menu, just replace assets/menu.jpg. The text list below is NOT shown on
+  #  the site — it's kept for reference (and easy to switch back to later).
+  # ════════════════════════════════════════════════════════════════
+  menuIntro: "Good coffee, made properly. Cake from people who know what they're doing. No 17-word drink names — just the good stuff."
+  menu:
+    - name: "Coffee"
+      note: "Locally roasted. Decaf on request."
+      items:
+        - { name: "Espresso", price: "£2.40" }
+        - { name: "Macchiato", price: "£2.60" }
+        - { name: "Cortado", price: "£3.00" }
+        - { name: "Flat white", price: "£3.20" }
+        - { name: "Latte", price: "£3.40" }
+        - { name: "Cappuccino", price: "£3.40" }
+        - { name: "Americano", price: "£3.00" }
+        - { name: "Mocha", price: "£3.60" }
+        - { name: "Extra shot", note: "add to any", price: "£0.50" }
+    - name: "Not coffee"
+      items:
+        - { name: "Hot chocolate", price: "£3.40" }
+        - { name: "Chai latte", price: "£3.60" }
+        - { name: "Matcha latte", price: "£3.80" }
+        - { name: "Loose-leaf tea", price: "£2.80" }
+        - { name: "Babyccino", note: "for the little ones", price: "£1.00" }
+    - name: "Iced & cold"
+      items:
+        - { name: "Iced latte", price: "£3.60" }
+        - { name: "Iced matcha", price: "£3.90" }
+        - { name: "Cold brew", price: "£3.60" }
+    - name: "Cake & bakes"
+      note: "From Silver Apples Bakery. Changes with the day — ask what's in."
+      items:
+        - { name: "Brownie", price: "£3.50" }
+        - { name: "Blondie", price: "£3.50" }
+        - { name: "Cookie", price: "£2.80" }
+        - { name: "Traybake of the day", price: "£3.50" }
+
+  # ════════════════════════════════════════════════════════════════
+  #  EVENTS  (events.html)
+  #  Add a block per event. Leave the list empty to show a "nothing on" note.
+  #  These are EXAMPLES — edit or delete them.
+  # ════════════════════════════════════════════════════════════════
+  eventsIntro: "We put a few things on through the month — nothing fancy, just good reasons to come in. Here's what's coming up."
+  events:
+    - day: "12"
+      month: "JUL"
+      title: "Acoustic Sunday Sessions"
+      when: "Sunday · 2–4pm · free in"
+      description: "A couple of local musicians, a quiet afternoon, and as much coffee as you can drink. Turn up, grab a seat."
+    - day: "26"
+      month: "JUL"
+      title: "Latte Art Throwdown"
+      when: "Saturday · 6pm · £5 to enter"
+      description: "Bring your steaming arm. Winner takes the pot and bragging rights. Spectators welcome — cake on the side."
+
+  # ════════════════════════════════════════════════════════════════
+  #  PHOTOS  (photos.html)
+  #  Drop your photos into the assets/ folder and point "src" at them,
+  #  e.g.  src: "./assets/inside-1.jpg". Until then these show a placeholder.
+  # ════════════════════════════════════════════════════════════════
+  photosIntro: "A few snaps of the place and the good stuff. Pop in and see the real thing."
+  photos:
+    - { src: "./assets/preview.jpg", caption: "Pistachio donut, out front" }
+    - { src: "./assets/hero-bg.jpg", caption: "Flat white & flowers" }
+    - { src: "./assets/menu.jpg", caption: "What's on the menu" }
+    - { src: "./assets/photo-placeholder.svg", caption: "Window seats" }
+    - { src: "./assets/photo-placeholder.svg", caption: "The back room" }
+    - { src: "./assets/photo-placeholder.svg", caption: "More coming soon" }
+
+  # ════════════════════════════════════════════════════════════════
+  #  BOOKINGS  (bookings.html)
+  # ════════════════════════════════════════════════════════════════
+  bookingsIntro: "Want the place to yourself, or a corner for your group? Tell us what you're after and we'll sort it. Straight answers, no faff."
+  bookingTypes:
+    - title: "Private hire"
+      body: "Have the whole shop after hours for a get-together, a launch, or a do. We'll talk numbers, food and timings with you."
+    - title: "Group meet-ups"
+      body: "Book clubs, knit nights, running crews, new-mum hangs — a reserved corner and a standing welcome. Often free; just ask."
+    - title: "Celebrations"
+      body: "Birthdays, baby showers, a quiet wake. A warm room, good coffee and cake sorted — you bring the people."
+
+  # ── Mailing list ("on the list") ───────────────────────────────────
+  # For now this is a one-tap email. To switch to a proper subscribe form,
+  # paste your provider's form action URL into "action" (Buttondown / Formspree
+  # / Mailchimp etc.) and set fieldName ("email", or "EMAIL" for Mailchimp).
+  mailingList:
+    blurb: "Now and then we'll send a quick note — new things on the menu, events worth turning up for. That's it."
+    action: ""
+    fieldName: "email"

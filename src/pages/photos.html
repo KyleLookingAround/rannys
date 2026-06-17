@@ -1,0 +1,44 @@
+<!-- PAGE HEADER -->
+<section class="page-head">
+  <div class="page-head-grid">
+    <div>
+      <div class="eyebrow">The Place</div>
+      <h1 class="page-title">Have a <em>nosey.</em></h1>
+      <p class="page-lede">{{shop.photosIntro}}</p>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY (tap a photo to open the lightbox — pure CSS, no JS) -->
+<section class="gallery">
+  <div class="gallery-grid">
+    {{#each shop.photos}}<a class="shot" id="thumb-{{n}}" href="#shot-{{n}}">
+      <img src="{{src}}" alt="{{caption}}" loading="lazy">
+      <span class="shot-cap">{{caption}}</span>
+    </a>
+    {{/each}}
+  </div>
+</section>
+
+<!-- Lightbox overlays (one per photo) -->
+{{#each shop.photos}}<div class="lightbox" id="shot-{{n}}" role="dialog" aria-label="{{caption}}">
+  <a class="lb-backdrop" href="#thumb-{{n}}" aria-label="Close"></a>
+  <figure class="lb-figure">
+    <img src="{{src}}" alt="{{caption}}">
+    <figcaption class="lb-cap">{{caption}}</figcaption>
+  </figure>
+  <a class="lb-nav lb-prev" href="#shot-{{prev}}" aria-label="Previous photo">‹</a>
+  <a class="lb-nav lb-next" href="#shot-{{next}}" aria-label="Next photo">›</a>
+  <a class="lb-close" href="#thumb-{{n}}" aria-label="Close">✕</a>
+</div>
+{{/each}}
+
+<!-- CTA -->
+<section class="community">
+  <span class="orbit o3">☕</span><span class="orbit o2">✺</span>
+  <div class="community-inner">
+    <h2>Tag us in <em>yours.</em></h2>
+    <p>Snapped a good one? Tag {{shop.instagramHandle}} — we love seeing the place through your eyes.</p>
+    <a class="btn" href="{{shop.instagram}}" target="_blank" rel="noopener">Find us on Instagram</a>
+  </div>
+</section>

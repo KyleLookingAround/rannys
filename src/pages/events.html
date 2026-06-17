@@ -1,0 +1,42 @@
+<!-- PAGE HEADER -->
+<section class="page-head">
+  <div class="page-head-grid">
+    <div>
+      <div class="eyebrow">What's On</div>
+      <h1 class="page-title">Events at <em>Ranny's.</em></h1>
+      <p class="page-lede">{{shop.eventsIntro}}</p>
+    </div>
+  </div>
+</section>
+
+<!-- EVENTS LIST -->
+<section class="events">
+  <div class="events-inner">
+    {{#if shop.events}}<ul class="event-list">
+      {{#each shop.events}}<li class="event">
+        <div class="event-date">
+          <span class="ev-day">{{day}}</span>
+          <span class="ev-month">{{month}}</span>
+        </div>
+        <div class="event-body">
+          <h3 class="event-title">{{title}}</h3>
+          <p class="event-when">{{when}}</p>
+          <p class="event-desc">{{description}}</p>
+        </div>
+      </li>
+      {{/each}}
+    </ul>{{/if}}
+    {{#if shop.eventsEmpty}}<p class="events-none">Nothing in the diary right now — keep an eye on <a href="{{shop.instagram}}" target="_blank" rel="noopener">Instagram</a> or join the list below and we'll shout when something's on.</p>{{/if}}
+  </div>
+</section>
+
+<!-- Host your own -->
+<section class="community">
+  <span class="orbit o1">☕</span><span class="orbit o2">✺</span>
+  <div class="community-inner">
+    <div class="eyebrow">Got a group?</div>
+    <h2>Run your own <em>thing.</em></h2>
+    <p>Book club, knit night, running crew, new-mum meet-up — if you've got the people, we've got the room and the cake. Have a look at bookings.</p>
+    <a class="btn" href="./bookings.html">See bookings</a>
+  </div>
+</section>

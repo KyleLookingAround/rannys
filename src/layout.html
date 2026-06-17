@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>{{title}}</title>
+<meta name="description" content="{{description}}" />
+
+<!-- Favicon (inline SVG, no external file needed) -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23c5dd24'/%3E%3Ctext x='50' y='74' font-family='Georgia,serif' font-style='italic' font-weight='700' font-size='72' fill='%232a1c10' text-anchor='middle'%3ER%3C/text%3E%3C/svg%3E">
+
+<!-- Open Graph / Social sharing -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="{{title}}">
+<meta property="og:description" content="{{description}}">
+<meta property="og:url" content="{{pageUrl}}">
+<meta property="og:locale" content="en_GB">
+<meta property="og:site_name" content="{{shop.name}}">
+<meta property="og:image" content="{{shop.ogImage}}">
+<meta property="og:image:alt" content="{{shop.name}} on Hempshaw Lane — coffee &amp; a pistachio donut">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{title}}">
+<meta name="twitter:description" content="{{description}}">
+<meta name="twitter:image" content="{{shop.ogImage}}">
+
+<link rel="apple-touch-icon" href="./assets/icon.svg">
+<link rel="manifest" href="./site.webmanifest">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..900,0..100,0..1&family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="./styles.css">
+
+<!-- LocalBusiness structured data injected here at build time (helps Google Search & Maps). -->
+<!-- build:site-data -->
+</head>
+<body>
+
+<!-- TOP BAR -->
+<header class="topbar">
+  <a class="logo" href="./">{{shop.name}}</a>
+  <nav>
+    <a href="./menu.html" class="{{nav.menu}}">Menu</a>
+    <a href="./events.html" class="{{nav.events}}">Events</a>
+    <a href="./photos.html" class="{{nav.photos}}">Photos</a>
+    <a href="./bookings.html" class="{{nav.bookings}}">Bookings</a>
+    <a href="index.html#visit">Visit</a>
+  </nav>
+  <div class="status"><span class="pulse"></span>{{shop.statusShort}}</div>
+</header>
+
+<!-- page:content -->
+
+<!-- FOOTER -->
+<footer>
+  <div class="wordmark">{{shop.name}}<em>.</em></div>
+  <nav class="foot-nav">
+    <a href="./">Home</a>
+    <a href="./menu.html">Menu</a>
+    <a href="./events.html">Events</a>
+    <a href="./photos.html">Photos</a>
+    <a href="./bookings.html">Bookings</a>
+  </nav>
+  <div class="socials">
+    <a href="mailto:{{shop.email}}">Email</a>
+    <a href="{{shop.instagram}}" target="_blank" rel="noopener">Instagram</a>
+    <a href="{{shop.facebook}}" target="_blank" rel="noopener">Facebook</a>
+  </div>
+  <div class="small">© {{year}} {{shop.name}} · {{shop.street}} · {{shop.locality}} {{shop.postcode}} · Made with love &amp; espresso</div>
+</footer>
+
+</body>
+</html>

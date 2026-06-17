@@ -1,0 +1,13 @@
+{
+  "name": "Ranny's",
+  "short_name": "Ranny's",
+  "description": "Independent coffee shop on Hempshaw Lane, Stockport — coffee, cake & a proper natter.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f4ecd8",
+  "theme_color": "#c5dd24",
+  "icons": [
+    { "src": "./assets/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}
