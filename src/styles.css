@@ -169,10 +169,8 @@ body::before {
 
 /* ===== Hero ===== */
 .hero { position: relative; padding: 70px 28px 46px; overflow: hidden; }
-.hero-grid {
-  max-width: 1300px; margin: 0 auto;
-  display: grid; grid-template-columns: 1.25fr 1fr; gap: 56px; align-items: center;
-}
+.hero-grid { max-width: 1300px; margin: 0 auto; }
+.hero-grid > div { max-width: 840px; }
 .hero-photo { background-size: cover; background-position: center; background-repeat: no-repeat; }
 .hero-photo .hero-overlay {
   position: absolute; inset: 0; pointer-events: none;
@@ -261,15 +259,31 @@ body::before {
   text-transform: uppercase; color: var(--brown-mid); opacity: 0; transition: opacity .3s ease;
   pointer-events: none;
 }
-.mug-stage.is-3d .mug-hint { opacity: .65; }
+.mug-stage.is-3d .mug-hint { opacity: .7; }
+.mug-stage--sm { max-width: 300px; }
+
+/* ===== Closing flourish (3D mug, home only) ===== */
+.closer {
+  background: var(--brown);
+  padding: 70px 28px 40px;
+  text-align: center;
+}
+.closer-inner { max-width: 520px; margin: 0 auto; display: grid; justify-items: center; gap: 6px; }
+.closer .mug-stage { margin: 0 auto; }
+.closer .mug-fallback { width: 70%; }
+.closer .mug-hint { color: var(--cream); }
+.closer-line {
+  font-family: var(--display);
+  font-size: clamp(26px, 4vw, 40px);
+  text-transform: uppercase; letter-spacing: 0.02em; color: var(--cream);
+}
+.closer-line em { font-style: normal; color: var(--lime); }
 
 @media (max-width: 900px) {
-  .hero-grid { grid-template-columns: 1fr; gap: 26px; }
-  .hero-side { min-height: 0; order: -1; }
-  .mug-stage { max-width: 300px; }
   .hero-photo .hero-overlay {
     background: linear-gradient(180deg, rgba(244,236,216,.96) 0%, rgba(244,236,216,.82) 62%, rgba(244,236,216,.5) 100%);
   }
+  .mug-stage--sm { max-width: 260px; }
 }
 
 /* ===== Ticker (today's specials) ===== */
