@@ -1,0 +1,157 @@
+/* Ranny's — progressive enhancement.
+   The site works fully without this file; it just adds live touches:
+   1) a real "open now / closed" status from the hours in content/site.yml
+   2) keyboard support for the burger menu and photo lightbox
+   3) a little cup that fills as you scroll
+   4) a lazy-loaded 3D enamel mug on the home hero (see mug.js)            */
+
+const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---------- 1) live open / closed status ---------- */
+const WEEKDAY = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
+const DAY_NAME = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+function fmtTime(mins) {
+  let h = Math.floor(mins / 60), m = mins % 60;
+  const ap = h >= 12 ? 'pm' : 'am';
+  h = h % 12 || 12;
+  return m ? `${h}:${String(m).padStart(2, '0')}${ap}` : `${h}${ap}`;
+}
+
+function nowInLondon(tz) {
+  const parts = new Intl.DateTimeFormat('en-GB', {
+    timeZone: tz, weekday: 'short', hour: '2-digit', minute: '2-digit', hour12: false,
+  }).formatToParts(new Date());
+  const get = (t) => parts.find((p) => p.type === t)?.value;
+  const day = WEEKDAY[get('weekday')] ?? new Date().getDay();
+  let hour = parseInt(get('hour'), 10); if (hour === 24) hour = 0;
+  return { day, mins: hour * 60 + parseInt(get('minute'), 10) };
+}
+
+function computeStatus(data) {
+  const days = data.days || {};
+  const { day, mins } = nowInLondon(data.tz || 'Europe/London');
+
+  for (const [o, c] of (days[day] || [])) {
+    if (mins >= o && mins < c) {
+      const left = c - mins;
+      return left <= 30
+        ? { state: 'soon', main: 'Closing soon', sub: `til ${fmtTime(c)}` }
+        : { state: 'open', main: 'Open now', sub: `til ${fmtTime(c)}` };
+    }
+  }
+  // closed — find the next opening within the week
+  for (let off = 0; off < 8; off++) {
+    const d = (day + off) % 7;
+    for (const [o] of (days[d] || []).slice().sort((a, b) => a[0] - b[0])) {
+      if (off === 0 && o <= mins) continue;
+      const when = off === 0 ? fmtTime(o) : off === 1 ? `tomorrow ${fmtTime(o)}` : `${DAY_NAME[d]} ${fmtTime(o)}`;
+      return { state: 'closed', main: 'Closed', sub: `opens ${when}` };
+    }
+  }
+  return { state: 'closed', main: 'Closed', sub: '' };
+}
+
+function paintStatus() {
+  const data = window.__RANNYS__;
+  const nodes = document.querySelectorAll('[data-open-status]');
+  if (!data || !nodes.length) return;
+  const s = computeStatus(data);
+  nodes.forEach((el) => {
+    el.dataset.state = s.state;
+    const main = el.querySelector('.status-text');
+    const sub = el.querySelector('.of-sub');
+    if (main) main.textContent = s.main;
+    if (sub) sub.textContent = s.sub;
+    el.setAttribute('title', `${s.main}${s.sub ? ' · ' + s.sub : ''}`);
+  });
+}
+
+/* ---------- 2) keyboard support ---------- */
+function wireBurger() {
+  const burger = document.querySelector('.burger');
+  const toggle = document.getElementById('nav-toggle');
+  if (!burger || !toggle) return;
+  burger.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle.checked = !toggle.checked; sync(); }
+  });
+  const sync = () => burger.setAttribute('aria-expanded', String(toggle.checked));
+  toggle.addEventListener('change', sync);
+  document.querySelectorAll('.topbar nav a').forEach((a) =>
+    a.addEventListener('click', () => { toggle.checked = false; sync(); }));
+}
+
+function wireLightbox() {
+  const go = (sel, box) => { const a = box.querySelector(sel); if (a) location.href = a.getAttribute('href'); };
+  document.addEventListener('keydown', (e) => {
+    const box = document.querySelector('.lightbox:target');
+    if (!box) return;
+    if (e.key === 'Escape') go('.lb-close', box);
+    else if (e.key === 'ArrowLeft') go('.lb-prev', box);
+    else if (e.key === 'ArrowRight') go('.lb-next', box);
+  });
+  // move focus to the open lightbox's close button for keyboard users
+  addEventListener('hashchange', () => {
+    const box = document.querySelector('.lightbox:target');
+    if (box) box.querySelector('.lb-close')?.focus();
+  });
+}
+
+/* ---------- 3) scroll-fill cup ---------- */
+function buildScrollCup() {
+  if (reduceMotion) return;
+  const el = document.createElement('div');
+  el.className = 'scroll-cup';
+  el.setAttribute('aria-hidden', 'true');
+  el.innerHTML =
+    '<svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">' +
+    '<defs><clipPath id="rcupClip"><rect x="11" y="15" width="22" height="23" rx="3"/></clipPath></defs>' +
+    '<rect class="cup-fill" x="11" y="38" width="22" height="0" fill="#3a2415" clip-path="url(#rcupClip)"/>' +
+    '<rect x="11" y="15" width="22" height="23" rx="3" fill="none" stroke="#241710" stroke-width="2.5"/>' +
+    '<path d="M33 19 q7 0 7 7 q0 7 -7 7" fill="none" stroke="#241710" stroke-width="2.5"/>' +
+    '<ellipse cx="22" cy="42" rx="16" ry="2.6" fill="#c5dd24" stroke="#241710" stroke-width="2"/>' +
+    '</svg>';
+  document.body.appendChild(el);
+  const fill = el.querySelector('.cup-fill');
+  const TOP = 15, H = 23;
+  let ticking = false;
+  const update = () => {
+    ticking = false;
+    const doc = document.documentElement;
+    const max = doc.scrollHeight - doc.clientHeight;
+    const p = max > 0 ? Math.min(1, Math.max(0, doc.scrollTop / max)) : 0;
+    fill.setAttribute('y', (TOP + H * (1 - p)).toFixed(1));
+    fill.setAttribute('height', (H * p).toFixed(1));
+    el.classList.toggle('is-on', doc.scrollTop > 140);
+  };
+  addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+  addEventListener('resize', update, { passive: true });
+  update();
+}
+
+/* ---------- 4) lazy 3D mug on the home hero ---------- */
+function hasWebGL() {
+  try {
+    const c = document.createElement('canvas');
+    return !!(c.getContext('webgl2') || c.getContext('webgl'));
+  } catch { return false; }
+}
+function maybeMountMug() {
+  const stage = document.querySelector('[data-mug]');
+  if (!stage || reduceMotion || !hasWebGL()) return;   // SVG fallback stays
+  const start = () => import('./mug.js').then((m) => m.mountMug(stage)).catch(() => {});
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      if (entries.some((e) => e.isIntersecting)) { io.disconnect(); start(); }
+    });
+    io.observe(stage);
+  } else { start(); }
+}
+
+/* ---------- boot ---------- */
+paintStatus();
+setInterval(paintStatus, 60000);
+wireBurger();
+wireLightbox();
+buildScrollCup();
+maybeMountMug();

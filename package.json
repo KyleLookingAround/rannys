@@ -13,6 +13,7 @@
     "js-yaml": "^4.1.0"
   },
   "devDependencies": {
-    "esbuild": "^0.28.1"
+    "esbuild": "^0.28.1",
+    "three": "^0.184.0"
   }
 }
