@@ -21,7 +21,7 @@ import { readFileSync, writeFileSync, mkdirSync, cpSync, existsSync } from 'node
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import yaml from 'js-yaml';
-import { transformSync } from 'esbuild';
+import { transformSync, buildSync } from 'esbuild';
 
 const root = dirname(fileURLToPath(import.meta.url));
 const r = (...p) => join(root, ...p);
@@ -91,7 +91,32 @@ shop.photos = photoList.map((p, i) => ({
 // events: flag for the "nothing on" message
 shop.eventsEmpty = !(Array.isArray(shop.events) && shop.events.length);
 
-const ctx = { ...data, shop, site, year: new Date().getFullYear(), pourSvg };
+// opening hours → a machine-readable map the client JS uses for the live
+// "open now / closed" status. Parses shop.openingHours (Google format, e.g.
+// "Tu-Fr 07:00-16:00") into { 0..6: [[openMins, closeMins], …] }, Sun=0.
+const DAY_IDX = { Su: 0, Mo: 1, Tu: 2, We: 3, Th: 4, Fr: 5, Sa: 6 };
+const DAY_ORDER = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+function parseHours(list) {
+  const map = { 0: [], 1: [], 2: [], 3: [], 4: [], 5: [], 6: [] };
+  for (const line of (Array.isArray(list) ? list : [])) {
+    const m = /^([A-Za-z]{2})(?:-([A-Za-z]{2}))?\s+(\d{1,2}):(\d{2})-(\d{1,2}):(\d{2})$/.exec(line.trim());
+    if (!m) continue;
+    const [, d1, d2, oh, om, ch, cm] = m;
+    const open = (+oh) * 60 + (+om);
+    const close = (+ch) * 60 + (+cm);
+    const start = DAY_IDX[d1];
+    if (start == null) continue;
+    const end = d2 != null ? DAY_IDX[d2] : start;
+    for (let i = start; ; i = (i + 1) % 7) {
+      map[i].push([open, close]);
+      if (i === end) break;
+    }
+  }
+  return map;
+}
+const hoursData = { tz: 'Europe/London', days: parseHours(shop.openingHours) };
+
+const ctx = { ...data, shop, site, year: new Date().getFullYear(), pourSvg, hoursJson: JSON.stringify(hoursData) };
 
 // 3) a tiny template engine --------------------------------------------
 //    {{ a.b.c }}                 → value (dotted path, array indices ok)
@@ -165,7 +190,6 @@ const pages = [
   { src: 'home.html',     out: 'index.html',    nav: 'home',     title: `${name} — coffee, cake & a proper natter`, description: shop.description },
   { src: 'menu.html',     out: 'menu.html',     nav: 'menu',     title: `Menu — ${name}`,     description: `The ${name} menu — proper coffee, cake and the good stuff. ${loc}.` },
   { src: 'events.html',   out: 'events.html',   nav: 'events',   title: `Events — ${name}`,   description: `What's on at ${name}, ${shop.street}, ${loc}.` },
-  { src: 'photos.html',   out: 'photos.html',   nav: 'photos',   title: `Photos — ${name}`,   description: `A look around ${name}, ${loc}.` },
   { src: 'bookings.html', out: 'bookings.html', nav: 'bookings', title: `Bookings — ${name}`, description: `Book the space at ${name} for your group. ${loc}.` },
 ];
 
@@ -196,6 +220,21 @@ const minify = (file, loader) =>
   transformSync(readFileSync(r('src', file), 'utf8'), { loader, minify: true }).code;
 
 writeFileSync(r('dist/styles.css'), minify('styles.css', 'css'));
+
+// app.js — small progressive-enhancement layer (live status, a11y, scroll cup).
+// No npm imports, so a transform/minify is enough; it dynamically imports mug.js.
+if (existsSync(r('src/app.js'))) writeFileSync(r('dist/app.js'), minify('app.js', 'js'));
+
+// mug.js — the lazy-loaded 3D enamel mug. Bundled (it imports three) into a
+// standalone module that app.js only fetches on the home hero, on demand.
+if (existsSync(r('src/mug.js'))) {
+  buildSync({
+    entryPoints: [r('src/mug.js')],
+    outfile: r('dist/mug.js'),
+    bundle: true, format: 'esm', minify: true, target: 'es2019', legalComments: 'none',
+  });
+}
+
 cpSync(r('src/404.html'), r('dist/404.html'));
 cpSync(r('src/site.webmanifest'), r('dist/site.webmanifest'));
 if (existsSync(r('src/CNAME'))) cpSync(r('src/CNAME'), r('dist/CNAME'));   // GitHub Pages custom domain

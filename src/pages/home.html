@@ -17,22 +17,27 @@
         <div>Find us<span>{{shop.street}}</span></div>
         <div>Postcode<span>{{shop.postcode}}</span></div>
       </div>
+
+      <div class="open-flag" data-open-status>
+        <span class="pulse"></span>
+        <span class="status-text">{{shop.statusShort}}</span>
+        <span class="of-sub"></span>
+      </div>
     </div>
 
     <div class="hero-side">
-      <div class="badge">
-        <div>
-          <span class="big">Now<br>Open</span>
-          <span class="sm">pop in</span>
-        </div>
+      <div class="mug-stage" data-mug>
+        <div class="mug-fallback">{{pourSvg}}</div>
+        <span class="mug-hint">drag to spin</span>
       </div>
     </div>
   </div>
 </section>
 
-<!-- MARQUEE -->
-<div class="marquee">
-  <div class="marquee-track">
+<!-- TODAY'S SPECIALS TICKER -->
+<div class="ticker" aria-label="Today at Ranny's">
+  <div class="ticker-tag">Today</div>
+  <div class="ticker-track">
     {{#each shop.marquee}}<span>{{this}}</span>
     {{/each}}{{#each shop.marquee}}<span>{{this}}</span>
     {{/each}}
@@ -60,7 +65,7 @@
   <div class="cards">
     <div class="card">
       <div class="card-num">№ 01</div>
-      <svg class="card-icon" viewBox="0 0 60 60" fill="none" stroke="#c5dd24" stroke-width="2">
+      <svg class="card-icon" viewBox="0 0 60 60" fill="none" stroke="currentColor" stroke-width="2.5">
         <path d="M10 28h32v14a8 8 0 0 1-8 8H18a8 8 0 0 1-8-8V28z"/>
         <path d="M42 32h6a6 6 0 0 1 0 12h-6"/>
         <path d="M18 10c0 4 4 4 4 8s-4 4-4 8"/><path d="M28 10c0 4 4 4 4 8s-4 4-4 8"/><path d="M38 10c0 4 4 4 4 8s-4 4-4 8"/>
@@ -70,16 +75,16 @@
     </div>
     <div class="card">
       <div class="card-num">№ 02</div>
-      <svg class="card-icon" viewBox="0 0 60 60" fill="none" stroke="#c5dd24" stroke-width="2">
+      <svg class="card-icon" viewBox="0 0 60 60" fill="none" stroke="currentColor" stroke-width="2.5">
         <path d="M10 22 L30 12 L50 22 L50 26 L10 26 Z"/><path d="M14 26 L14 48 L46 48 L46 26"/>
-        <path d="M20 32 L40 32"/><path d="M18 40 L42 40"/><circle cx="30" cy="18" r="2" fill="#c5dd24"/>
+        <path d="M20 32 L40 32"/><path d="M18 40 L42 40"/><circle cx="30" cy="18" r="2" fill="currentColor"/>
       </svg>
       <h3>{{shop.inside.1.title}}</h3>
       <p>{{shop.inside.1.body}}</p>
     </div>
     <div class="card">
       <div class="card-num">№ 03</div>
-      <svg class="card-icon" viewBox="0 0 60 60" fill="none" stroke="#c5dd24" stroke-width="2">
+      <svg class="card-icon" viewBox="0 0 60 60" fill="none" stroke="currentColor" stroke-width="2.5">
         <path d="M14 26 C 14 18, 46 18, 46 26 L46 42 C46 48, 14 48, 14 42 Z"/><ellipse cx="30" cy="26" rx="16" ry="4"/>
         <path d="M22 14 C22 10, 24 8, 26 10"/><path d="M30 12 C30 8, 32 6, 34 8"/><path d="M38 14 C38 10, 40 8, 42 10"/>
       </svg>
@@ -88,6 +93,33 @@
     </div>
   </div>
 </section>
+
+<!-- GALLERY (folded in from the old Photos page — tap to open the lightbox) -->
+<section class="gallery" id="gallery">
+  <div class="gallery-head">
+    <div class="section-eyebrow">The Place</div>
+    <h2>Have a <em>nosey.</em></h2>
+  </div>
+  <div class="gallery-grid">
+    {{#each shop.photos}}<a class="shot" id="thumb-{{n}}" href="#shot-{{n}}">
+      <img src="{{src}}" alt="{{caption}}" loading="lazy">
+      <span class="shot-cap">{{caption}}</span>
+    </a>
+    {{/each}}
+  </div>
+</section>
+
+{{#each shop.photos}}<div class="lightbox" id="shot-{{n}}" role="dialog" aria-label="{{caption}}">
+  <a class="lb-backdrop" href="#thumb-{{n}}" aria-label="Close"></a>
+  <figure class="lb-figure">
+    <img src="{{src}}" alt="{{caption}}">
+    <figcaption class="lb-cap">{{caption}}</figcaption>
+  </figure>
+  <a class="lb-nav lb-prev" href="#shot-{{prev}}" aria-label="Previous photo">‹</a>
+  <a class="lb-nav lb-next" href="#shot-{{next}}" aria-label="Next photo">›</a>
+  <a class="lb-close" href="#thumb-{{n}}" aria-label="Close">✕</a>
+</div>
+{{/each}}
 
 <!-- PARTNERS -->
 <section class="partners" id="partners">
@@ -107,8 +139,6 @@
 
 <!-- COMMUNITY (teaser → bookings) -->
 <section class="community" id="community">
-  <span class="orbit o1">☕</span><span class="orbit o2">✺</span>
-  <span class="orbit o3">✺</span><span class="orbit o4">☕</span>
   <div class="community-inner">
     <div class="eyebrow">Got a group?</div>
     <h2>Borrow the <em>space.</em></h2>

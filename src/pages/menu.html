@@ -11,17 +11,16 @@
   </div>
 </section>
 
-<!-- MENU (the real menu, as an image) -->
+<!-- MENU (typeset from content/site.yml — edit prices there) -->
 <section class="menu">
-  <div class="menu-image-wrap">
-    <img class="menu-image" src="{{shop.menuImage}}" alt="The {{shop.name}} menu — coffee, drinks and cakes with prices">
+  <div class="menu-inner">
+    {{shop.menuHtml}}
   </div>
-  <p class="menu-fallback">Can't read it on your phone? <a href="mailto:{{shop.email}}">Drop us an email</a> or just pop in — we'll talk you through it.</p>
+  <p class="menu-fallback">Something not right, or want it read out? <a href="mailto:{{shop.email}}">Drop us an email</a> or just pop in — we'll talk you through it.</p>
 </section>
 
 <!-- CTA strip -->
 <section class="community">
-  <span class="orbit o1">☕</span><span class="orbit o4">✺</span>
   <div class="community-inner">
     <h2>Come and <em>try it.</em></h2>
     <p>We're on Hempshaw Lane, {{shop.locality}}. Kettle's on.</p>

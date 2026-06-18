@@ -32,7 +32,7 @@ shop:
 
   # ── Images (files live in the assets/ folder) ──────────────────────
   heroImage: "./assets/hero-bg.jpg"      # front-page background photo
-  menuImage: "./assets/menu.jpg"         # the Menu page is shown as this image
+  menuImage: "./assets/menu.jpg"         # (no longer used — the menu is now typeset from the list below)
   previewImage: "./assets/preview.jpg"   # social share card (WhatsApp/Twitter/Facebook)
 
   # ── Opening status + hours ─────────────────────────────────────────
@@ -54,7 +54,7 @@ shop:
   eyebrow: "Hempshaw Lane · Stockport · Open now"
   tagline: "A proper independent coffee shop on Hempshaw Lane. Good coffee, great cake, and a warm room to sit in. That's it, really."
 
-  # ── Scrolling marquee — add or remove lines freely ─────────────────
+  # ── "Today" ticker on the home page — add or remove lines freely ───
   marquee:
     - "Proper coffee"
     - "Cake worth the calories"
@@ -97,9 +97,9 @@ shop:
 
   # ════════════════════════════════════════════════════════════════
   #  MENU  (menu.html)
-  #  The Menu page now shows the photo set in `menuImage` above. To swap the
-  #  menu, just replace assets/menu.jpg. The text list below is NOT shown on
-  #  the site — it's kept for reference (and easy to switch back to later).
+  #  This is the live menu — it's typeset straight onto the page. Add or
+  #  remove sections and items below; `price` and `note` are optional on
+  #  each item. (No image to re-export — just edit the text here.)
   # ════════════════════════════════════════════════════════════════
   menuIntro: "Good coffee, made properly. Cake from people who know what they're doing. No 17-word drink names — just the good stuff."
   menu:

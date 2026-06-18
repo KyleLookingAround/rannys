@@ -1,14 +1,17 @@
 # Ranny's — website
 
 The site for **Ranny's**, an independent coffee shop on Hempshaw Lane,
-Stockport. A warm, vintage five-page site — Home, Menu, Events, Photos and
-Bookings — all driven from a single plain-text content file so anyone can
-update it.
+Stockport. A warm, retro-caff site — Home, Menu, Events and Bookings, with a
+photo gallery on the home page — all driven from a single plain-text content
+file so anyone can update it.
 
 It's a **static site**. A small build step turns the content file into the
 finished pages in `dist/`, and GitHub Pages serves it. There's no database and
-nothing to run in the background. The pages themselves are pure HTML + CSS (no
-client-side JavaScript), so they load fast and are easy to host anywhere.
+nothing to run in the background. The pages are plain HTML + CSS and load fast;
+a small JavaScript layer (`src/app.js`) adds progressive-enhancement touches —
+a live "open now / closed" status, keyboard support for the menu and photo
+lightbox, a cup that fills as you scroll, and a lazy-loaded 3D mug on the home
+hero. Everything still works with JavaScript switched off.
 
 ---
 
@@ -23,17 +26,22 @@ the **bookings** options, the mailing-list blurb and your contact/social links.
 Each block is labelled with a comment explaining what it does. Change the text
 inside the `"quotes"`, keep the labels and the indentation as they are.
 
-The site has five pages, all built from that one file:
-**Home**, **Menu**, **Events**, **Photos** and **Bookings**.
+The site has four pages, all built from that one file:
+**Home**, **Menu**, **Events** and **Bookings** (the photos live in a gallery
+on the home page).
 
 - **Menu** — add/remove sections (Coffee, Cake…) and items under `shop.menu`.
-  `price` and `note` are optional on each item.
+  `price` and `note` are optional on each item. It's typeset straight onto the
+  page — no image to re-export.
 - **Events** — add a block per event under `shop.events` (`day`, `month`,
   `title`, `when`, `description`). Empty the list and the page shows a tidy
   "nothing on right now" note automatically.
 - **Photos** — drop image files into `assets/` and point each `src` under
-  `shop.photos` at them (e.g. `./assets/inside-1.jpg`). Until then they show a
-  placeholder tile.
+  `shop.photos` at them (e.g. `./assets/inside-1.jpg`). They show in the gallery
+  on the home page; until then they show a placeholder tile.
+- **Opening hours** — edit `shop.hours` (shown on the page) and
+  `shop.openingHours` (the machine-readable version the live open/closed status
+  reads). Keep the two in step.
 - **Bookings** — intro + the "what you can book" cards under `shop.bookingTypes`.
   The enquiry button opens a pre-filled email to you.
 - **Mailing list** — a one-tap email for now. To use a real signup form, paste
@@ -80,18 +88,19 @@ rannys/
 ├── src/                      ← the site itself (for developers)
 │   ├── layout.html           ← shared shell (head, header nav, footer)
 │   ├── pages/                ← the body of each page ({{tokens}} + {{#each}}/{{#if}})
-│   │   ├── home.html
+│   │   ├── home.html         ← hero, ticker, story, gallery, partners, visit…
 │   │   ├── menu.html
 │   │   ├── events.html
-│   │   ├── photos.html
 │   │   └── bookings.html
+│   ├── app.js                ← progressive enhancement (live status, a11y, scroll cup)
+│   ├── mug.js                ← the lazy-loaded 3D enamel mug (three.js)
 │   ├── pour-coffee.svg       ← the animated "pouring coffee" graphic ({{pourSvg}})
 │   ├── styles.css            ← all styling (design tokens at the top)
 │   ├── 404.html              ← "not found" page
 │   └── site.webmanifest      ← PWA / home-screen metadata
 ├── assets/                   ← icons & images copied into the site as-is
 │   ├── icon.svg              ← the lime "R" favicon / app icon
-│   └── photo-placeholder.svg ← shown on the Photos page until real photos are added
+│   └── photo-placeholder.svg ← shown in the gallery until real photos are added
 ├── build.mjs                 ← fills content/site.yml into the templates → dist/
 ├── package.json
 ├── .github/workflows/        ← deploy.yml (publish on main) · ci.yml (PR build check)
@@ -103,19 +112,21 @@ page, fills the values into `src/pages/<page>.html`, wraps it in
 `src/layout.html`, and writes the finished page to `dist/`. Repeating sections
 use `{{#each list}}…{{/each}}` and `{{#if value}}…{{/if}}`; the coffee menu
 (nested sections → items) is assembled in `build.mjs`. It also generates the
-Google Maps embed, the animated pour graphic and JSON-LD for search engines. So
-the *content* lives in `content/` and the *markup* lives in `src/` — they're
-never tangled together.
+Google Maps embed, the animated pour graphic, JSON-LD for search engines, and
+the machine-readable opening hours the live status uses. `src/app.js` is
+minified to `dist/app.js`, and `src/mug.js` is bundled (with three.js) to
+`dist/mug.js`, which only the home hero fetches. So the *content* lives in
+`content/` and the *markup* lives in `src/` — they're never tangled together.
 
 ---
 
 ## 📌 Good to know / nice next steps
 
 - **Brand palette** — the whole look is driven by a few colours (lime
-  `#c5dd24`, cream `#f4ecd8`, brown `#2a1c10`, terracotta `#c4612a`), defined
+  `#c5dd24`, cream `#f4ecd8`, brown `#241710`, terracotta `#c4612a`), defined
   once as design tokens at the top of `src/styles.css` (`:root`). Change them
-  there and the entire site re-themes.
-- **Real photos** — the Photos page uses a placeholder tile until you add
+  there and the entire site re-themes. See `BRANDING.md` for the full system.
+- **Real photos** — the home-page gallery uses placeholder tiles until you add
   images. Drop JPGs into `assets/` and point `shop.photos[].src` at them.
 - **Share image** — link previews currently use the title/description only.
   To get a rich image card on WhatsApp/Instagram/Facebook, add a 1200×630 JPG to
