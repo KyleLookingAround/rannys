@@ -122,15 +122,16 @@ minified to `dist/app.js`, and `src/mug.js` is bundled (with three.js) to
 
 ## 📌 Good to know / nice next steps
 
-- **Brand palette** — the whole look is driven by a few colours (lime
-  `#c5dd24`, cream `#f4ecd8`, brown `#241710`, terracotta `#c4612a`), defined
-  once as design tokens at the top of `src/styles.css` (`:root`). Change them
-  there and the entire site re-themes. See `BRANDING.md` for the full system.
+- **Brand palette** — the whole look is driven by a few colours ("Fickle
+  Pickle" olive `#827d19`, cream `#f4ecd8`, brown `#241710`, terracotta
+  `#c4612a`), defined once as design tokens at the top of `src/styles.css`
+  (`:root`). Change them there and the entire site re-themes. See `BRANDING.md`
+  for the full system. Fonts are self-hosted in `assets/fonts/`.
 - **Real photos** — the home-page gallery uses placeholder tiles until you add
   images. Drop JPGs into `assets/` and point `shop.photos[].src` at them.
-- **Share image** — link previews currently use the title/description only.
-  To get a rich image card on WhatsApp/Instagram/Facebook, add a 1200×630 JPG to
-  `assets/` and wire up `og:image`/`twitter:image` in `src/layout.html`.
+- **Share image** — link previews on WhatsApp/Instagram/Facebook use the enamel
+  card at `assets/share-card.png` (1200×630), wired up via `og:image` /
+  `twitter:image` in `src/layout.html`. Replace that file to change the card.
 - **Custom domain** — to use a domain like `auntyrannys.com`, add a file
   `src/CNAME` containing just the domain (the build copies it to `dist/`),
   update `site.url` in `content/site.yml`, then point the domain's DNS at GitHub

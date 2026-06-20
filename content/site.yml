@@ -33,7 +33,7 @@ shop:
   # ── Images (files live in the assets/ folder) ──────────────────────
   heroImage: "./assets/hero-bg.jpg"      # front-page background photo
   menuImage: "./assets/menu.jpg"         # (no longer used — the menu is now typeset from the list below)
-  previewImage: "./assets/preview.jpg"   # social share card (WhatsApp/Twitter/Facebook)
+  previewImage: "./assets/share-card.png"  # link-preview card (WhatsApp/Twitter/Facebook) — 1200×630
 
   # ── Opening status + hours ─────────────────────────────────────────
   statusShort: "Open Tue–Sun"          # the little pill, top-right of every page

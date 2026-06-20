@@ -6,7 +6,7 @@
    with a soft contact shadow so it sits on the page.                        */
 import * as THREE from 'three';
 
-const LIME = 0xc9e02b, BROWN = 0x241710, COFFEE = 0x2c1d0e, CREAM = 0xf4ecd8;
+const LIME = 0x8d8820, BROWN = 0x241710, COFFEE = 0x2c1d0e, CREAM = 0xf4ecd8;
 
 export function mountMug(stage) {
   const size = () => Math.max(120, Math.min(stage.clientWidth, stage.clientHeight) || 300);

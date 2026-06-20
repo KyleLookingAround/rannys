@@ -109,7 +109,7 @@ function buildScrollCup() {
     '<rect class="cup-fill" x="11" y="38" width="22" height="0" fill="#3a2415" clip-path="url(#rcupClip)"/>' +
     '<rect x="11" y="15" width="22" height="23" rx="3" fill="none" stroke="#241710" stroke-width="2.5"/>' +
     '<path d="M33 19 q7 0 7 7 q0 7 -7 7" fill="none" stroke="#241710" stroke-width="2.5"/>' +
-    '<ellipse cx="22" cy="42" rx="16" ry="2.6" fill="#c5dd24" stroke="#241710" stroke-width="2"/>' +
+    '<ellipse cx="22" cy="42" rx="16" ry="2.6" fill="#827d19" stroke="#241710" stroke-width="2"/>' +
     '</svg>';
   document.body.appendChild(el);
   const fill = el.querySelector('.cup-fill');

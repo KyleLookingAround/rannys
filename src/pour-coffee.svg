@@ -74,8 +74,8 @@
   <!-- cup + saucer -->
   <g>
     <!-- saucer -->
-    <ellipse cx="112" cy="192" rx="60" ry="10" fill="#c5dd24" stroke="#2a1c10" stroke-width="3.5"/>
-    <ellipse cx="112" cy="190" rx="60" ry="10" fill="#d4e84a" stroke="#2a1c10" stroke-width="3.5"/>
+    <ellipse cx="112" cy="192" rx="60" ry="10" fill="#827d19" stroke="#2a1c10" stroke-width="3.5"/>
+    <ellipse cx="112" cy="190" rx="60" ry="10" fill="#9c9626" stroke="#2a1c10" stroke-width="3.5"/>
     <!-- handle -->
     <path d="M146 138 q26 2 26 22 q0 20 -26 16" fill="none" stroke="#2a1c10" stroke-width="3.5"/>
     <!-- cup shape (tapered) -->

@@ -4,8 +4,10 @@
 
 Ranny's is an independent coffee shop with **retro-caff charm** — the look of a
 proper British corner café's frontage: painted enamel signs, fat condensed
-lettering, hard-edged drop-shadows and a bright lime fascia. Warm, hand-made and
-a little playful, but confident and legible — sign-written, not twee.
+lettering, hard-edged drop-shadows and an olive "Fickle Pickle" fascia. Warm,
+hand-made and a little playful, but confident and legible — sign-written, not
+twee. Because the olive (`#827d19`) is a mid-dark tone, text on it is cream
+(large) or near-black ink (small) so everything meets WCAG AA contrast.
 
 > The whole system is defined once as design tokens at the top of
 > `src/styles.css` (`:root`). This document explains those tokens; change them
@@ -19,7 +21,7 @@ a little playful, but confident and legible — sign-written, not twee.
 - The hero/footer wordmark and all headings are set in **Anton**, uppercase, for
   that fat enamel-sign feel. The footer wordmark keeps the trailing dot.
 - Keep it title-case in body copy ("Ranny's"); headings may be all-caps.
-- The favicon / app icon is a lime tile with a bold **"R"** (`assets/icon.svg`).
+- The favicon / app icon is an olive tile with a bold cream **"R"** (`assets/icon.svg`).
 
 **Don't:** drop the apostrophe · stretch or outline the wordmark · recolour the
 lime tile · crowd the logo with borders.
@@ -32,7 +34,9 @@ Defined as CSS custom properties at the top of `src/styles.css`:
 
 | Token            | Hex        | Use                                            |
 |------------------|------------|------------------------------------------------|
-| `--lime`         | `#c5dd24`  | Primary accent — fascia panels, signs, highlights |
+| `--lime`         | `#827d19`  | "Fickle Pickle" — primary accent, fascia panels, signs |
+| `--ink`          | `#0a0703`  | Near-black, for small text on the olive accent  |
+| `--terra-text`   | `#a8491a`  | Darker terracotta that meets contrast as body text |
 | `--lime-deep`    | `#a4b918`  | Darker lime for depth                          |
 | `--cream`        | `#f4ecd8`  | Page background (warm paper)                    |
 | `--cream-warm`   | `#ece1c4`  | Alternate section background                    |
