@@ -94,7 +94,6 @@ rannys/
 │   │   └── bookings.html
 │   ├── app.js                ← progressive enhancement (live status, a11y, scroll cup)
 │   ├── mug.js                ← the lazy-loaded 3D enamel mug (three.js)
-│   ├── pour-coffee.svg       ← the animated "pouring coffee" graphic ({{pourSvg}})
 │   ├── styles.css            ← all styling (design tokens at the top)
 │   ├── 404.html              ← "not found" page
 │   └── site.webmanifest      ← PWA / home-screen metadata
@@ -112,7 +111,7 @@ page, fills the values into `src/pages/<page>.html`, wraps it in
 `src/layout.html`, and writes the finished page to `dist/`. Repeating sections
 use `{{#each list}}…{{/each}}` and `{{#if value}}…{{/if}}`; the coffee menu
 (nested sections → items) is assembled in `build.mjs`. It also generates the
-Google Maps embed, the animated pour graphic, JSON-LD for search engines, and
+Google Maps embed, JSON-LD for search engines, and
 the machine-readable opening hours the live status uses. `src/app.js` is
 minified to `dist/app.js`, and `src/mug.js` is bundled (with three.js) to
 `dist/mug.js`, which only the home hero fetches. So the *content* lives in

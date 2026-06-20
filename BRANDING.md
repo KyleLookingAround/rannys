@@ -84,6 +84,6 @@ corporate polish is not.
 
 Kept gentle and characterful — a slow "TODAY" ticker of taglines, a pulsing
 live open/closed dot, a little cup that fills as you scroll, and a draggable
-low-poly **3D enamel mug** on the home hero (lazy-loaded; falls back to a 2D
-pour graphic). Everything respects `prefers-reduced-motion`. Nothing flashy; it
-should feel hand-made.
+low-poly **3D enamel mug** at the foot of the home page (lazy-loaded; hidden
+where WebGL or motion isn't available). Everything respects
+`prefers-reduced-motion`. Nothing flashy; it should feel hand-made.

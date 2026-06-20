@@ -138,8 +138,9 @@ function hasWebGL() {
 }
 function maybeMountMug() {
   const stage = document.querySelector('[data-mug]');
-  if (!stage || reduceMotion || !hasWebGL()) return;   // SVG fallback stays
-  const start = () => import('./mug.js').then((m) => m.mountMug(stage)).catch(() => {});
+  if (!stage || reduceMotion || !hasWebGL()) return;   // stage stays hidden
+  stage.hidden = false;                                 // reveal now we'll mount
+  const start = () => import('./mug.js').then((m) => m.mountMug(stage)).catch(() => { stage.hidden = true; });
   if ('IntersectionObserver' in window) {
     const io = new IntersectionObserver((entries) => {
       if (entries.some((e) => e.isIntersecting)) { io.disconnect(); start(); }

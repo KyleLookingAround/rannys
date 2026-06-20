@@ -8,7 +8,6 @@
  *   src/layout.html    → the shared shell (head, header nav, footer)
  *   src/pages/*.html   → the body of each page ({{tokens}} + {{#each}} / {{#if}})
  *   src/styles.css     → styles (minified into dist)
- *   src/pour-coffee.svg → the animated "pouring coffee" graphic ({{pourSvg}})
  *
  * Output:
  *   dist/index.html, dist/menu.html, dist/events.html, dist/photos.html,
@@ -50,9 +49,6 @@ shop.directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${q}`;
 // social-share image → an absolute URL (what WhatsApp/Twitter need)
 const previewImage = shop.previewImage || './assets/preview.jpg';
 shop.ogImage = site.url ? site.url + previewImage.replace(/^\.?\//, '') : previewImage;
-
-// the animated pour graphic, inlined wherever {{pourSvg}} appears
-const pourSvg = existsSync(r('src/pour-coffee.svg')) ? readFileSync(r('src/pour-coffee.svg'), 'utf8') : '';
 
 // menu: sections → items, rendered to HTML (avoids nested loops in templates)
 shop.menuHtml = (shop.menu || []).map(sec => `
@@ -116,7 +112,7 @@ function parseHours(list) {
 }
 const hoursData = { tz: 'Europe/London', days: parseHours(shop.openingHours) };
 
-const ctx = { ...data, shop, site, year: new Date().getFullYear(), pourSvg, hoursJson: JSON.stringify(hoursData) };
+const ctx = { ...data, shop, site, year: new Date().getFullYear(), hoursJson: JSON.stringify(hoursData) };
 
 // 3) a tiny template engine --------------------------------------------
 //    {{ a.b.c }}                 → value (dotted path, array indices ok)
