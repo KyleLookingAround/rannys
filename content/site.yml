@@ -154,18 +154,16 @@ shop:
   #  Add a block per event. Leave the list empty to show a "nothing on" note.
   #  These are EXAMPLES — edit or delete them.
   # ════════════════════════════════════════════════════════════════
-  eventsIntro: "We put a few things on through the month — nothing fancy, just good reasons to come in. Here's what's coming up."
+  eventsIntro: "We put the odd thing on — nothing fancy, just good reasons to come in. Here's what's coming up."
   events:
-    - day: "12"
+    - day: "23"
       month: "JUL"
-      title: "Acoustic Sunday Sessions"
-      when: "Sunday · 2–4pm · free in"
-      description: "A couple of local musicians, a quiet afternoon, and as much coffee as you can drink. Turn up, grab a seat."
-    - day: "26"
-      month: "JUL"
-      title: "Latte Art Throwdown"
-      when: "Saturday · 6pm · £5 to enter"
-      description: "Bring your steaming arm. Winner takes the pot and bragging rights. Spectators welcome — cake on the side."
+      title: "Make a Mug — Pottery Workshop"
+      when: "Thu 23 July · 7pm · £40 · with Frank's Studio"
+      description: "Throw your very own mug with Frank's Studio, right here at Ranny's. £40 includes everything you need — and a free coffee in your new mug when you come to collect it. Ran by the lovely folk at Frank's Studio."
+      soldOut: true
+      link: "https://www.franksstudio.co.uk/product-page/ranny-s-stockport-workshops"
+      linkText: "Workshop details at Frank's Studio"
 
   # ════════════════════════════════════════════════════════════════
   #  PHOTOS  (photos.html)

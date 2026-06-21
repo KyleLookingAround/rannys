@@ -656,6 +656,22 @@ footer .small { font-family: var(--text); font-weight: 500; font-size: 11px; let
 .event-title { font-family: var(--display); font-size: 26px; text-transform: uppercase; letter-spacing: 0.01em; color: var(--brown); }
 .event-when { font-family: var(--text); font-weight: 700; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--terra-text); margin: 6px 0 10px; }
 .event-desc { font-size: 16px; line-height: 1.55; color: var(--brown-mid); }
+/* sold-out badge + tickets link */
+.sold-out {
+  display: inline-block; vertical-align: middle; margin-left: 8px;
+  font-family: var(--text); font-weight: 700; font-size: 11px;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--cream); background: var(--terra-text);
+  border: 2px solid var(--ink); border-radius: 999px; padding: 3px 11px;
+}
+.event-link {
+  display: inline-block; margin-top: 12px;
+  font-family: var(--text); font-weight: 700; font-size: 13px;
+  letter-spacing: 0.04em; color: var(--orange-text); text-decoration: none;
+  border-bottom: 2px solid var(--orange-text); padding-bottom: 2px;
+  transition: color .15s ease, border-color .15s ease;
+}
+.event-link:hover { color: var(--brown); border-color: var(--brown); }
 .events-none { font-size: 21px; font-weight: 500; line-height: 1.5; color: var(--brown-mid); text-align: center; padding: 40px 0; }
 .events-none a { color: var(--terra-text); }
 @media (max-width: 540px) {

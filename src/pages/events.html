@@ -13,15 +13,16 @@
 <section class="events">
   <div class="events-inner">
     {{#if shop.events}}<ul class="event-list">
-      {{#each shop.events}}<li class="event">
+      {{#each shop.events}}<li class="event{{#if soldOut}} is-sold-out{{/if}}">
         <div class="event-date">
           <span class="ev-day">{{day}}</span>
           <span class="ev-month">{{month}}</span>
         </div>
         <div class="event-body">
-          <h3 class="event-title">{{title}}</h3>
+          <h3 class="event-title">{{title}}{{#if soldOut}} <span class="sold-out">Sold out</span>{{/if}}</h3>
           <p class="event-when">{{when}}</p>
           <p class="event-desc">{{description}}</p>
+          {{#if link}}<a class="event-link" href="{{link}}" target="_blank" rel="noopener">{{linkText}} ↗</a>{{/if}}
         </div>
       </li>
       {{/each}}
