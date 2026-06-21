@@ -6,7 +6,21 @@
    with a soft contact shadow so it sits on the page.                        */
 import * as THREE from 'three';
 
-const LIME = 0x8d8820, BROWN = 0x241710, COFFEE = 0x2c1d0e, CREAM = 0xf4ecd8;
+const MUSTARD = 0xc89a40, TERRA = 0xb4502a, RIM = 0x7a4220, COFFEE = 0x2c1d0e;
+
+// procedural speckle for her stoneware glaze — a near-white base so the
+// colour (material / vertex colours) shows through, with dark & light flecks
+function stonewareMap() {
+  const c = document.createElement('canvas'); c.width = c.height = 256;
+  const x = c.getContext('2d');
+  x.fillStyle = '#efefef'; x.fillRect(0, 0, 256, 256);
+  for (let i = 0; i < 1600; i++) {
+    const r = Math.random() * 1.5 + 0.3;
+    x.fillStyle = Math.random() > 0.5 ? 'rgba(30,20,10,0.55)' : 'rgba(255,250,235,0.5)';
+    x.beginPath(); x.arc(Math.random() * 256, Math.random() * 256, r, 0, 7); x.fill();
+  }
+  const t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; return t;
+}
 
 export function mountMug(stage) {
   const size = () => Math.max(120, Math.min(stage.clientWidth, stage.clientHeight) || 300);
@@ -50,7 +64,8 @@ export function mountMug(stage) {
   scene.add(ground);
 
   const mug = new THREE.Group();
-  const enamel = new THREE.MeshStandardMaterial({ color: LIME, roughness: 0.38, metalness: 0.04, flatShading: true });
+  const speckle = stonewareMap();
+  const mustardMat = new THREE.MeshStandardMaterial({ color: MUSTARD, map: speckle, roughness: 0.85, metalness: 0.02 });
   const cast = (m) => { m.castShadow = true; return m; };
 
   // mug body — profile points (x = radius, y = height), revolved
@@ -62,12 +77,18 @@ export function mountMug(stage) {
   const bodyGeo = new THREE.LatheGeometry(profile, 44);
   bodyGeo.center();
   bodyGeo.translate(0, 0.06, 0);
-  mug.add(cast(new THREE.Mesh(bodyGeo, enamel)));
+  // two-tone glaze: mustard upper, terracotta lower band (via vertex colours)
+  const cTop = new THREE.Color(MUSTARD), cBot = new THREE.Color(TERRA), cols = [];
+  const pos = bodyGeo.attributes.position;
+  for (let i = 0; i < pos.count; i++) cols.push(...(pos.getY(i) < -0.34 ? cBot : cTop).toArray());
+  bodyGeo.setAttribute('color', new THREE.Float32BufferAttribute(cols, 3));
+  mug.add(cast(new THREE.Mesh(bodyGeo,
+    new THREE.MeshStandardMaterial({ vertexColors: true, map: speckle, roughness: 0.85, metalness: 0.02 }))));
 
-  // brown rim ring at the lip
+  // darker rim at the lip
   const rimRing = cast(new THREE.Mesh(
     new THREE.TorusGeometry(0.745, 0.045, 14, 44),
-    new THREE.MeshStandardMaterial({ color: BROWN, roughness: 0.5, flatShading: true })
+    new THREE.MeshStandardMaterial({ color: RIM, roughness: 0.8 })
   ));
   rimRing.rotation.x = Math.PI / 2;
   rimRing.position.y = 0.83;
@@ -85,16 +106,16 @@ export function mountMug(stage) {
   // handle — a torus arc on the side
   const handle = cast(new THREE.Mesh(
     new THREE.TorusGeometry(0.33, 0.07, 16, 30, Math.PI * 1.15),
-    enamel
+    mustardMat
   ));
   handle.position.set(0.74, 0.2, 0);
   handle.rotation.z = -Math.PI * 0.58;
   mug.add(handle);
 
-  // saucer
+  // mustard saucer
   const saucer = cast(new THREE.Mesh(
     new THREE.CylinderGeometry(1.12, 0.94, 0.09, 44),
-    new THREE.MeshStandardMaterial({ color: CREAM, roughness: 0.55, flatShading: true })
+    mustardMat
   ));
   saucer.position.y = -0.9;
   mug.add(saucer);
