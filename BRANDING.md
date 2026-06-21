@@ -3,7 +3,7 @@
 *Coffee, cake & a proper natter. Hempshaw Lane, Stockport.*
 
 Ranny's is an independent coffee shop with **retro-caff charm** — the look of a
-proper British corner café's frontage: painted enamel signs, fat condensed
+proper British corner café's frontage: painted signs, rounded friendly
 lettering, hard-edged drop-shadows and an olive "Fickle Pickle" fascia. Warm,
 hand-made and a little playful, but confident and legible — sign-written, not
 twee. Because the olive (`#827d19`) is a mid-dark tone, text on it is cream
@@ -18,9 +18,10 @@ twee. Because the olive (`#827d19`) is a mid-dark tone, text on it is cream
 ## 1. The name & wordmark
 
 - The name is always **"Ranny's"** — with the apostrophe.
-- The hero/footer wordmark and all headings are set in **Anton**, uppercase, for
-  that fat enamel-sign feel. The footer wordmark keeps the trailing dot.
-- Keep it title-case in body copy ("Ranny's"); headings may be all-caps.
+- The hero/footer wordmark and all headings are set in **Baloo 2**, a rounded,
+  friendly display face, in warm mixed case. The footer wordmark keeps the dot.
+- Keep it title-case throughout ("Ranny's"); big headings use natural sentence
+  case — friendly, not shouty. Only small labels/chips are uppercase.
 - The favicon / app icon is an olive tile with a bold cream **"R"** (`assets/icon.svg`).
 
 **Don't:** drop the apostrophe · stretch or outline the wordmark · recolour the
@@ -55,10 +56,11 @@ to keep surfaces feeling printed rather than flat.
 
 Two families, loaded from Google Fonts in `src/layout.html`:
 
-- **Anton** (display) — the signage face. Headings, the wordmark, the ticker,
-  prices and the open-status flags. Used uppercase for the painted-sign look.
+- **Baloo 2** (display) — rounded and friendly. Headings, the wordmark, the
+  ticker, prices and the open-status flags, in mixed case for a warm,
+  hand-printed feel.
 - **DM Sans** (text) — body copy, labels, buttons and meta. Weights 400–700;
-  labels are set bold, uppercase, with wide tracking.
+  small labels are set bold, uppercase, with wide tracking.
 
 ---
 
