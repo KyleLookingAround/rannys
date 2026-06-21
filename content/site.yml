@@ -57,7 +57,7 @@ shop:
   # ── "Today" ticker on the home page — add or remove lines freely ───
   marquee:
     - "Beans by Atkinsons"
-    - "Cake worth the calories"
+    - "Only Stockport bakes here"
     - "The Ranny's Special"
     - "Proper natters"
     - "Dog-friendly"
@@ -70,29 +70,29 @@ shop:
     lede: "The girl covered in paint, fluffy socks and a half-ate butty in hand."
     paragraphs:
       - "I've spent most of my adult life on the SK1 hospitality scene — learning the ropes, pulling the pints, working out what makes a room actually feel good to be in."
-      - "Ranny's is me taking the leap: a little green coffee shop on Hempshaw Lane that's properly my own. Beans by Atkinsons of Lancaster, cake that's worth the calories, fresh flowers on the counter, and the kind of vintage charm that makes you want to stop a while."
+      - "Ranny's is me taking the leap: a little green coffee shop on Hempshaw Lane that's properly my own. Beans by Atkinsons of Lancaster, ridiculously good cake, fresh flowers on the counter, and the kind of vintage charm that makes you want to stop a while."
       - "We've had the odd hiccup — locking ourselves out on a Saturday morning, *awkward* — but honestly, what a start. No airs, no graces, just a good brew and a warm welcome. Come and say hello."
     signature: "Ranny's x"
 
   # ── "What you'll find inside" — three cards ────────────────────────
   inside:
     - title: "Coffee, done right"
-      body: "Beans by Atkinsons of Lancaster, dialled-in espresso, and oat milk that's actually good. Try the Ranny's Special — pistachio, hazelnut and a double shot over ice."
-    - title: "Cake worth the calories"
-      body: "Blondies, brownies, Biscoff cookies, the famous pistachio donut. A rotating lineup that changes with the day — best ask what's in."
+      body: "A medium-roast blend with milk-chocolate notes, by Atkinsons of Lancaster. Proper oat milk, dialled-in espresso, and a Ranny's Special worth ordering — our iced pistachio latte."
+    - title: "Only Stockport bakes here"
+      body: "Pastries fresh from Sticky Fingers every morning, cakes and cookies from Silver Apples — plus flourless and plant-based options. It changes with the day, so ask what's in."
     - title: "A room to linger in"
-      body: "Speckled stoneware, fresh flowers, a wooden board menu and a bright green room. Mismatched, much loved, and dog-friendly — somewhere, not anywhere."
+      body: "Speckled stoneware, fresh flowers, a wooden board menu, and walls in coffee shades — Milk & Honey and Roasted Hazelnut, finished with a smart border. Mismatched, much loved and dog-friendly — somewhere, not anywhere."
 
   # ── Partners ("from our friends") ──────────────────────────────────
   partners:
     - category: "Cakes & Bakes"
       name: "Silver Apples Bakery"
       url: "https://silverapplesbakery.com/"
-      body: "Brownies, blondies, traybakes — Lotus, Oreo, raspberry and beyond. The cake stand wouldn't be the same without them."
-    - category: "Polish Bakery"
+      body: "The cakes and cookies on our stand — plus a proper variety of flourless and plant-based options for everyone."
+    - category: "Pastries"
       name: "Sticky Fingers"
       url: "https://www.instagram.com/stickyfingersstockport/"
-      body: "Stockport's own Polish artisan bakery from the Market Hall — jagodzianka, cinnamon buns and filled brioche. A proper slice of Poland just down the road."
+      body: "Pastries delivered fresh every morning — croissants, pain au chocolat, and the famous cinnamon rolls."
 
   # ── Community / "borrow the space" teaser ──────────────────────────
   community:
@@ -115,10 +115,17 @@ shop:
   #  remove sections and items below; `price` and `note` are optional on
   #  each item. (No image to re-export — just edit the text here.)
   # ════════════════════════════════════════════════════════════════
-  menuIntro: "Beans by Atkinsons of Lancaster, made properly. Cake from people who know what they're doing. No 17-word drink names — just the good stuff. Oat, soya and coconut milk all in."
+  menuIntro: "Beans by Atkinsons of Lancaster, made properly. Bakes from people who know what they're doing. No 17-word drink names — just the good stuff. Oat, soya and coconut milk all in."
+
+  # ── House special (featured on the Menu page, with a photo) ────────
+  special:
+    name: "The Ranny's Special"
+    blurb: "An iced latte combining Moma's pistachio-flavoured oat milk — dairy, gluten and nut free — a drop of Sip Syrups hazelnut, and our house espresso."
+    image: "./assets/iced-special.jpg"
+
   menu:
     - name: "Coffee"
-      note: "Locally roasted. Decaf on request."
+      note: "A medium-roast blend with milk-chocolate notes, by Atkinsons of Lancaster. Decaf on request."
       items:
         - { name: "Espresso", price: "£2.40" }
         - { name: "Macchiato", price: "£2.60" }
@@ -139,7 +146,7 @@ shop:
     - name: "Iced & cold"
       note: "Craft sodas in the fridge too — Living Things, Posh Pop & more."
       items:
-        - { name: "The Ranny's Special", note: "pistachio oat milk, hazelnut, double shot over ice", price: "£4.20" }
+        - { name: "The Ranny's Special", note: "iced latte · Moma's pistachio oat milk (df/gf/nf) · Sip Syrups hazelnut · house espresso", price: "£4.20" }
         - { name: "Iced latte", price: "£3.60" }
         - { name: "Iced matcha", price: "£3.90" }
         - { name: "Cold brew", price: "£3.60" }
@@ -184,7 +191,7 @@ shop:
   photos:
     - { src: "./assets/storefront.jpg", caption: "our little green shop" }
     - { src: "./assets/preview.jpg", caption: "the famous pistachio donut" }
-    - { src: "./assets/menu.jpg", caption: "what's on the board" }
+    - { src: "./assets/menu.jpg", caption: "it's cor-tad-o not cor-tar-do, we know that now" }
     - { src: "./assets/iced-special.jpg", caption: "the Ranny's Special, over ice" }
     - { src: "./assets/biscoff.jpg", caption: "cake o'clock" }
     - { src: "./assets/window-seats.jpg", caption: "grab a window seat" }

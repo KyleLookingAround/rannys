@@ -861,6 +861,16 @@ footer .wordmark, .topbar .logo, .address strong, .open-flag, .ticker-tag {
 .cd-1 { top: 20px; right: 30px; width: 36px; transform: rotate(8deg); }
 .cd-2 { bottom: 24px; left: 28px; width: 30px; transform: rotate(-6deg); }
 
+/* ===== House special (Menu page) ===== */
+.special { padding: 80px 28px; background: var(--cream-warm); border-block: var(--rule) solid var(--brown); }
+.special-inner { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 48px; align-items: center; }
+.special-photo { border: 2px solid var(--ink); border-radius: 16px; overflow: hidden; box-shadow: 0 12px 28px rgba(36, 23, 16, 0.16); }
+.special-photo img { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; }
+.special-text h2 { font-family: var(--display); font-size: clamp(34px, 5vw, 58px); line-height: 1; color: var(--brown); margin: 6px 0 16px; }
+.special-text h2 em { font-style: normal; color: var(--orange); }
+.special-text p { font-size: 19px; line-height: 1.6; color: var(--brown); }
+@media (max-width: 800px) { .special-inner { grid-template-columns: 1fr; gap: 26px; } .special-photo { max-width: 360px; } }
+
 /* ===== Reduced motion ===== */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
