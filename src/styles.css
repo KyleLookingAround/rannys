@@ -672,6 +672,16 @@ footer .small { font-family: var(--text); font-weight: 500; font-size: 11px; let
   transition: color .15s ease, border-color .15s ease;
 }
 .event-link:hover { color: var(--brown); border-color: var(--brown); }
+/* a past event, fading out before it's hidden for good */
+.event.is-past { opacity: 0.62; filter: grayscale(0.55); }
+.event.is-past:hover { transform: none; box-shadow: 0 10px 24px rgba(36, 23, 16, 0.12); }
+.gone {
+  display: inline-block; vertical-align: middle; margin-left: 8px;
+  font-family: var(--text); font-weight: 700; font-size: 11px;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--brown-mid); background: var(--cream-warm);
+  border: 2px solid var(--brown-mid); border-radius: 999px; padding: 3px 11px;
+}
 .events-none { font-size: 21px; font-weight: 500; line-height: 1.5; color: var(--brown-mid); text-align: center; padding: 40px 0; }
 .events-none a { color: var(--terra-text); }
 @media (max-width: 540px) {

@@ -33,9 +33,11 @@ on the home page).
 - **Menu** — add/remove sections (Coffee, Cake…) and items under `shop.menu`.
   `price` and `note` are optional on each item. It's typeset straight onto the
   page — no image to re-export.
-- **Events** — add a block per event under `shop.events` (`day`, `month`,
-  `title`, `when`, `description`). Empty the list and the page shows a tidy
-  "nothing on right now" note automatically.
+- **Events** — add a block per event under `shop.events` (`date` as
+  `YYYY-MM-DD`, plus `title`, `when`, `description`; optional `soldOut`, `link`
+  and `linkText`). The date pill is made from `date`, and once an event has
+  passed the site fades it (links off) for a week, then hides it on its own.
+  Empty the list and the page shows a tidy "nothing on right now" note.
 - **Photos** — drop image files into `assets/` and point each `src` under
   `shop.photos` at them (e.g. `./assets/inside-1.jpg`). They show in the gallery
   on the home page; until then they show a placeholder tile.

@@ -84,8 +84,17 @@ shop.photos = photoList.map((p, i) => ({
   next: ((i + 1) % photoList.length) + 1,
 }));
 
-// events: flag for the "nothing on" message
-shop.eventsEmpty = !(Array.isArray(shop.events) && shop.events.length);
+// events: derive the date pill (day / month) + an ISO date that the client
+// JS uses to fade out past events and hide ones over a week old.
+const EV_MONTHS = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+shop.events = (Array.isArray(shop.events) ? shop.events : []).map((ev) => {
+  if (ev.date) {
+    const d = new Date(ev.date + 'T00:00:00');
+    if (!isNaN(d)) return { ...ev, day: String(d.getDate()), month: EV_MONTHS[d.getMonth()], dateISO: ev.date };
+  }
+  return { ...ev, dateISO: '' };
+});
+shop.eventsEmpty = !shop.events.length;
 
 // opening hours → a machine-readable map the client JS uses for the live
 // "open now / closed" status. Parses shop.openingHours (Google format, e.g.

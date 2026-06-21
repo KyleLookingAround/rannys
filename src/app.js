@@ -149,10 +149,42 @@ function maybeMountMug() {
   } else { start(); }
 }
 
+/* ---------- 5) tidy past events ---------- */
+//  An event fades (and loses its links) for a week after it's been, then hides.
+function tidyEvents() {
+  const list = document.querySelector('.event-list');
+  if (!list) return;
+  const today = new Date(); today.setHours(0, 0, 0, 0);
+  list.querySelectorAll('.event[data-date]').forEach((el) => {
+    const iso = el.getAttribute('data-date');
+    if (!iso) return;
+    const d = new Date(iso + 'T00:00:00');
+    if (isNaN(d)) return;
+    const daysPast = Math.round((today - d) / 86400000);
+    if (daysPast > 7) { el.remove(); return; }       // over a week old → hide
+    if (daysPast >= 1) {                              // been & gone → fade, links off
+      el.classList.add('is-past');
+      el.querySelectorAll('.event-link, .sold-out').forEach((n) => n.remove());
+      const title = el.querySelector('.event-title');
+      if (title && !title.querySelector('.gone')) {
+        const tag = document.createElement('span');
+        tag.className = 'gone'; tag.textContent = 'Been & gone';
+        title.append(' ', tag);
+      }
+    }
+  });
+  if (!list.querySelector('.event')) {                // nothing left → show the note
+    list.remove();
+    const note = document.querySelector('.events-none');
+    if (note) note.hidden = false;
+  }
+}
+
 /* ---------- boot ---------- */
 paintStatus();
 setInterval(paintStatus, 60000);
 wireBurger();
 wireLightbox();
 buildScrollCup();
+tidyEvents();
 maybeMountMug();

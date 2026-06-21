@@ -13,7 +13,7 @@
 <section class="events">
   <div class="events-inner">
     {{#if shop.events}}<ul class="event-list">
-      {{#each shop.events}}<li class="event{{#if soldOut}} is-sold-out{{/if}}">
+      {{#each shop.events}}<li class="event{{#if soldOut}} is-sold-out{{/if}}" data-date="{{dateISO}}">
         <div class="event-date">
           <span class="ev-day">{{day}}</span>
           <span class="ev-month">{{month}}</span>
@@ -27,7 +27,7 @@
       </li>
       {{/each}}
     </ul>{{/if}}
-    {{#if shop.eventsEmpty}}<p class="events-none">Nothing in the diary right now — keep an eye on <a href="{{shop.instagram}}" target="_blank" rel="noopener">Instagram</a> or join the list below and we'll shout when something's on.</p>{{/if}}
+    <p class="events-none"{{#if shop.events}} hidden{{/if}}>Nothing in the diary right now — keep an eye on <a href="{{shop.instagram}}" target="_blank" rel="noopener">Instagram</a> or join the list below and we'll shout when something's on.</p>
   </div>
 </section>
 
