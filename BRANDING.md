@@ -2,12 +2,14 @@
 
 *Coffee, cake & a proper natter. Hempshaw Lane, Stockport.*
 
-Ranny's is an independent coffee shop with **retro-caff charm** — the look of a
-proper British corner café's frontage: painted signs, rounded friendly
-lettering, hard-edged drop-shadows and an olive "Fickle Pickle" fascia. Warm,
-hand-made and a little playful, but confident and legible — sign-written, not
-twee. Because the olive (`#827d19`) is a mid-dark tone, text on it is cream
-(large) or near-black ink (small) so everything meets WCAG AA contrast.
+Ranny's is an independent coffee shop with **hand-made, cut-and-paste charm** —
+the site looks assembled by hand, like a page from Rhianne's notebook or the
+café's community noticeboard: pinned notes with wobbly hand-drawn borders,
+washi tape, pushpins, polaroids and handwritten margin notes, all on warm paper
+in an olive "Fickle Pickle" palette. Friendly and a little playful, but always
+legible — the imperfection lives on the frames and accents; body text stays on
+flat paper. Because the olive (`#827d19`) is a mid-dark tone, text on it is
+cream (large) or near-black ink (small) so everything meets WCAG AA contrast.
 
 > The whole system is defined once as design tokens at the top of
 > `src/styles.css` (`:root`). This document explains those tokens; change them
@@ -45,6 +47,8 @@ Defined as CSS custom properties at the top of `src/styles.css`:
 | `--brown`        | `#241710`  | Ink — text, dark sections, rules               |
 | `--brown-mid`    | `#4a3220`  | Secondary text                                 |
 | `--terracotta`   | `#c4612a`  | Warm accent — links, prices, italics           |
+| `--cork`         | `#c49a63`  | Corkboard tan behind the pinned "inside" notes  |
+| `--tape`         | rose, 55%  | Translucent washi-tape strips on polaroids      |
 | `--open` / `--soon` / `--closed` | green / amber / red | Live open-status dot colours    |
 
 A subtle paper-grain texture (`body::before`) sits over everything in multiply
@@ -54,22 +58,31 @@ to keep surfaces feeling printed rather than flat.
 
 ## 3. Typography
 
-Two families, loaded from Google Fonts in `src/layout.html`:
+Three self-hosted faces (`assets/fonts/`):
 
-- **Baloo 2** (display) — rounded and friendly. Headings, the wordmark, the
+- **Baloo 2** (`--display`) — rounded and friendly. Headings, the wordmark, the
   ticker, prices and the open-status flags, in mixed case for a warm,
   hand-printed feel.
-- **DM Sans** (text) — body copy, labels, buttons and meta. Weights 400–700;
-  small labels are set bold, uppercase, with wide tracking.
+- **DM Sans** (`--text`) — body copy, buttons and meta. Weights 400–700.
+- **Caveat** (`--hand`) — the handwriting. Used *sparingly* for the margin
+  notes: eyebrows/labels, photo captions and the signature. Never for body copy.
 
 ---
 
-## 4. The "sign panel" motif
+## 4. The hand-made layer
 
-Almost every surface is a painted enamel sign: a **thick brown rule** (`--rule`,
-2.5px), **rounded corners**, and a **hard offset drop-shadow** (e.g.
-`box-shadow: 6px 6px 0`). Cards, the menu board, event tickets, buttons, the map
-and the status pill all share this language. Shadows lift on hover.
+Almost every surface is a **pinned piece of paper**, not a printed sign:
+
+- **Wobbly hand-drawn borders** — a reusable SVG turbulence filter (`#wobble`
+  / `#wobble2`, defined once in `layout.html`) displaces a panel's border so it
+  reads as drawn by hand. Applied to a decorative `::after` so the text inside
+  stays crisp.
+- **Soft paper shadows** (not hard offsets), so panels feel pasted onto the page.
+- **Pushpins, washi tape and a slight wonk** — cards and polaroids sit at a
+  gentle rotation and straighten on hover. The "what's inside" notes are pinned
+  to a **corkboard**; the gallery is **taped polaroids** with handwritten
+  captions; the menu is a pinned card; the live status is a peel-off sticker.
+- Rotations flatten on mobile, and all of this is decorative (`aria-hidden`).
 
 ---
 
