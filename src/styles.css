@@ -723,6 +723,15 @@ footer .wordmark, .topbar .logo, .address strong, .open-flag, .ticker-tag {
 .map-card { border-radius: 16px; }
 .card p { color: var(--brown-mid); }
 .card h3, .partner h3 { text-transform: none; letter-spacing: -0.005em; }
+/* subtle ceramic speckle on the cream panels — echoes the stoneware glaze */
+.card, .partner, .shot {
+  background-color: var(--board);
+  background-image:
+    radial-gradient(rgba(180, 80, 42, 0.11) 0.8px, transparent 1.1px),
+    radial-gradient(rgba(90, 58, 36, 0.10) 0.7px, transparent 1px);
+  background-size: 12px 12px, 7px 7px;
+  background-position: 0 0, 3px 5px;
+}
 .card:hover, .partner:hover, .shot:hover, .event:hover {
   transform: translateY(-4px);
   box-shadow: 0 16px 32px rgba(36, 23, 16, 0.18);
