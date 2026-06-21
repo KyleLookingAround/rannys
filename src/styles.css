@@ -805,6 +805,33 @@ footer .wordmark, .topbar .logo, .address strong, .open-flag, .ticker-tag {
   .inside .card, .partner, .shot, .event, .open-flag { transform: none; }
 }
 
+/* ===== Chalkboard menu — her wooden board, white chalk ===== */
+.menu-inner {
+  color: var(--cream);
+  background-color: var(--wood);
+  background-image:
+    repeating-linear-gradient(91deg, rgba(0,0,0,.05) 0 2px, transparent 2px 8px),
+    linear-gradient(165deg, #6d4429 0%, #4d3120 100%);
+  box-shadow: 0 14px 30px rgba(36, 23, 16, 0.34);
+}
+.menu-inner::after { border-color: rgba(244, 236, 216, 0.5); }  /* chalk frame */
+.menu-inner::before { display: none; }                          /* drop the pin */
+.menu-cat {
+  font-family: var(--hand); font-weight: 700; color: var(--cream);
+  text-transform: none; letter-spacing: 0;
+  border-bottom: 2px solid rgba(244, 236, 216, 0.35);
+}
+.menu-cat-note { color: rgba(244, 236, 216, 0.72); }
+.mi-name { color: var(--cream); font-family: var(--hand); font-size: 23px; font-weight: 600; }
+.mi-note { color: rgba(244, 236, 216, 0.6); }
+.mi-dots { border-bottom: 2px dotted rgba(244, 236, 216, 0.4); opacity: 1; }
+.mi-price { color: var(--cream); font-family: var(--hand); font-size: 26px; }
+.menu-item { padding: 7px 0; }
+.chalk-doodle { position: absolute; color: rgba(244, 236, 216, 0.85); pointer-events: none; z-index: 3; }
+.chalk-doodle svg { width: 100%; height: auto; display: block; }
+.cd-1 { top: 20px; right: 30px; width: 36px; transform: rotate(8deg); }
+.cd-2 { bottom: 24px; left: 28px; width: 30px; transform: rotate(-6deg); }
+
 /* ===== Reduced motion ===== */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
