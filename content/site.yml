@@ -87,10 +87,12 @@ shop:
   partners:
     - category: "Cakes & Bakes"
       name: "Silver Apples Bakery"
+      url: "https://silverapplesbakery.com/"
       body: "Brownies, blondies, traybakes — Lotus, Oreo, raspberry and beyond. The cake stand wouldn't be the same without them."
-    - category: "Larder"
-      name: "Olives Et Al"
-      body: "Chilli puffs, stuffed olives, mixed nuts — proper grown-up snacks for when you fancy something alongside your cuppa."
+    - category: "Polish Bakery"
+      name: "Sticky Fingers"
+      url: "https://www.instagram.com/stickyfingersstockport/"
+      body: "Stockport's own Polish artisan bakery from the Market Hall — jagodzianka, cinnamon buns and filled brioche. A proper slice of Poland just down the road."
 
   # ── Community / "borrow the space" teaser ──────────────────────────
   community:

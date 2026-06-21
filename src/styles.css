@@ -517,6 +517,8 @@ body:has(.lightbox:target) { overflow: hidden; }
   background: var(--green); padding: 4px 9px; border: 2px solid var(--brown); border-radius: 6px; margin-bottom: 16px;
 }
 .partner h3 { font-family: var(--display); font-size: 28px; text-transform: uppercase; letter-spacing: 0.01em; color: var(--brown); margin-bottom: 8px; }
+.partner-link { color: var(--brown); text-decoration: none; border-bottom: 3px solid var(--green); transition: color .15s ease, border-color .15s ease; }
+.partner-link:hover { color: var(--orange-text); border-color: var(--orange-text); }
 .partner p { font-size: 15px; line-height: 1.55; color: var(--brown-mid); }
 @media (max-width: 700px) { .partners { padding: 60px 22px; } .partners-grid { grid-template-columns: 1fr; } }
 

@@ -96,6 +96,14 @@ shop.events = (Array.isArray(shop.events) ? shop.events : []).map((ev) => {
 });
 shop.eventsEmpty = !shop.events.length;
 
+// partners: make the name a link when a `url` is given
+shop.partners = (Array.isArray(shop.partners) ? shop.partners : []).map((p) => ({
+  ...p,
+  nameHtml: p.url
+    ? `<a class="partner-link" href="${p.url}" target="_blank" rel="noopener">${p.name} ↗</a>`
+    : p.name,
+}));
+
 // opening hours → a machine-readable map the client JS uses for the live
 // "open now / closed" status. Parses shop.openingHours (Google format, e.g.
 // "Tu-Fr 07:00-16:00") into { 0..6: [[openMins, closeMins], …] }, Sun=0.
