@@ -2,14 +2,15 @@
 
 *Coffee, cake & a proper natter. Hempshaw Lane, Stockport.*
 
-Ranny's is an independent coffee shop with **hand-made, cut-and-paste charm** —
-the site looks assembled by hand, like a page from Rhianne's notebook or the
-café's community noticeboard: pinned notes with wobbly hand-drawn borders,
-washi tape, pushpins, polaroids and handwritten margin notes, all on warm paper
-in an olive "Fickle Pickle" palette. Friendly and a little playful, but always
-legible — the imperfection lives on the frames and accents; body text stays on
-flat paper. Because the olive (`#827d19`) is a mid-dark tone, text on it is
-cream (large) or near-black ink (small) so everything meets WCAG AA contrast.
+Ranny's is the little **green-and-orange coffee shop** on Hempshaw Lane in
+Offerton, Stockport — and the site is built to look like the real place:
+her **bright green shopfront**, the **warm orange retro wordmark**, a
+**wooden chalkboard menu** in white chalk, **speckled stoneware**, fresh
+flowers, and her own photos. It keeps a hand-made, cut-and-paste warmth
+(pinned notes, wobbly borders, washi tape, polaroids, handwritten captions)
+but grounded in her real materials. Friendly and a little playful, but always
+legible — the green is light, so text on it is dark ink, and everything meets
+WCAG AA contrast.
 
 > The whole system is defined once as design tokens at the top of
 > `src/styles.css` (`:root`). This document explains those tokens; change them
@@ -20,14 +21,14 @@ cream (large) or near-black ink (small) so everything meets WCAG AA contrast.
 ## 1. The name & wordmark
 
 - The name is always **"Ranny's"** — with the apostrophe.
-- The hero/footer wordmark and all headings are set in **Baloo 2**, a rounded,
-  friendly display face, in warm mixed case. The footer wordmark keeps the dot.
-- Keep it title-case throughout ("Ranny's"); big headings use natural sentence
-  case — friendly, not shouty. Only small labels/chips are uppercase.
-- The favicon / app icon is an olive tile with a bold cream **"R"** (`assets/icon.svg`).
+- The wordmark recreates her fascia sign: **Bagel Fat One** in **orange**, with
+  a cream/dark outline, in the topbar and footer. Headings are **Baloo 2** in
+  warm mixed (sentence) case — friendly, not shouty. Only small labels/chips
+  are uppercase.
+- The favicon / app icon is a green tile with a bold **"R"** (`assets/icon.svg`).
 
-**Don't:** drop the apostrophe · stretch or outline the wordmark · recolour the
-lime tile · crowd the logo with borders.
+**Don't:** drop the apostrophe · set the wordmark in anything but the rounded
+orange · recolour the green · crowd the logo with borders.
 
 ---
 
@@ -37,19 +38,21 @@ Defined as CSS custom properties at the top of `src/styles.css`:
 
 | Token            | Hex        | Use                                            |
 |------------------|------------|------------------------------------------------|
-| `--lime`         | `#827d19`  | "Fickle Pickle" — primary accent, fascia panels, signs |
-| `--ink`          | `#0a0703`  | Near-black, for small text on the olive accent  |
-| `--terra-text`   | `#a8491a`  | Darker terracotta that meets contrast as body text |
-| `--lime-deep`    | `#a4b918`  | Darker lime for depth                          |
+| `--green`        | `#a7bd1c`  | Her shopfront — primary (sections, signs, highlights) |
+| `--orange`       | `#db5e20`  | Her logo orange — the wordmark & accents        |
+| `--orange-text`  | `#a8420c`  | Darker orange, safe as small text on cream      |
 | `--cream`        | `#f4ecd8`  | Page background (warm paper)                    |
-| `--cream-warm`   | `#ece1c4`  | Alternate section background                    |
-| `--board`        | `#fbf6e9`  | Sign/menu-board panels (lighter than cream)     |
+| `--board`        | `#fbf6e9`  | Note / panel paper (lighter than cream)         |
+| `--mustard`      | `#c89a40`  | Stoneware saucers / ceramic                     |
+| `--terracotta`   | `#b4502a`  | Ceramic bands, plant pots                       |
+| `--wood`         | `#5b3a24`  | The chalkboard menu (walnut)                    |
 | `--brown`        | `#241710`  | Ink — text, dark sections, rules               |
-| `--brown-mid`    | `#4a3220`  | Secondary text                                 |
-| `--terracotta`   | `#c4612a`  | Warm accent — links, prices, italics           |
+| `--ink`          | `#1a1206`  | Near-black, for small text on the green accent  |
 | `--cork`         | `#c49a63`  | Corkboard tan behind the pinned "inside" notes  |
-| `--tape`         | rose, 55%  | Translucent washi-tape strips on polaroids      |
 | `--open` / `--soon` / `--closed` | green / amber / red | Live open-status dot colours    |
+
+Text on **green** is always dark ink (green is light); **white chalk** on the
+walnut menu; **cream** on the brown footer and terracotta band.
 
 A subtle paper-grain texture (`body::before`) sits over everything in multiply
 to keep surfaces feeling printed rather than flat.
@@ -58,11 +61,12 @@ to keep surfaces feeling printed rather than flat.
 
 ## 3. Typography
 
-Three self-hosted faces (`assets/fonts/`):
+Four self-hosted faces (`assets/fonts/`):
 
-- **Baloo 2** (`--display`) — rounded and friendly. Headings, the wordmark, the
-  ticker, prices and the open-status flags, in mixed case for a warm,
-  hand-printed feel.
+- **Bagel Fat One** (`--logo`) — the fat rounded orange wordmark, matching her
+  fascia sign. Used only for the "Ranny's" lockup (topbar + footer).
+- **Baloo 2** (`--display`) — rounded and friendly. Headings, ticker, prices,
+  in mixed case for a warm, hand-printed feel.
 - **DM Sans** (`--text`) — body copy, buttons and meta. Weights 400–700.
 - **Caveat** (`--hand`) — the handwriting. Used *sparingly* for the margin
   notes: eyebrows/labels, photo captions and the signature. Never for body copy.

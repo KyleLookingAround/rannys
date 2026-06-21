@@ -121,11 +121,14 @@ minified to `dist/app.js`, and `src/mug.js` is bundled (with three.js) to
 
 ## 📌 Good to know / nice next steps
 
-- **Brand palette** — the whole look is driven by a few colours ("Fickle
-  Pickle" olive `#827d19`, cream `#f4ecd8`, brown `#241710`, terracotta
-  `#c4612a`), defined once as design tokens at the top of `src/styles.css`
-  (`:root`). Change them there and the entire site re-themes. See `BRANDING.md`
-  for the full system. Fonts are self-hosted in `assets/fonts/`.
+- **Brand palette** — the whole look is driven by her shopfront colours (green
+  `#a7bd1c`, orange `#db5e20`, cream `#f4ecd8`, mustard, terracotta, walnut),
+  defined once as design tokens at the top of `src/styles.css` (`:root`). Change
+  them there and the entire site re-themes. See `BRANDING.md` for the full
+  system. Fonts (Bagel Fat One, Baloo 2, DM Sans, Caveat) are self-hosted in
+  `assets/fonts/`.
+- **As featured in** — add press links under `shop.press` in `content/site.yml`;
+  the strip above the footer hides itself when the list is empty.
 - **Real photos** — the home-page gallery uses placeholder tiles until you add
   images. Drop JPGs into `assets/` and point `shop.photos[].src` at them.
 - **Share image** — link previews on WhatsApp/Instagram/Facebook use the enamel
