@@ -26,8 +26,8 @@ shop:
 
   # ── Contact + socials ──────────────────────────────────────────────
   email: "info@auntyrannys.com"
-  instagramHandle: "@rannys407"
-  instagram: "https://www.instagram.com/rannys407"
+  instagramHandle: "@rannyscoffeeshop"
+  instagram: "https://www.instagram.com/rannyscoffeeshop"
   facebook: "https://facebook.com/61583039575566"
 
   # ── Images (files live in the assets/ folder) ──────────────────────
@@ -108,6 +108,8 @@ shop:
   #  Add outlets here as you get real links — the strip hides itself if empty.
   press:
     - { name: "Manchester's Finest", url: "https://www.manchestersfinest.com/places/rannys/" }
+    - { name: "Stockport Nub News", url: "https://stockport.nub.news/news/local-news/new-mid-century-style-coffee-shop-opens-in-offerton-298750" }
+    - { name: "Brik Studio", url: "https://www.instagram.com/reel/DZJ08wRi4Qt/" }
 
   # ════════════════════════════════════════════════════════════════
   #  MENU  (menu.html)
@@ -125,7 +127,7 @@ shop:
 
   menu:
     - name: "Coffee"
-      note: "A medium-roast blend with milk-chocolate notes, by Atkinsons of Lancaster. Decaf on request."
+      note: "A medium-roast blend with milk-chocolate notes, by Atkinsons of Lancaster. Decaf by Worker Bee Coffee, round the corner in Edgeley."
       items:
         - { name: "Espresso", price: "£2.40" }
         - { name: "Macchiato", price: "£2.60" }
@@ -177,7 +179,7 @@ shop:
     - date: "2026-07-23"
       title: "Make a Mug — Pottery Workshop"
       when: "Thu 23 July · 7pm · £40 · with Frank's Studio"
-      description: "Throw your very own mug with Frank's Studio, right here at Ranny's. £40 includes everything you need — and a free coffee in your new mug when you come to collect it. Ran by the lovely folk at Frank's Studio."
+      description: "Hand-build your very own mug with Frank's Studio, right here at Ranny's. £40 includes everything you need — and a free coffee in your new mug when you come to collect it. Ran by the lovely folk at Frank's Studio."
       soldOut: true
       link: "https://www.franksstudio.co.uk/product-page/ranny-s-stockport-workshops"
       linkText: "Workshop details at Frank's Studio"
@@ -190,16 +192,16 @@ shop:
   photosIntro: "A few snaps of the place and the good stuff. Pop in and see the real thing."
   photos:
     - { src: "./assets/storefront.jpg", caption: "our little green shop" }
-    - { src: "./assets/preview.jpg", caption: "the famous pistachio donut" }
+    - { src: "./assets/preview.jpg", caption: "the cronut, by Silver Apples Bakery" }
     - { src: "./assets/menu.jpg", caption: "it's cor-tad-o not cor-tar-do, we know that now" }
     - { src: "./assets/iced-special.jpg", caption: "the Ranny's Special, over ice" }
-    - { src: "./assets/biscoff.jpg", caption: "cake o'clock" }
-    - { src: "./assets/window-seats.jpg", caption: "grab a window seat" }
+    - { src: "./assets/biscoff.jpg", caption: "bakes o'clock" }
+    - { src: "./assets/window-seats.jpg", caption: "grab a window seat and watch the world go by" }
 
   # ════════════════════════════════════════════════════════════════
   #  BOOKINGS  (bookings.html)
   # ════════════════════════════════════════════════════════════════
-  bookingsIntro: "Want the place to yourself, or a corner for your group? Tell us what you're after and we'll sort it. Straight answers, no faff."
+  bookingsIntro: "We've chosen every piece of furniture and little detail carefully, to make the space feel like a home away from home. Fancy borrowing it? Private events — baby showers, hen dos and the like — or just a corner for your group. Tell us what you're after and we'll sort it."
   bookingTypes:
     - title: "Private hire"
       body: "Have the whole shop after hours for a get-together, a launch, or a do. We'll talk numbers, food and timings with you."

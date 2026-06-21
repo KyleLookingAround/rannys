@@ -39,6 +39,7 @@
   --wood: #5b3a24;        /* chalkboard / walnut */
   --wood-light: #9a5a2c;  /* tables */
   --brass: #b08d57;       /* brass trays / divider rules */
+  --hazelnut: #7c5a42;    /* "Roasted Hazelnut" — the What's-on band */
   --brown: #241710;
   --brown-mid: #4a3220;
   --ink: #1a1206;         /* near-black */
@@ -523,7 +524,7 @@ body:has(.lightbox:target) { overflow: hidden; }
 @media (max-width: 700px) { .partners { padding: 60px 22px; } .partners-grid { grid-template-columns: 1fr; } }
 
 /* ===== Mailing list (slim bar) ===== */
-.signup { background: var(--terra-text); color: var(--cream); padding: 64px 28px; border-block: var(--rule) solid var(--brown); }
+.signup { background: var(--hazelnut); color: var(--cream); padding: 64px 28px; border-block: var(--rule) solid var(--brown); }
 .signup-inner { max-width: 860px; margin: 0 auto; text-align: center; }
 .signup .eyebrow { color: var(--cream); justify-content: center; margin-bottom: 16px; }
 .signup .eyebrow::before { background: var(--cream); border-color: var(--cream); }
