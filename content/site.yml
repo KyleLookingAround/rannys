@@ -96,6 +96,12 @@ shop:
   community:
     blurb: "We're happy to lend the room. Book clubs, running crews, new-mum hangs, board-game nights — if you've got the people, we've got the room and the cake."
 
+  # ── Featured quote band (photo + a line in her voice) ──────────────
+  quote:
+    text: "What a start. We honestly couldn't be prouder of the little place we've made."
+    by: "Ranny's x"
+    image: "./assets/interior.jpg"
+
   # ── Press / "as featured in" ───────────────────────────────────────
   #  Add outlets here as you get real links — the strip hides itself if empty.
   press:

@@ -342,12 +342,14 @@ body::before {
 }
 .ticker-tag {
   flex: none; display: flex; align-items: center;
+  position: relative; z-index: 2;          /* sits above the scrolling track */
   background: var(--brown); color: var(--cream);
   font-family: var(--display); font-size: 20px; text-transform: uppercase; letter-spacing: 0.04em;
   padding: 0 22px; border-right: var(--rule) solid var(--brown);
 }
 .ticker-track, .marquee-track {
   display: flex; gap: 48px; white-space: nowrap; align-items: center;
+  position: relative; z-index: 1;
   padding: 16px 0;
   animation: scroll 34s linear infinite;
   font-family: var(--display); font-size: 30px; text-transform: uppercase;
@@ -772,6 +774,33 @@ footer .wordmark, .topbar .logo, .address strong, .open-flag, .ticker-tag {
 }
 .leaf-divider::after { transform: scaleX(-1); }
 .leaf-divider .sprig { flex: none; width: 42px; height: auto; color: var(--green-deep); display: block; }
+.leaf-divider .marigold { flex: none; width: 30px; height: auto; color: var(--orange); display: block; }
+.sprig.flip { transform: scaleX(-1); }
+
+/* Featured quote band — her photo behind a line in her voice */
+.quote-band {
+  position: relative; padding: clamp(80px, 12vw, 130px) 28px;
+  background-size: cover; background-position: center; text-align: center;
+  border-block: var(--rule) solid var(--brown);
+}
+.quote-overlay { position: absolute; inset: 0; background: linear-gradient(rgba(36,23,16,.66), rgba(36,23,16,.60)); }
+.quote { position: relative; z-index: 1; max-width: 860px; margin: 0 auto; }
+.quote .marigold { width: 42px; height: auto; color: var(--orange); margin: 0 auto 16px; display: block; }
+.quote p { font-family: var(--display); font-weight: 800; font-size: clamp(28px, 4.4vw, 50px); line-height: 1.18; color: var(--cream); }
+.quote cite { display: block; font-style: normal; font-family: var(--hand); font-size: 32px; color: var(--green); margin-top: 20px; }
+
+/* Story photo */
+.story-photo {
+  margin: 28px 0 0; max-width: 320px;
+  border: 2px solid var(--ink); border-radius: 14px; overflow: hidden;
+  box-shadow: 0 10px 24px rgba(36, 23, 16, 0.14);
+}
+.story-photo img { display: block; width: 100%; height: auto; }
+
+/* Footer flora */
+.foot-flora { display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 18px; }
+.foot-flora .sprig { width: 46px; height: auto; color: var(--green); }
+.foot-flora .marigold { width: 34px; height: auto; color: var(--orange); }
 
 /* ===== Chalkboard menu — her wooden board, white chalk ===== */
 .menu-inner {
