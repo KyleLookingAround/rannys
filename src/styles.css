@@ -38,6 +38,7 @@
   --terra-text: #a8420c;
   --wood: #5b3a24;        /* chalkboard / walnut */
   --wood-light: #9a5a2c;  /* tables */
+  --brass: #b08d57;       /* brass trays / divider rules */
   --brown: #241710;
   --brown-mid: #4a3220;
   --ink: #1a1206;         /* near-black */
@@ -702,120 +703,82 @@ footer .wordmark, .topbar .logo, .address strong, .open-flag, .ticker-tag {
 .eyebrow, .section-eyebrow, .story-label, .partners-label, .visit-label {
   font-size: 23px; font-weight: 700; color: var(--terra-text);
 }
-.eyebrow { gap: 11px; }
-.eyebrow::before { border-radius: 4px; transform: rotate(-8deg); }
+.eyebrow { gap: 10px; }
+.eyebrow::before { border-radius: 3px; }
 .page-note, .menu-cat-note { font-size: 19px; font-weight: 600; }
 .signature { font-family: var(--hand); font-size: 40px; }
 .mug-hint { font-size: 17px; letter-spacing: 0; }
 .ticker-tag { font-size: 30px; }
 
-/* Paper panels — wobbly hand-drawn border + soft paper shadow */
-.card, .partner, .event, .menu-inner, .map-card, .shot {
+/* Clean framed panels — thin ink border + soft natural shadow, no tilt */
+.card, .partner, .event, .map-card, .shot {
   position: relative;
-  border-color: transparent !important;
-  box-shadow: 0 7px 16px rgba(36, 23, 16, 0.16);
+  border: 2px solid var(--ink) !important;
+  box-shadow: 0 10px 24px rgba(36, 23, 16, 0.12);
+  transition: transform .2s ease, box-shadow .2s ease;
 }
-.card::after, .partner::after, .event::after, .menu-inner::after,
-.map-card::after, .shot::after {
-  content: ''; position: absolute; inset: 3px; border-radius: inherit;
-  border: 2.5px solid var(--brown); filter: url(#wobble);
-  pointer-events: none; z-index: 2;
-}
-.partner::after, .shot::after, .event::after { filter: url(#wobble2); }
-
-/* gentle wonk + straighten on hover */
-.inside .card, .partner, .shot, .event { transition: transform .2s ease, box-shadow .2s ease; }
-.inside .card:nth-child(1) { transform: rotate(-2deg); }
-.inside .card:nth-child(2) { transform: rotate(1.3deg); }
-.inside .card:nth-child(3) { transform: rotate(-0.8deg); }
-.partner:nth-child(odd) { transform: rotate(-1.1deg); }
-.partner:nth-child(even) { transform: rotate(1deg); }
-.shot:nth-child(3n+1) { transform: rotate(-2deg); }
-.shot:nth-child(3n+2) { transform: rotate(1.6deg); }
-.shot:nth-child(3n+3) { transform: rotate(-1deg); }
-.inside .card:hover, .partner:hover, .shot:hover {
-  transform: rotate(0) translateY(-5px); z-index: 6;
-  box-shadow: 0 14px 24px rgba(36, 23, 16, 0.22);
-}
-
-/* Corkboard behind the "what you'll find" notes */
-.inside {
-  background-color: var(--cork);
-  background-image:
-    radial-gradient(rgba(90, 58, 28, 0.40) 1.1px, transparent 1.4px),
-    radial-gradient(rgba(150, 110, 66, 0.34) 1px, transparent 1.3px);
-  background-size: 9px 9px, 13px 13px;
-  background-position: 0 0, 4px 5px;
-}
-.inside h2 { color: var(--brown); }
-.inside h2 em { color: var(--terra-text); }
-.card { background: #fcf8ee; }
+.card { background: var(--board); border-radius: 16px; }
+.partner { border-radius: 16px; }
+.event { border-radius: 14px; }
+.map-card { border-radius: 16px; }
 .card p { color: var(--brown-mid); }
 .card h3, .partner h3 { text-transform: none; letter-spacing: -0.005em; }
-/* red pushpin on each pinned note */
-.inside .card::before {
-  content: ''; position: absolute; top: -9px; left: 50%; transform: translateX(-50%);
-  width: 18px; height: 18px; border-radius: 50%;
-  background: radial-gradient(circle at 34% 30%, #ef6f60, #b5392c);
-  border: 2px solid #241710; box-shadow: 0 3px 5px rgba(0, 0, 0, 0.32); z-index: 5;
+.card:hover, .partner:hover, .shot:hover, .event:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 32px rgba(36, 23, 16, 0.18);
 }
 
-/* Polaroids in the gallery */
-.gallery-grid { gap: 30px 24px; }
+/* "What you'll find inside" — clean cards on warm paper */
+.inside { background: var(--cream-warm); }
+.inside h2 { color: var(--ink); }
+.inside h2 em { color: var(--terra-text); }
+
+/* Gallery — clean framed prints, taller, handwritten caption */
+.gallery-grid { gap: 30px 26px; }
 .shot {
-  background: #fcf8ee; padding: 11px 11px 0; border-radius: 5px; overflow: visible;
+  background: var(--board); padding: 12px 12px 0; border-radius: 10px; overflow: hidden;
 }
-.shot img { border-radius: 2px; aspect-ratio: 1 / 1; }
+.shot img { border-radius: 5px; aspect-ratio: 4 / 5; }
 .shot .shot-cap {
   border-top: none; font-family: var(--hand); text-transform: none;
   font-size: 19px; font-weight: 600; color: var(--brown);
-  padding: 7px 6px 12px; text-align: center; letter-spacing: 0;
-}
-.shot::after { inset: 0; border-radius: 5px; }
-/* washi tape on the polaroids */
-.shot::before {
-  content: ''; position: absolute; top: -11px; left: 50%; width: 86px; height: 24px;
-  transform: translateX(-50%) rotate(-4deg); background: var(--tape);
-  border-left: 1px solid rgba(36, 23, 16, 0.08); border-right: 1px solid rgba(36, 23, 16, 0.08);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12); z-index: 4;
-}
-.shot:nth-child(even)::before { transform: translateX(-46%) rotate(3.5deg); }
-
-/* a pin on the menu card */
-.menu-inner { overflow: visible; }
-.menu-inner::before {
-  content: ''; position: absolute; top: -11px; left: 50%; transform: translateX(-50%);
-  width: 20px; height: 20px; border-radius: 50%;
-  background: radial-gradient(circle at 34% 30%, #8fd0e8, #2b89a8);
-  border: 2px solid #241710; box-shadow: 0 3px 5px rgba(0, 0, 0, 0.32); z-index: 5;
+  padding: 9px 6px 12px; text-align: center; letter-spacing: 0;
 }
 
-/* the live "open" flag becomes a peel-off sticker */
+/* Live "open" flag — a clean rounded tag */
 .open-flag {
-  position: relative;
-  border-color: transparent !important; border-radius: 8px;
-  transform: rotate(-2deg); box-shadow: 0 5px 12px rgba(36, 23, 16, 0.2);
-}
-.open-flag::after {
-  content: ''; position: absolute; inset: 2px; border-radius: 8px;
-  border: 2.5px solid var(--brown); filter: url(#wobble); pointer-events: none;
+  position: relative; border-radius: 12px;
+  border: 2px solid var(--ink) !important;
+  box-shadow: 0 6px 14px rgba(36, 23, 16, 0.16);
 }
 
-@media (max-width: 760px) {
-  .inside .card, .partner, .shot, .event, .open-flag { transform: none; }
+/* Eucalyptus-sprig dividers between sections (brass rule + sprig) */
+.leaf-divider {
+  display: flex; align-items: center; justify-content: center; gap: 16px;
+  max-width: 740px; margin: 0 auto; padding: 30px 28px;
 }
+.leaf-divider::before, .leaf-divider::after {
+  content: ''; height: 2px; flex: 1; max-width: 130px; border-radius: 2px;
+  background: linear-gradient(90deg, transparent, var(--brass));
+}
+.leaf-divider::after { transform: scaleX(-1); }
+.leaf-divider .sprig { flex: none; width: 42px; height: auto; color: var(--green-deep); display: block; }
 
 /* ===== Chalkboard menu — her wooden board, white chalk ===== */
 .menu-inner {
-  color: var(--cream);
+  position: relative; color: var(--cream);
   background-color: var(--wood);
   background-image:
     repeating-linear-gradient(91deg, rgba(0,0,0,.05) 0 2px, transparent 2px 8px),
     linear-gradient(165deg, #6d4429 0%, #4d3120 100%);
+  border: 3px solid #3c2716;
   box-shadow: 0 14px 30px rgba(36, 23, 16, 0.34);
 }
-.menu-inner::after { border-color: rgba(244, 236, 216, 0.5); }  /* chalk frame */
-.menu-inner::before { display: none; }                          /* drop the pin */
+/* inner chalk-line frame */
+.menu-inner::before {
+  content: ''; position: absolute; inset: 9px; border-radius: 14px;
+  border: 2px solid rgba(244, 236, 216, 0.4); pointer-events: none;
+}
 .menu-cat {
   font-family: var(--hand); font-weight: 700; color: var(--cream);
   text-transform: none; letter-spacing: 0;

@@ -41,18 +41,21 @@
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
 
-<!-- Hand-drawn wobble filters (reused by .sketch borders; decorative) -->
+<!-- Reusable eucalyptus sprig (decorative divider accent) -->
 <svg class="svg-defs" aria-hidden="true" focusable="false" width="0" height="0">
-  <defs>
-    <filter id="wobble" x="-5%" y="-5%" width="110%" height="110%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.015" numOctaves="2" seed="4" result="n"/>
-      <feDisplacementMap in="SourceGraphic" in2="n" scale="4"/>
-    </filter>
-    <filter id="wobble2" x="-5%" y="-5%" width="110%" height="110%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.022" numOctaves="2" seed="13" result="n"/>
-      <feDisplacementMap in="SourceGraphic" in2="n" scale="5"/>
-    </filter>
-  </defs>
+  <symbol id="sprig" viewBox="0 0 64 24">
+    <path d="M2 12 C 20 10, 44 14, 62 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    <g fill="currentColor">
+      <ellipse cx="14" cy="7" rx="5" ry="3" transform="rotate(-28 14 7)"/>
+      <ellipse cx="14" cy="17" rx="5" ry="3" transform="rotate(28 14 17)"/>
+      <ellipse cx="28" cy="6" rx="5.5" ry="3.2" transform="rotate(-24 28 6)"/>
+      <ellipse cx="28" cy="18" rx="5.5" ry="3.2" transform="rotate(24 28 18)"/>
+      <ellipse cx="42" cy="7" rx="5" ry="3" transform="rotate(-22 42 7)"/>
+      <ellipse cx="42" cy="17" rx="5" ry="3" transform="rotate(22 42 17)"/>
+      <ellipse cx="55" cy="9" rx="4" ry="2.6" transform="rotate(-18 55 9)"/>
+      <ellipse cx="55" cy="15" rx="4" ry="2.6" transform="rotate(18 55 15)"/>
+    </g>
+  </symbol>
 </svg>
 
 <!-- TOP BAR -->
