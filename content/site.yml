@@ -51,36 +51,37 @@ shop:
     - "Sa-Su 09:00-16:00"
 
   # ── Hero ───────────────────────────────────────────────────────────
-  eyebrow: "Hempshaw Lane · Stockport · Open now"
-  tagline: "A proper independent coffee shop on Hempshaw Lane. Good coffee, great cake, and a warm room to sit in. That's it, really."
+  eyebrow: "Hempshaw Lane · Offerton, Stockport"
+  tagline: "The little green coffee shop on Hempshaw Lane. Beans by Atkinsons of Lancaster, ridiculously good cake, and a warm room to linger in. No airs, no graces — just a good brew and a proper natter."
 
   # ── "Today" ticker on the home page — add or remove lines freely ───
   marquee:
-    - "Proper coffee"
+    - "Beans by Atkinsons"
     - "Cake worth the calories"
-    - "Independent"
-    - "Locally roasted"
-    - "Stockport made"
+    - "The Ranny's Special"
+    - "Proper natters"
+    - "Dog-friendly"
     - "Kettle's on"
+    - "Craft sodas in the fridge"
 
   # ── Story (Rhianne's bit — in her own words) ───────────────────────
   story:
     name: "Rhianne"
     lede: "The girl covered in paint, fluffy socks and a half-ate butty in hand."
     paragraphs:
-      - "I'm 26 and have spent most of my adult life managing independent bars in and around Stockport — learning the ropes, pouring the pints, knowing what makes a room actually feel good to be in."
-      - "Ranny's is me taking the leap and opening up a place I can call my own. A proper little coffee shop on Hempshaw Lane, with thoughtful coffee, ridiculously good cake, and the kind of vintage charm that makes you want to linger."
-      - "No airs, no graces — just a good brew and a warm welcome. Come and say hello."
-    signature: "— Rhianne x"
+      - "I've spent most of my adult life on the SK1 hospitality scene — learning the ropes, pulling the pints, working out what makes a room actually feel good to be in."
+      - "Ranny's is me taking the leap: a little green coffee shop on Hempshaw Lane that's properly my own. Beans by Atkinsons of Lancaster, cake that's worth the calories, fresh flowers on the counter, and the kind of vintage charm that makes you want to stop a while."
+      - "We've had the odd hiccup — locking ourselves out on a Saturday morning, *awkward* — but honestly, what a start. No airs, no graces, just a good brew and a warm welcome. Come and say hello."
+    signature: "Ranny's x"
 
   # ── "What you'll find inside" — three cards ────────────────────────
   inside:
     - title: "Coffee, done right"
-      body: "Locally roasted beans, dialled-in espresso, and folk behind the bar who actually care what's in your cup. Nothing flash — just good."
+      body: "Beans by Atkinsons of Lancaster, dialled-in espresso, and oat milk that's actually good. Try the Ranny's Special — pistachio, hazelnut and a double shot over ice."
     - title: "Cake worth the calories"
-      body: "Brownies, blondies, traybakes — Lotus, Oreo, raspberry and beyond. A rotating lineup from local bakers who know their stuff."
+      body: "Blondies, brownies, Biscoff cookies, the famous pistachio donut. A rotating lineup that changes with the day — best ask what's in."
     - title: "A room to linger in"
-      body: "Cappuccinos in tomato-soup mugs, cake on grandma's plates. Mismatched, mended and much loved — somewhere, not anywhere."
+      body: "Speckled stoneware, fresh flowers, a wooden board menu and a bright green room. Mismatched, much loved, and dog-friendly — somewhere, not anywhere."
 
   # ── Partners ("from our friends") ──────────────────────────────────
   partners:
@@ -95,13 +96,18 @@ shop:
   community:
     blurb: "Got a group? We're happy to lend the room. Book clubs, running crews, new-mum hangs, board-game nights — if you've got the people, we've got the room and the cake."
 
+  # ── Press / "as featured in" ───────────────────────────────────────
+  #  Add outlets here as you get real links — the strip hides itself if empty.
+  press:
+    - { name: "Manchester's Finest", url: "https://www.manchestersfinest.com/places/rannys/" }
+
   # ════════════════════════════════════════════════════════════════
   #  MENU  (menu.html)
   #  This is the live menu — it's typeset straight onto the page. Add or
   #  remove sections and items below; `price` and `note` are optional on
   #  each item. (No image to re-export — just edit the text here.)
   # ════════════════════════════════════════════════════════════════
-  menuIntro: "Good coffee, made properly. Cake from people who know what they're doing. No 17-word drink names — just the good stuff."
+  menuIntro: "Beans by Atkinsons of Lancaster, made properly. Cake from people who know what they're doing. No 17-word drink names — just the good stuff. Oat, soya and coconut milk all in."
   menu:
     - name: "Coffee"
       note: "Locally roasted. Decaf on request."
@@ -123,7 +129,9 @@ shop:
         - { name: "Loose-leaf tea", price: "£2.80" }
         - { name: "Babyccino", note: "for the little ones", price: "£1.00" }
     - name: "Iced & cold"
+      note: "Craft sodas in the fridge too — Living Things, Posh Pop & more."
       items:
+        - { name: "The Ranny's Special", note: "pistachio oat milk, hazelnut, double shot over ice", price: "£4.20" }
         - { name: "Iced latte", price: "£3.60" }
         - { name: "Iced matcha", price: "£3.90" }
         - { name: "Cold brew", price: "£3.60" }
@@ -160,12 +168,12 @@ shop:
   # ════════════════════════════════════════════════════════════════
   photosIntro: "A few snaps of the place and the good stuff. Pop in and see the real thing."
   photos:
-    - { src: "./assets/preview.jpg", caption: "Pistachio donut, out front" }
-    - { src: "./assets/hero-bg.jpg", caption: "Flat white & flowers" }
-    - { src: "./assets/menu.jpg", caption: "What's on the menu" }
-    - { src: "./assets/photo-placeholder.svg", caption: "Window seats" }
-    - { src: "./assets/photo-placeholder.svg", caption: "The back room" }
-    - { src: "./assets/photo-placeholder.svg", caption: "More coming soon" }
+    - { src: "./assets/storefront.jpg", caption: "our little green shop" }
+    - { src: "./assets/preview.jpg", caption: "the famous pistachio donut" }
+    - { src: "./assets/menu.jpg", caption: "what's on the board" }
+    - { src: "./assets/iced-special.jpg", caption: "the Ranny's Special, over ice" }
+    - { src: "./assets/biscoff.jpg", caption: "cake o'clock" }
+    - { src: "./assets/window-seats.jpg", caption: "grab a window seat" }
 
   # ════════════════════════════════════════════════════════════════
   #  BOOKINGS  (bookings.html)

@@ -566,6 +566,20 @@ body:has(.lightbox:target) { overflow: hidden; }
   .map-card { max-width: 380px; margin: 0 auto; }
 }
 
+/* ===== Press strip ("as featured in") ===== */
+.press { background: var(--cream-warm); border-top: var(--rule) solid var(--brown); padding: 30px 28px; text-align: center; }
+.press-label { display: block; font-family: var(--hand); font-size: 23px; color: var(--brown-mid); margin-bottom: 14px; }
+.press-list { list-style: none; display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; }
+.press-list a {
+  display: inline-block; font-family: var(--text); font-weight: 700; font-size: 14px;
+  color: var(--brown); text-decoration: none; background: var(--board);
+  border: 2px solid var(--brown); border-radius: 8px; padding: 9px 16px;
+  box-shadow: 0 4px 10px rgba(36, 23, 16, 0.14); transform: rotate(-1.5deg);
+  transition: transform .15s ease, color .15s ease;
+}
+.press-list li:nth-child(even) a { transform: rotate(1.5deg); }
+.press-list a:hover { transform: rotate(0) translateY(-2px); color: var(--terra-text); }
+
 /* ===== Footer ===== */
 footer { background: var(--brown); color: var(--cream); padding: 56px 28px 30px; text-align: center; }
 footer .wordmark {

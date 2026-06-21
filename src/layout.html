@@ -78,6 +78,14 @@
 <!-- page:content -->
 </main>
 
+{{#if shop.press}}<aside class="press" aria-label="As featured in">
+  <span class="press-label">As featured in</span>
+  <ul class="press-list">
+    {{#each shop.press}}<li><a href="{{url}}" target="_blank" rel="noopener">{{name}} ↗</a></li>
+    {{/each}}
+  </ul>
+</aside>{{/if}}
+
 <!-- FOOTER -->
 <footer>
   <div class="wordmark">{{shop.name}}<em>.</em></div>
@@ -93,7 +101,7 @@
     <a href="{{shop.instagram}}" target="_blank" rel="noopener">Instagram</a>
     <a href="{{shop.facebook}}" target="_blank" rel="noopener">Facebook</a>
   </div>
-  <div class="small">© {{year}} {{shop.name}} · {{shop.street}} · {{shop.locality}} {{shop.postcode}} · Made with love &amp; espresso</div>
+  <div class="small">© {{year}} {{shop.name}} · {{shop.street}} · {{shop.locality}} {{shop.postcode}} · Made with love &amp; espresso · Ranny's x 💚</div>
 </footer>
 
 <!-- Opening-hours data (read by app.js to show a live open/closed status) -->
