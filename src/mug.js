@@ -34,14 +34,30 @@ function logoTexture() {
   t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 4;
   const img = new Image();
   img.onload = () => {
-    x.clearRect(0, 0, c.width, c.height);
-    x.drawImage(img, 0, 0, c.width, c.height);
-    const im = x.getImageData(0, 0, c.width, c.height), d = im.data;
-    for (let i = 0; i < d.length; i += 4) {
+    const W = c.width, H = c.height;
+    x.clearRect(0, 0, W, H);
+    x.drawImage(img, 0, 0, W, H);
+    const im = x.getImageData(0, 0, W, H), d = im.data;
+    // ink mask: cream paper -> 0, drawn lines -> ~1 (near-solid)
+    let a = new Float32Array(W * H);
+    for (let i = 0, p = 0; i < d.length; i += 4, p++) {
       const lum = (0.299 * d[i] + 0.587 * d[i + 1] + 0.114 * d[i + 2]) / 255;
-      const ink = 1 - lum;                       // 0 = cream paper, ~0.5 = lines
-      const a = ink > 0.15 ? Math.min(1, (ink - 0.09) * 2.4) : 0;
-      d[i] = 36; d[i + 1] = 23; d[i + 2] = 16; d[i + 3] = Math.round(a * 255);
+      a[p] = Math.max(0, Math.min(1, (1 - lum - 0.10) * 4));
+    }
+    // dilate twice (3×3 max) so the thin strokes read at small mug size
+    for (let pass = 0; pass < 2; pass++) {
+      const n = new Float32Array(W * H);
+      for (let y = 0; y < H; y++) for (let xx = 0; xx < W; xx++) {
+        let m = 0;
+        for (let dy = -1; dy <= 1; dy++) { const yy = y + dy; if (yy < 0 || yy >= H) continue;
+          for (let dx = -1; dx <= 1; dx++) { const x2 = xx + dx; if (x2 < 0 || x2 >= W) continue;
+            const v = a[yy * W + x2]; if (v > m) m = v; } }
+        n[y * W + xx] = m;
+      }
+      a = n;
+    }
+    for (let i = 0, p = 0; i < d.length; i += 4, p++) {
+      d[i] = 36; d[i + 1] = 23; d[i + 2] = 16; d[i + 3] = Math.round(a[p] * 255);
     }
     x.putImageData(im, 0, 0);
     t.needsUpdate = true;
@@ -115,9 +131,9 @@ export function mountMug(stage) {
 
   // her storefront logo, wrapped onto the front of the mug as a curved decal,
   // kept at the artwork's aspect ratio so the drawing isn't stretched
-  const decalH = 0.60, decalR = 0.715;
+  const decalH = 0.74, decalR = 0.715;
   const decalTheta = (decalH * LOGO_RATIO) / decalR;
-  const decalGeo = new THREE.CylinderGeometry(0.735, 0.70, decalH, 64, 1, true, -decalTheta / 2, decalTheta);
+  const decalGeo = new THREE.CylinderGeometry(0.74, 0.695, decalH, 64, 1, true, -decalTheta / 2, decalTheta);
   const decal = new THREE.Mesh(decalGeo, new THREE.MeshStandardMaterial({
     map: logoTexture(), transparent: true, roughness: 0.8, metalness: 0.02,
     side: THREE.DoubleSide, polygonOffset: true, polygonOffsetFactor: -1,
