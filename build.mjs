@@ -104,6 +104,14 @@ shop.partners = (Array.isArray(shop.partners) ? shop.partners : []).map((p) => (
     : p.name,
 }));
 
+// local makers/artists strip: same link-if-url treatment
+shop.localCredits = (Array.isArray(shop.localCredits) ? shop.localCredits : []).map((c) => ({
+  ...c,
+  nameHtml: c.url
+    ? `<a class="ml-link" href="${c.url}" target="_blank" rel="noopener">${c.name} ↗</a>`
+    : c.name,
+}));
+
 // opening hours → a machine-readable map the client JS uses for the live
 // "open now / closed" status. Parses shop.openingHours (Google format, e.g.
 // "Tu-Fr 07:00-16:00") into { 0..6: [[openMins, closeMins], …] }, Sun=0.

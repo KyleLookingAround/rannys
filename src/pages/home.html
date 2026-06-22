@@ -149,6 +149,29 @@
   </div>
 </section>
 
+<!-- MADE LOCAL — credits the local artists & makers -->
+<section class="made-local" id="made-local">
+  <div class="made-local-inner">
+    <figure class="ml-art">
+      <img src="{{shop.localArt.image}}" alt="Framed watercolour of the Ranny's shopfront by local artist Sketch Stockport, hung on the shop wall" loading="lazy">
+      <figcaption>{{shop.localArt.caption}}</figcaption>
+    </figure>
+    <div class="ml-text">
+      <div class="section-eyebrow">By local hands</div>
+      <h2>Made <em>local.</em></h2>
+      <p class="lede">{{shop.localArt.blurb}}</p>
+      <ul class="ml-credits">
+        {{#each shop.localCredits}}<li>
+          <span class="ml-role">{{role}}</span>
+          <span class="ml-name">{{nameHtml}}</span>
+          <span class="ml-note">{{note}}</span>
+        </li>
+        {{/each}}
+      </ul>
+    </div>
+  </div>
+</section>
+
 <!-- COMMUNITY (teaser → bookings) -->
 <section class="community" id="community">
   <div class="community-inner">

@@ -94,6 +94,34 @@ shop:
       url: "https://www.instagram.com/stickyfingersstockport/"
       body: "Pastries delivered fresh every morning — croissants, pain au chocolat, and the famous cinnamon rolls."
 
+  # ── "By local hands" — the makers & artists behind the shop ────────
+  #  Featured painting credit + a strip of everyone local who made the
+  #  place what it is. Add `url:` to any line to turn the name into a link.
+  localArt:
+    image: "./assets/sketch-stockport.jpg"
+    caption: "Our shopfront, painted by Sketch Stockport — hung on the wall by the window."
+    blurb: "Nothing here is off-a-shelf. The art on the walls, the sign over the door, the photos you've been scrolling — all made by people from round here."
+  localCredits:
+    - role: "The painting"
+      name: "Sketch Stockport"
+      note: "The coffee-and-matcha shopfront on the wall"
+    - role: "Shopfront signwriting"
+      name: "Cactus Sign Painting"
+      note: "Gregg, hand-lettered — all old-school"
+    - role: "Photography"
+      name: "Chroma Productions"
+      url: "https://chromaproductions.co.uk/"
+      note: "@chromaproductionsuk"
+    - role: "Beans"
+      name: "Atkinsons of Lancaster"
+      note: "Roasted since 1837"
+    - role: "Decaf"
+      name: "Worker Bee Coffee"
+      note: "Round the corner in Edgeley"
+    - role: "Bakes"
+      name: "Silver Apples & Sticky Fingers"
+      note: "Only Stockport bakes here"
+
   # ── Community / "borrow the space" teaser ──────────────────────────
   community:
     blurb: "We're happy to lend the room. Book clubs, running crews, new-mum hangs, board-game nights — if you've got the people, we've got the room and the cake."
