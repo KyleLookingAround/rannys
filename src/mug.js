@@ -22,22 +22,31 @@ function stonewareMap() {
   const t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; return t;
 }
 
-// her "Ranny's" wordmark on a transparent canvas, to wrap onto the mug front.
-// (The woff2 logo font isn't available to a raw canvas, so a chunky system
-// face stands in for the hand-drawn lettering at decal size.)
+// Ranny's storefront logo, printed onto the mug front. We load her line
+// drawing, key out the cream paper to transparent and recolour the lines to
+// a dark ink so it reads on the mustard glaze (rather than a pasted label).
+// The image loads async; the texture updates itself once it's ready.
+const LOGO_RATIO = 760 / 683;   // keep the decal at the artwork's aspect
 function logoTexture() {
-  const c = document.createElement('canvas'); c.width = 512; c.height = 220;
+  const c = document.createElement('canvas'); c.width = 760; c.height = 683;
   const x = c.getContext('2d');
-  x.clearRect(0, 0, c.width, c.height);
-  x.fillStyle = '#241710';
-  x.textAlign = 'center'; x.textBaseline = 'middle';
-  let fs = 160;
-  const fit = () => { x.font = `800 ${fs}px "Arial Black", Arial, sans-serif`; };
-  fit();
-  while (x.measureText("Ranny's").width > 440 && fs > 20) { fs -= 4; fit(); }
-  x.fillText("Ranny's", c.width / 2, c.height / 2 + 6);
   const t = new THREE.CanvasTexture(c);
   t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 4;
+  const img = new Image();
+  img.onload = () => {
+    x.clearRect(0, 0, c.width, c.height);
+    x.drawImage(img, 0, 0, c.width, c.height);
+    const im = x.getImageData(0, 0, c.width, c.height), d = im.data;
+    for (let i = 0; i < d.length; i += 4) {
+      const lum = (0.299 * d[i] + 0.587 * d[i + 1] + 0.114 * d[i + 2]) / 255;
+      const ink = 1 - lum;                       // 0 = cream paper, ~0.5 = lines
+      const a = ink > 0.15 ? Math.min(1, (ink - 0.09) * 2.4) : 0;
+      d[i] = 36; d[i + 1] = 23; d[i + 2] = 16; d[i + 3] = Math.round(a * 255);
+    }
+    x.putImageData(im, 0, 0);
+    t.needsUpdate = true;
+  };
+  img.src = './assets/mug-logo.jpg';
   return t;
 }
 
@@ -104,8 +113,11 @@ export function mountMug(stage) {
   mug.add(cast(new THREE.Mesh(bodyGeo,
     new THREE.MeshStandardMaterial({ vertexColors: true, map: speckle, roughness: 0.85, metalness: 0.02 }))));
 
-  // her wordmark, wrapped onto the front of the mug as a thin curved decal
-  const decalGeo = new THREE.CylinderGeometry(0.725, 0.695, 0.46, 48, 1, true, -0.85, 1.7);
+  // her storefront logo, wrapped onto the front of the mug as a curved decal,
+  // kept at the artwork's aspect ratio so the drawing isn't stretched
+  const decalH = 0.60, decalR = 0.715;
+  const decalTheta = (decalH * LOGO_RATIO) / decalR;
+  const decalGeo = new THREE.CylinderGeometry(0.735, 0.70, decalH, 64, 1, true, -decalTheta / 2, decalTheta);
   const decal = new THREE.Mesh(decalGeo, new THREE.MeshStandardMaterial({
     map: logoTexture(), transparent: true, roughness: 0.8, metalness: 0.02,
     side: THREE.DoubleSide, polygonOffset: true, polygonOffsetFactor: -1,
