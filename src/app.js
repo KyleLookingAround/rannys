@@ -2,7 +2,8 @@
    The site works fully without this file; it just adds live touches:
    1) a real "open now / closed" status from the hours in content/site.yml
    2) keyboard support for the burger menu and photo lightbox
-   3) a lazy-loaded 3D enamel mug on the home hero (see mug.js)            */
+   3) a little cup that fills as you scroll
+   4) a lazy-loaded 3D enamel mug on the home hero (see mug.js)            */
 
 const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -96,7 +97,39 @@ function wireLightbox() {
   });
 }
 
-/* ---------- 3) lazy 3D mug on the home hero ---------- */
+/* ---------- 3) scroll-fill cup ---------- */
+function buildScrollCup() {
+  if (reduceMotion) return;
+  const el = document.createElement('div');
+  el.className = 'scroll-cup';
+  el.setAttribute('aria-hidden', 'true');
+  el.innerHTML =
+    '<svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">' +
+    '<defs><clipPath id="rcupClip"><rect x="11" y="15" width="22" height="23" rx="3"/></clipPath></defs>' +
+    '<rect class="cup-fill" x="11" y="38" width="22" height="0" fill="#3a2415" clip-path="url(#rcupClip)"/>' +
+    '<rect x="11" y="15" width="22" height="23" rx="3" fill="none" stroke="#241710" stroke-width="2.5"/>' +
+    '<path d="M33 19 q7 0 7 7 q0 7 -7 7" fill="none" stroke="#241710" stroke-width="2.5"/>' +
+    '<ellipse cx="22" cy="42" rx="16" ry="2.6" fill="#827d19" stroke="#241710" stroke-width="2"/>' +
+    '</svg>';
+  document.body.appendChild(el);
+  const fill = el.querySelector('.cup-fill');
+  const TOP = 15, H = 23;
+  let ticking = false;
+  const update = () => {
+    ticking = false;
+    const doc = document.documentElement;
+    const max = doc.scrollHeight - doc.clientHeight;
+    const p = max > 0 ? Math.min(1, Math.max(0, doc.scrollTop / max)) : 0;
+    fill.setAttribute('y', (TOP + H * (1 - p)).toFixed(1));
+    fill.setAttribute('height', (H * p).toFixed(1));
+    el.classList.toggle('is-on', doc.scrollTop > 140);
+  };
+  addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+  addEventListener('resize', update, { passive: true });
+  update();
+}
+
+/* ---------- 4) lazy 3D mug on the home hero ---------- */
 function hasWebGL() {
   try {
     const c = document.createElement('canvas');
@@ -152,5 +185,6 @@ paintStatus();
 setInterval(paintStatus, 60000);
 wireBurger();
 wireLightbox();
+buildScrollCup();
 tidyEvents();
 maybeMountMug();

@@ -19,10 +19,15 @@
           <span class="ev-month">{{month}}</span>
         </div>
         <div class="event-body">
-          <h3 class="event-title">{{title}}{{#if soldOut}} <span class="sold-out">Sold out</span>{{/if}}</h3>
-          <p class="event-when">{{when}}</p>
-          <p class="event-desc">{{description}}</p>
-          {{#if link}}<a class="event-link" href="{{link}}" target="_blank" rel="noopener">{{linkText}} ↗</a>{{/if}}
+          <div class="event-main">
+            <h3 class="event-title">{{title}}{{#if soldOut}} <span class="sold-out">Sold out</span>{{/if}}</h3>
+            <p class="event-when">{{when}}</p>
+            <p class="event-desc">{{description}}</p>
+            {{#if link}}<a class="event-link" href="{{link}}" target="_blank" rel="noopener">{{linkText}} ↗</a>{{/if}}
+          </div>
+          {{#if poster}}<a class="event-poster" href="{{poster}}" target="_blank" rel="noopener" aria-label="Open the full poster for {{title}}">
+            <img src="{{poster}}" alt="Poster for {{title}}" loading="lazy">
+          </a>{{/if}}
         </div>
       </li>
       {{/each}}

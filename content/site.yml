@@ -209,6 +209,7 @@ shop:
       when: "Thu 23 July · 7pm · £40 · with Frank's Studio"
       description: "Hand-build your very own mug with Frank's Studio, right here at Ranny's. £40 includes everything you need — and a free coffee in your new mug when you come to collect it. Ran by the lovely folk at Frank's Studio."
       soldOut: true
+      poster: "./assets/event-pottery.jpg"
       link: "https://www.franksstudio.co.uk/product-page/ranny-s-stockport-workshops"
       linkText: "Workshop details at Frank's Studio"
 

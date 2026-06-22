@@ -719,7 +719,15 @@ footer .small { font-family: var(--text); font-weight: 500; font-size: 11px; let
 }
 .ev-day { font-family: var(--display); font-size: 42px; line-height: 1; color: var(--ink); }
 .ev-month { font-family: var(--text); font-weight: 700; font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink); margin-top: 4px; }
-.event-body { padding: 22px 26px; }
+.event-body { padding: 22px 26px; display: flex; gap: 22px; align-items: flex-start; flex-wrap: wrap; }
+.event-main { flex: 1 1 280px; min-width: 0; }
+.event-poster {
+  flex: 0 0 auto; width: 156px; display: block; align-self: flex-start;
+  border: var(--rule) solid var(--brown); border-radius: 8px; overflow: hidden;
+  box-shadow: 4px 4px 0 var(--brown); transition: transform .15s ease, box-shadow .15s ease;
+}
+.event-poster img { display: block; width: 100%; height: auto; }
+.event-poster:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--terracotta); }
 .event-title { font-family: var(--display); font-size: 26px; text-transform: uppercase; letter-spacing: 0.01em; color: var(--brown); }
 .event-when { font-family: var(--text); font-weight: 700; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--terra-text); margin: 6px 0 10px; }
 .event-desc { font-size: 16px; line-height: 1.55; color: var(--brown-mid); }
@@ -760,6 +768,16 @@ footer .small { font-family: var(--text); font-weight: 500; font-size: 11px; let
 /* ===== Active nav underline (desktop) ===== */
 .topbar a.active { color: var(--terra-text); }
 .topbar a.active::after { content: ''; position: absolute; left: 0; right: 0; bottom: -2px; height: 3px; background: var(--terra-text); border-radius: 2px; }
+
+/* ===== Scroll-fill cup (built by app.js) ===== */
+.scroll-cup {
+  position: fixed; right: 18px; bottom: 18px; z-index: 90;
+  width: 62px; height: 62px; pointer-events: none;
+  filter: drop-shadow(3px 3px 0 rgba(36,23,16,.25));
+  opacity: 0; transform: translateY(8px); transition: opacity .4s ease, transform .4s ease;
+}
+.scroll-cup.is-on { opacity: 1; transform: none; }
+@media (max-width: 560px) { .scroll-cup { width: 50px; height: 50px; right: 12px; bottom: 12px; } }
 
 /* Big headings in a friendly mixed case (warmer than all-caps), with the
    rounded display face. Small labels/chips stay uppercase for the sign look.
@@ -931,4 +949,5 @@ footer .wordmark, .topbar .logo, .address strong, .open-flag, .ticker-tag {
   html { scroll-behavior: auto; }
   .ticker-track, .marquee-track, .status .pulse, .open-flag .pulse { animation: none; }
   .lightbox { transition: none; }
+  .scroll-cup { transition: none; }
 }

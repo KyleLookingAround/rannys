@@ -22,6 +22,25 @@ function stonewareMap() {
   const t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; return t;
 }
 
+// her "Ranny's" wordmark on a transparent canvas, to wrap onto the mug front.
+// (The woff2 logo font isn't available to a raw canvas, so a chunky system
+// face stands in for the hand-drawn lettering at decal size.)
+function logoTexture() {
+  const c = document.createElement('canvas'); c.width = 512; c.height = 220;
+  const x = c.getContext('2d');
+  x.clearRect(0, 0, c.width, c.height);
+  x.fillStyle = '#241710';
+  x.textAlign = 'center'; x.textBaseline = 'middle';
+  let fs = 160;
+  const fit = () => { x.font = `800 ${fs}px "Arial Black", Arial, sans-serif`; };
+  fit();
+  while (x.measureText("Ranny's").width > 440 && fs > 20) { fs -= 4; fit(); }
+  x.fillText("Ranny's", c.width / 2, c.height / 2 + 6);
+  const t = new THREE.CanvasTexture(c);
+  t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 4;
+  return t;
+}
+
 export function mountMug(stage) {
   const size = () => Math.max(120, Math.min(stage.clientWidth, stage.clientHeight) || 300);
 
@@ -84,6 +103,15 @@ export function mountMug(stage) {
   bodyGeo.setAttribute('color', new THREE.Float32BufferAttribute(cols, 3));
   mug.add(cast(new THREE.Mesh(bodyGeo,
     new THREE.MeshStandardMaterial({ vertexColors: true, map: speckle, roughness: 0.85, metalness: 0.02 }))));
+
+  // her wordmark, wrapped onto the front of the mug as a thin curved decal
+  const decalGeo = new THREE.CylinderGeometry(0.725, 0.695, 0.46, 48, 1, true, -0.85, 1.7);
+  const decal = new THREE.Mesh(decalGeo, new THREE.MeshStandardMaterial({
+    map: logoTexture(), transparent: true, roughness: 0.8, metalness: 0.02,
+    side: THREE.DoubleSide, polygonOffset: true, polygonOffsetFactor: -1,
+  }));
+  decal.position.y = 0.33;
+  mug.add(decal);
 
   // darker rim at the lip
   const rimRing = cast(new THREE.Mesh(
