@@ -13,7 +13,7 @@ events:
     title: "Pop-Up Shop — Ranny's × Mardy"
     when: "Tue 30 June · 10am–1pm · free in"
     description: "Cool kids' vintage clothes & accessories with Mardy Kids Vintage, popping up here at Ranny's. Don't be basic. First ten customers through the door get a free coffee — just show the flyer to redeem."
-    poster: "./assets/event-mardy.jpg"
+    poster: "/assets/event-mardy.jpg"
     link: "https://www.instagram.com/mardykidsvintage"
     linkText: "Mardy Kids Vintage on Instagram"
   - date: "2026-07-23"
@@ -21,6 +21,6 @@ events:
     when: "Thu 23 July · 7pm · £40 · with Frank's Studio"
     description: "Hand-build your very own mug with Frank's Studio, right here at Ranny's. £40 includes everything you need — and a free coffee in your new mug when you come to collect it. Ran by the lovely folk at Frank's Studio."
     soldOut: true
-    poster: "./assets/event-pottery.jpg"
+    poster: "/assets/event-pottery.jpg"
     link: "https://www.franksstudio.co.uk/product-page/ranny-s-stockport-workshops"
     linkText: "Workshop details at Frank's Studio"

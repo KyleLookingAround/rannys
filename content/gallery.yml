@@ -2,18 +2,18 @@
 #  RANNY'S · photos page (photos.html) + the home-page teaser
 #
 #  Drop photos into the public/assets/ folder and point "src" at them,
-#  e.g.  src: "./assets/inside-1.jpg". The first six also show on the
+#  e.g.  src: "/assets/inside-1.jpg". The first six also show on the
 #  home page.
 # ════════════════════════════════════════════════════════════════════
 
 intro: "A few snaps of the place and the good stuff. Pop in and see the real thing."
 photos:
-  - { src: "./assets/storefront.jpg", caption: "our little green shop" }
-  - { src: "./assets/preview.jpg", caption: "the cronut, by Silver Apples Bakery" }
-  - { src: "./assets/menu.jpg", caption: "it's cor-tad-o not cor-tar-do, we know that now" }
-  - { src: "./assets/iced-special.jpg", caption: "the Ranny's Special, over ice" }
-  - { src: "./assets/biscoff.jpg", caption: "bakes o'clock" }
-  - { src: "./assets/window-seats.jpg", caption: "grab a window seat and watch the world go by" }
-  - { src: "./assets/interior.jpg", caption: "a room to linger in" }
-  - { src: "./assets/sketch-stockport.jpg", caption: "our shopfront, by Sketch Stockport" }
-  - { src: "./assets/soda.jpg", caption: "the soft-drink line-up" }
+  - { src: "/assets/storefront.jpg", caption: "our little green shop" }
+  - { src: "/assets/preview.jpg", caption: "the cronut, by Silver Apples Bakery" }
+  - { src: "/assets/menu.jpg", caption: "it's cor-tad-o not cor-tar-do, we know that now" }
+  - { src: "/assets/iced-special.jpg", caption: "the Ranny's Special, over ice" }
+  - { src: "/assets/biscoff.jpg", caption: "bakes o'clock" }
+  - { src: "/assets/window-seats.jpg", caption: "grab a window seat and watch the world go by" }
+  - { src: "/assets/interior.jpg", caption: "a room to linger in" }
+  - { src: "/assets/sketch-stockport.jpg", caption: "our shopfront, by Sketch Stockport" }
+  - { src: "/assets/soda.jpg", caption: "the soft-drink line-up" }

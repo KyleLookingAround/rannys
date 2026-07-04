@@ -11,19 +11,19 @@ note: "Oat, soya and coconut milk all in — no extra charge."
 
 # ── The photo cards ─────────────────────────────────────────────────
 cards:
-  - src: "./assets/atkinsons.jpg"
+  - src: "/assets/atkinsons.jpg"
     caption: "coffee — beans by Atkinsons of Lancaster"
     alt: "An Atkinsons Coffee enamel mug nestled in a bed of freshly ground coffee"
-  - src: "./assets/menu.jpg"
+  - src: "/assets/menu.jpg"
     caption: "tea & hot drinks — chai, matcha, hot chocolate"
     alt: "The wooden board menu on the counter beside fresh flowers and stacked cups"
-  - src: "./assets/iced-special.jpg"
+  - src: "/assets/iced-special.jpg"
     caption: "iced — ask for the Ranny's Special"
     alt: "The Ranny's Special — an iced pistachio latte in a tall glass"
-  - src: "./assets/soda.jpg"
+  - src: "/assets/soda.jpg"
     caption: "soft drinks — craft sodas in the fridge"
     alt: "A line-up of craft sodas — Living Things, Posh Pop, Breckland Orchard and Sipp'd"
-  - src: "./assets/biscoff.jpg"
+  - src: "/assets/biscoff.jpg"
     caption: "cake & bakes — Only Stockport bakes here"
     alt: "A tray of Biscoff bakes on the counter"
 
@@ -31,4 +31,4 @@ cards:
 special:
   name: "The Ranny's Special"
   blurb: "An iced latte combining Moma's pistachio-flavoured oat milk — dairy, gluten and nut free — a drop of Sip Syrups hazelnut, and our house espresso."
-  image: "./assets/iced-special.jpg"
+  image: "/assets/iced-special.jpg"
