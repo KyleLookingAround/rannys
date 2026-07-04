@@ -1,0 +1,61 @@
+---
+import Base from '../layouts/Base.astro';
+import { getEntry } from 'astro:content';
+import { getSettings } from '../lib/site';
+
+const s = await getSettings();
+const menuEntry = await getEntry('menu', 'main');
+if (!menuEntry) throw new Error('content/menu.yml is missing');
+const m = menuEntry.data;
+---
+
+<Base title={`Menu — ${s.name}`} description={`The ${s.name} menu — proper coffee, cake and the good stuff. ${s.locality}.`} nav="menu" page="menu.html">
+
+<!-- PAGE HEADER -->
+<section class="page-head">
+  <div class="page-head-grid">
+    <div>
+      <div class="eyebrow">The Menu</div>
+      <h1 class="page-title">What's <em>on.</em></h1>
+      <p class="page-lede">{m.intro}</p>
+      <p class="page-note">{m.note}</p>
+    </div>
+  </div>
+</section>
+
+<!-- MENU (photo cards — swap photos & captions in content/menu.yml) -->
+<section class="menu">
+  <div class="gallery-grid menu-cards">
+    {m.cards.map((card) => (
+      <figure class="shot">
+        <img src={card.src} alt={card.alt} loading="lazy">
+        <figcaption class="shot-cap">{card.caption}</figcaption>
+      </figure>
+    ))}
+  </div>
+</section>
+
+<!-- HOUSE SPECIAL (photo + description) -->
+<section class="special">
+  <div class="special-inner">
+    <figure class="special-photo">
+      <img src={m.special.image} alt={`${m.special.name} — an iced pistachio latte`} loading="lazy">
+    </figure>
+    <div class="special-text">
+      <div class="eyebrow">The house special</div>
+      <h2>{m.special.name}<em>.</em></h2>
+      <p>{m.special.blurb}</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA strip -->
+<section class="community">
+  <div class="community-inner">
+    <h2>Come and <em>try it.</em></h2>
+    <p>We're on Hempshaw Lane, {s.locality}. Kettle's on.</p>
+    <a class="btn" href="index.html#visit">Find us</a>
+  </div>
+</section>
+
+</Base>

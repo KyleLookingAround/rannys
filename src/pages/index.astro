@@ -1,26 +1,45 @@
+---
+import Base from '../layouts/Base.astro';
+import Gallery from '../components/Gallery.astro';
+import { getEntry } from 'astro:content';
+import { getSettings, mapEmbedUrl, directionsUrl } from '../lib/site';
+
+const s = await getSettings();
+const homeEntry = await getEntry('home', 'main');
+if (!homeEntry) throw new Error('content/home.yml is missing');
+const h = homeEntry.data;
+const galleryEntry = await getEntry('gallery', 'main');
+if (!galleryEntry) throw new Error('content/gallery.yml is missing');
+const teaserPhotos = galleryEntry.data.photos.slice(0, 6);
+
+const listMailto = `mailto:${s.email}?subject=Add%20me%20to%20the%20${encodeURIComponent(s.name)}%20list&body=Hi%2C%0A%0APop%20me%20on%20the%20list%20please.%0A%0AThanks%21`;
+---
+
+<Base title={`${s.name} — coffee, cake & a proper natter`} description={s.description} nav="home" page="index.html">
+
 <!-- HERO (real photo background) -->
-<section class="hero hero-photo" style="background-image: url('{{shop.heroImage}}')">
+<section class="hero hero-photo" style={`background-image: url('${h.heroImage}')`}>
   <div class="hero-overlay"></div>
   <div class="hero-grid">
     <div>
-      <div class="eyebrow">{{shop.eyebrow}}</div>
+      <div class="eyebrow">{h.eyebrow}</div>
       <h1>
         <span class="lime-bg">Coffee,</span><br>
         cake <span class="amp">&amp;</span><br>
         a proper<br>
         natter.
       </h1>
-      <p class="hero-tag">{{shop.tagline}}</p>
+      <p class="hero-tag">{h.tagline}</p>
 
       <div class="hero-meta">
-        <div>Open<span>{{shop.hoursShort}}</span></div>
-        <div>Find us<span>{{shop.street}}</span></div>
-        <div>Postcode<span>{{shop.postcode}}</span></div>
+        <div>Open<span>{s.hoursShort}</span></div>
+        <div>Find us<span>{s.street}</span></div>
+        <div>Postcode<span>{s.postcode}</span></div>
       </div>
 
       <div class="open-flag" data-open-status>
         <span class="pulse"></span>
-        <span class="status-text">{{shop.statusShort}}</span>
+        <span class="status-text">{s.statusShort}</span>
         <span class="of-sub"></span>
       </div>
     </div>
@@ -36,9 +55,8 @@
 <div class="ticker" aria-label="Today at Ranny's">
   <div class="ticker-tag">Today</div>
   <div class="ticker-track">
-    {{#each shop.marquee}}<span>{{this}}</span>
-    {{/each}}{{#each shop.marquee}}<span>{{this}}</span>
-    {{/each}}
+    {h.marquee.map((item) => <span>{item}</span>)}
+    {h.marquee.map((item) => <span>{item}</span>)}
   </div>
 </div>
 
@@ -47,20 +65,18 @@
   <div class="story-inner">
     <div>
       <div class="story-label">01 — The Story</div>
-      <h2>Hi, I'm <em>{{shop.story.name}}</em>.</h2>
+      <h2>Hi, I'm <em>{h.story.name}</em>.</h2>
       <figure class="story-photo">
         <img src="./assets/story.jpg" alt="Rhianne outside the freshly-painted Ranny's, pointing up at the new sign before opening" loading="lazy">
       </figure>
     </div>
     <div>
-      <p class="lede">{{shop.story.lede}}</p>
-      {{#each shop.story.paragraphs}}<p>{{this}}</p>
-      {{/each}}<div class="signature">{{shop.story.signature}}</div>
+      <p class="lede">{h.story.lede}</p>
+      {h.story.paragraphs.map((p) => <p>{p}</p>)}
+      <div class="signature">{h.story.signature}</div>
     </div>
   </div>
 </section>
-
-<div class="leaf-divider" aria-hidden="true"><svg class="sprig"><use href="#sprig"/></svg></div>
 
 <!-- INSIDE -->
 <section class="inside" id="inside">
@@ -73,8 +89,8 @@
         <path d="M42 32h6a6 6 0 0 1 0 12h-6"/>
         <path d="M18 10c0 4 4 4 4 8s-4 4-4 8"/><path d="M28 10c0 4 4 4 4 8s-4 4-4 8"/><path d="M38 10c0 4 4 4 4 8s-4 4-4 8"/>
       </svg>
-      <h3>{{shop.inside.0.title}}</h3>
-      <p>{{shop.inside.0.body}}</p>
+      <h3>{h.inside[0].title}</h3>
+      <p>{h.inside[0].body}</p>
     </div>
     <div class="card">
       <div class="card-num">№ 02</div>
@@ -82,8 +98,8 @@
         <path d="M10 22 L30 12 L50 22 L50 26 L10 26 Z"/><path d="M14 26 L14 48 L46 48 L46 26"/>
         <path d="M20 32 L40 32"/><path d="M18 40 L42 40"/><circle cx="30" cy="18" r="2" fill="currentColor"/>
       </svg>
-      <h3>{{shop.inside.1.title}}</h3>
-      <p>{{shop.inside.1.body}}</p>
+      <h3>{h.inside[1].title}</h3>
+      <p>{h.inside[1].body}</p>
     </div>
     <div class="card">
       <div class="card-num">№ 03</div>
@@ -91,60 +107,46 @@
         <path d="M14 26 C 14 18, 46 18, 46 26 L46 42 C46 48, 14 48, 14 42 Z"/><ellipse cx="30" cy="26" rx="16" ry="4"/>
         <path d="M22 14 C22 10, 24 8, 26 10"/><path d="M30 12 C30 8, 32 6, 34 8"/><path d="M38 14 C38 10, 40 8, 42 10"/>
       </svg>
-      <h3>{{shop.inside.2.title}}</h3>
-      <p>{{shop.inside.2.body}}</p>
+      <h3>{h.inside[2].title}</h3>
+      <p>{h.inside[2].body}</p>
     </div>
   </div>
 </section>
 
-<!-- GALLERY (folded in from the old Photos page — tap to open the lightbox) -->
+<!-- GALLERY TEASER (tap a photo to see the lot) -->
 <section class="gallery" id="gallery">
   <div class="gallery-head">
     <div class="section-eyebrow">The Place</div>
     <h2>Have a <em>nosey.</em></h2>
   </div>
-  <div class="gallery-grid">
-    {{#each shop.photos}}<a class="shot" id="thumb-{{n}}" href="#shot-{{n}}">
-      <img src="{{src}}" alt="{{caption}}" loading="lazy">
-      <span class="shot-cap">{{caption}}</span>
-    </a>
-    {{/each}}
-  </div>
+  <Gallery photos={teaserPhotos} mode="teaser" />
+  <p class="gallery-more"><a class="btn" href="./photos.html">See all the photos</a></p>
 </section>
 
-{{#each shop.photos}}<div class="lightbox" id="shot-{{n}}" role="dialog" aria-label="{{caption}}">
-  <a class="lb-backdrop" href="#thumb-{{n}}" aria-label="Close"></a>
-  <figure class="lb-figure">
-    <img src="{{src}}" alt="{{caption}}">
-    <figcaption class="lb-cap">{{caption}}</figcaption>
-  </figure>
-  <a class="lb-nav lb-prev" href="#shot-{{prev}}" aria-label="Previous photo">‹</a>
-  <a class="lb-nav lb-next" href="#shot-{{next}}" aria-label="Next photo">›</a>
-  <a class="lb-close" href="#thumb-{{n}}" aria-label="Close">✕</a>
-</div>
-{{/each}}
-
 <!-- FEATURED QUOTE BAND (her photo + a line in her voice) -->
-<section class="quote-band" style="background-image: url('{{shop.quote.image}}')">
+<section class="quote-band" style={`background-image: url('${h.quote.image}')`}>
   <div class="quote-overlay"></div>
   <blockquote class="quote">
-    <p>{{shop.quote.text}}</p>
-    <cite>{{shop.quote.by}} <span aria-hidden="true">💚</span></cite>
+    <p>{h.quote.text}</p>
+    <cite>{h.quote.by} <span aria-hidden="true">💚</span></cite>
   </blockquote>
 </section>
 
-<!-- PARTNERS -->
+<!-- SUPPLIERS -->
 <section class="partners" id="partners">
   <div class="partners-inner">
     <div class="partners-label">02 — In Good Company</div>
-    <h2>From our <em>friends.</em></h2>
+    <h2>From our <em>suppliers.</em></h2>
     <div class="partners-grid">
-      {{#each shop.partners}}<div class="partner">
-        <span class="partner-cat">{{category}}</span>
-        <h3>{{nameHtml}}</h3>
-        <p>{{body}}</p>
-      </div>
-      {{/each}}
+      {h.partners.map((p) => (
+        <div class="partner">
+          <span class="partner-cat">{p.category}</span>
+          <h3>{p.url
+            ? <a class="partner-link" href={p.url} target="_blank" rel="noopener">{p.name} ↗</a>
+            : p.name}</h3>
+          <p>{p.body}</p>
+        </div>
+      ))}
     </div>
   </div>
 </section>
@@ -153,20 +155,23 @@
 <section class="made-local" id="made-local">
   <div class="made-local-inner">
     <figure class="ml-art">
-      <img src="{{shop.localArt.image}}" alt="Framed watercolour of the Ranny's shopfront by local artist Sketch Stockport, hung on the shop wall" loading="lazy">
-      <figcaption>{{shop.localArt.caption}}</figcaption>
+      <img src={h.localArt.image} alt="Framed watercolour of the Ranny's shopfront by local artist Sketch Stockport, hung on the shop wall" loading="lazy">
+      <figcaption>{h.localArt.caption}</figcaption>
     </figure>
     <div class="ml-text">
       <div class="section-eyebrow">By local hands</div>
       <h2>Made <em>local.</em></h2>
-      <p class="lede">{{shop.localArt.blurb}}</p>
+      <p class="lede">{h.localArt.blurb}</p>
       <ul class="ml-credits">
-        {{#each shop.localCredits}}<li>
-          <span class="ml-role">{{role}}</span>
-          <span class="ml-name">{{nameHtml}}</span>
-          <span class="ml-note">{{note}}</span>
-        </li>
-        {{/each}}
+        {h.localCredits.map((c) => (
+          <li>
+            <span class="ml-role">{c.role}</span>
+            <span class="ml-name">{c.url
+              ? <a class="ml-link" href={c.url} target="_blank" rel="noopener">{c.name} ↗</a>
+              : c.name}</span>
+            <span class="ml-note">{c.note}</span>
+          </li>
+        ))}
       </ul>
     </div>
   </div>
@@ -177,7 +182,7 @@
   <div class="community-inner">
     <div class="eyebrow">Got a group?</div>
     <h2>Hire out <em>Rannys.</em></h2>
-    <p>{{shop.community.blurb}}</p>
+    <p>{h.community.blurb}</p>
     <a class="btn" href="./bookings.html">See bookings</a>
   </div>
 </section>
@@ -187,8 +192,13 @@
   <div class="signup-inner">
     <div class="eyebrow">On the list</div>
     <h2>Know what's <em>on.</em></h2>
-    <p class="lede">{{shop.mailingList.blurb}}</p>
-    {{shop.signupHtml}}
+    <p class="lede">{h.mailingList.blurb}</p>
+    {h.mailingList.action
+      ? <form class="signup-form" action={h.mailingList.action} method="post" target="_blank">
+          <input class="signup-input" type="email" name={h.mailingList.fieldName} placeholder="you@email.com" required aria-label="Email address">
+          <button class="btn btn-signup" type="submit">Join the list</button>
+        </form>
+      : <a class="btn btn-signup" href={listMailto}>Join the list</a>}
     <p class="signup-fineprint">No spam. No nonsense. Just the good stuff.</p>
   </div>
 </section>
@@ -198,34 +208,33 @@
   <div class="visit-inner">
     <div>
       <div class="visit-label">03 — Come Say Hi</div>
-      <h2>Find us on {{shop.street}}.</h2>
+      <h2>Find us on {s.street}.</h2>
       <div class="address">
-        <strong>{{shop.name}} Coffee Shop</strong>
-        {{shop.street}}<br>
-        {{shop.locality}}, {{shop.postcode}}
+        <strong>{s.name} Coffee Shop</strong>
+        {s.street}<br>
+        {s.locality}, {s.postcode}
       </div>
       <ul class="hours-list">
-        {{#each shop.hours}}<li><span class="hl-day">{{day}}</span><span class="hl-time">{{time}}</span></li>
-        {{/each}}
+        {s.hours.map((hr) => <li><span class="hl-day">{hr.day}</span><span class="hl-time">{hr.time}</span></li>)}
       </ul>
       <ul class="contact-list">
-        <li><span class="lbl">Email</span><a href="mailto:{{shop.email}}">{{shop.email}}</a></li>
-        <li><span class="lbl">Social</span><a href="{{shop.instagram}}" target="_blank" rel="noopener">{{shop.instagramHandle}}</a></li>
+        <li><span class="lbl">Email</span><a href={`mailto:${s.email}`}>{s.email}</a></li>
+        <li><span class="lbl">Social</span><a href={s.instagram} target="_blank" rel="noopener">{s.instagramHandle}</a></li>
       </ul>
     </div>
 
     <div class="map-col">
       <div class="map-card">
         <iframe
-          src="{{shop.mapEmbedUrl}}"
+          src={mapEmbedUrl(s)}
           width="100%" height="100%"
           style="border:0; display:block;"
           loading="lazy"
           referrerpolicy="no-referrer-when-downgrade"
-          title="{{shop.name}} on {{shop.street}}, {{shop.locality}}"
+          title={`${s.name} on ${s.street}, ${s.locality}`}
           allowfullscreen></iframe>
       </div>
-      <a class="map-link" href="{{shop.directionsUrl}}" target="_blank" rel="noopener">Get directions →</a>
+      <a class="map-link" href={directionsUrl(s)} target="_blank" rel="noopener">Get directions →</a>
     </div>
   </div>
 </section>
@@ -239,3 +248,5 @@
     <p class="closer-line">Right then — <em>kettle's on.</em></p>
   </div>
 </section>
+
+</Base>

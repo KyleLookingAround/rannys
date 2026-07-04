@@ -1,7 +1,7 @@
 name: Build check
 
-# Runs the build on every pull request, so a YAML typo in content/ gets
-# caught before it merges to main and takes the site down.
+# Runs the build on every pull request, so a YAML typo or schema error in
+# content/ gets caught before it merges to main and takes the site down.
 
 on:
   pull_request:

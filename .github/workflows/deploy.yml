@@ -1,8 +1,10 @@
 name: Build & deploy
 
 # Builds the site and publishes it to GitHub Pages on every push to main.
-# (Editing content on GitHub.com counts as a push — so you can update
-#  content/site.yml in the browser and the site rebuilds itself.)
+# (Saving in the /admin/ editor or editing content/*.yml on GitHub.com counts
+#  as a push — so the site rebuilds itself after every content change. If the
+#  build fails, the previously deployed site stays live and GitHub emails the
+#  committer.)
 
 on:
   push:

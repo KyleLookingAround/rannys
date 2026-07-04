@@ -1,5 +1,5 @@
 /* Ranny's — a small low-poly enamel mug you can spin.
-   Loaded lazily by app.js (only at the foot of the home page, only when
+   Loaded lazily by app.ts (only at the foot of the home page, only when
    WebGL is available and motion is allowed). A mug is a surface of
    revolution, so the whole body comes from one profile curve via
    LatheGeometry — no model files. Flat-shaded for the painted enamel look,
@@ -12,7 +12,7 @@ const MUSTARD = 0xc89a40, TERRA = 0xb4502a, RIM = 0x7a4220, COFFEE = 0x2c1d0e;
 // colour (material / vertex colours) shows through, with dark & light flecks
 function stonewareMap() {
   const c = document.createElement('canvas'); c.width = c.height = 256;
-  const x = c.getContext('2d');
+  const x = c.getContext('2d')!;
   x.fillStyle = '#efefef'; x.fillRect(0, 0, 256, 256);
   for (let i = 0; i < 1600; i++) {
     const r = Math.random() * 1.5 + 0.3;
@@ -29,7 +29,7 @@ function stonewareMap() {
 const LOGO_RATIO = 760 / 683;   // keep the decal at the artwork's aspect
 function logoTexture() {
   const c = document.createElement('canvas'); c.width = 760; c.height = 683;
-  const x = c.getContext('2d');
+  const x = c.getContext('2d')!;
   const t = new THREE.CanvasTexture(c);
   t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 4;
   const img = new Image();
@@ -66,7 +66,7 @@ function logoTexture() {
   return t;
 }
 
-export function mountMug(stage) {
+export function mountMug(stage: HTMLElement) {
   const size = () => Math.max(120, Math.min(stage.clientWidth, stage.clientHeight) || 300);
 
   const scene = new THREE.Scene();
@@ -110,7 +110,7 @@ export function mountMug(stage) {
   const mug = new THREE.Group();
   const speckle = stonewareMap();
   const mustardMat = new THREE.MeshStandardMaterial({ color: MUSTARD, map: speckle, roughness: 0.85, metalness: 0.02 });
-  const cast = (m) => { m.castShadow = true; return m; };
+  const cast = <T extends THREE.Mesh>(m: T): T => { m.castShadow = true; return m; };
 
   // mug body — profile points (x = radius, y = height), revolved
   const profile = [
@@ -122,7 +122,8 @@ export function mountMug(stage) {
   bodyGeo.center();
   bodyGeo.translate(0, 0.06, 0);
   // two-tone glaze: mustard upper, terracotta lower band (via vertex colours)
-  const cTop = new THREE.Color(MUSTARD), cBot = new THREE.Color(TERRA), cols = [];
+  const cTop = new THREE.Color(MUSTARD), cBot = new THREE.Color(TERRA);
+  const cols: number[] = [];
   const pos = bodyGeo.attributes.position;
   for (let i = 0; i < pos.count; i++) cols.push(...(pos.getY(i) < -0.34 ? cBot : cTop).toArray());
   bodyGeo.setAttribute('color', new THREE.Float32BufferAttribute(cols, 3));
@@ -183,8 +184,8 @@ export function mountMug(stage) {
   const AUTO = 0.0032;
   let vx = 0, dragging = false, lastX = 0;
   const el = renderer.domElement;
-  const down = (x) => { dragging = true; lastX = x; };
-  const move = (x) => { if (!dragging) return; const d = (x - lastX) / 150; mug.rotation.y += d; vx = d; lastX = x; };
+  const down = (x: number) => { dragging = true; lastX = x; };
+  const move = (x: number) => { if (!dragging) return; const d = (x - lastX) / 150; mug.rotation.y += d; vx = d; lastX = x; };
   const up = () => { dragging = false; };
   el.addEventListener('pointerdown', (e) => down(e.clientX));
   addEventListener('pointermove', (e) => move(e.clientX));
@@ -196,7 +197,7 @@ export function mountMug(stage) {
   const resize = () => { const s = size(); renderer.setSize(s, s); };
   if ('ResizeObserver' in window) new ResizeObserver(resize).observe(stage);
 
-  let raf;
+  let raf = 0;
   const loop = () => {
     raf = requestAnimationFrame(loop);
     if (!dragging) {

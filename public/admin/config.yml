@@ -1,0 +1,193 @@
+# Sveltia CMS configuration — maps the site's content files to edit forms.
+# Docs: https://github.com/sveltia/sveltia-cms
+backend:
+  name: github
+  repo: KyleLookingAround/rannys
+  branch: main
+
+media_folder: public/assets   # where uploaded photos land in the repo
+public_folder: ./assets       # how the site refers to them
+
+site_url: https://kylelookingaround.github.io/rannys/
+display_url: https://kylelookingaround.github.io/rannys/
+
+collections:
+  - name: site
+    label: The Site
+    files:
+
+      - name: settings
+        label: "Shop settings (name, hours, contact)"
+        file: content/settings.yml
+        fields:
+          - { name: url, label: "Site address", hint: "The published web address — only change this when moving to a custom domain.", widget: string }
+          - { name: name, label: "Shop name", widget: string }
+          - { name: description, label: "One-line description (search results & link previews)", widget: text }
+          - { name: priceRange, label: "Price range", widget: select, options: ["£", "££", "£££"] }
+          - { name: street, label: "Street", widget: string }
+          - { name: locality, label: "Town", widget: string }
+          - { name: region, label: "Region", widget: string }
+          - { name: postcode, label: "Postcode", widget: string }
+          - { name: country, label: "Country code", widget: string, default: "GB" }
+          - { name: email, label: "Email", widget: string }
+          - { name: instagramHandle, label: "Instagram handle", widget: string }
+          - { name: instagram, label: "Instagram URL", widget: string }
+          - { name: facebook, label: "Facebook URL", widget: string }
+          - { name: previewImage, label: "Link-preview image (1200×630)", widget: image }
+          - { name: statusShort, label: "Status pill text (top of every page)", widget: string }
+          - { name: hoursShort, label: "Short hours line (home hero)", widget: string }
+          - name: hours
+            label: "Opening hours (as shown on the site)"
+            widget: list
+            fields:
+              - { name: day, label: "Day(s)", widget: string }
+              - { name: time, label: "Times", widget: string }
+          - name: openingHours
+            label: "Opening hours (machine format for Google)"
+            hint: "One line per range, like 'Tu-Fr 07:00-16:00'. Powers the live open/closed pill too."
+            widget: list
+            field: { name: line, label: Line, widget: string }
+          - name: press
+            label: "As featured in"
+            widget: list
+            required: false
+            fields:
+              - { name: name, label: "Outlet", widget: string }
+              - { name: url, label: "Link", widget: string }
+
+      - name: home
+        label: "Home page"
+        file: content/home.yml
+        fields:
+          - { name: heroImage, label: "Hero background photo", widget: image }
+          - { name: eyebrow, label: "Hero eyebrow line", widget: string }
+          - { name: tagline, label: "Hero tagline", widget: text }
+          - name: marquee
+            label: "'Today' ticker lines"
+            widget: list
+            field: { name: line, label: Line, widget: string }
+          - name: story
+            label: "The story"
+            widget: object
+            fields:
+              - { name: name, label: "Name", widget: string }
+              - { name: lede, label: "Opening line", widget: string }
+              - name: paragraphs
+                label: "Paragraphs"
+                widget: list
+                field: { name: paragraph, label: Paragraph, widget: text }
+              - { name: signature, label: "Sign-off", widget: string }
+          - name: inside
+            label: "'What you'll find inside' — three cards"
+            widget: list
+            min: 3
+            max: 3
+            fields:
+              - { name: title, label: Title, widget: string }
+              - { name: body, label: Text, widget: text }
+          - name: partners
+            label: "From our suppliers"
+            widget: list
+            fields:
+              - { name: category, label: "Category chip", widget: string }
+              - { name: name, label: "Name", widget: string }
+              - { name: url, label: "Link", widget: string, required: false }
+              - { name: body, label: "Text", widget: text }
+          - name: localArt
+            label: "Made local — featured painting"
+            widget: object
+            fields:
+              - { name: image, label: "Photo", widget: image }
+              - { name: caption, label: "Caption", widget: string }
+              - { name: blurb, label: "Blurb", widget: text }
+          - name: localCredits
+            label: "Made local — credits"
+            widget: list
+            fields:
+              - { name: role, label: "Role", widget: string }
+              - { name: name, label: "Name", widget: string }
+              - { name: url, label: "Link", widget: string, required: false }
+              - { name: note, label: "Note", widget: string, required: false }
+          - name: community
+            label: "Hire-out teaser"
+            widget: object
+            fields:
+              - { name: blurb, label: "Blurb", widget: text }
+          - name: quote
+            label: "Quote band"
+            widget: object
+            fields:
+              - { name: text, label: "Quote", widget: text }
+              - { name: by, label: "By", widget: string }
+              - { name: image, label: "Background photo", widget: image }
+          - name: mailingList
+            label: "Mailing list"
+            widget: object
+            fields:
+              - { name: blurb, label: "Blurb", widget: text }
+              - { name: action, label: "Form provider URL (blank = email button)", widget: string, required: false, default: "" }
+              - { name: fieldName, label: "Form email field name", widget: string, default: "email" }
+
+      - name: menu
+        label: "Menu page"
+        file: content/menu.yml
+        fields:
+          - { name: intro, label: "Intro", widget: text }
+          - { name: note, label: "Small note under the intro", widget: string }
+          - name: cards
+            label: "Photo cards"
+            widget: list
+            fields:
+              - { name: src, label: "Photo", widget: image }
+              - { name: caption, label: "Caption", widget: string }
+              - { name: alt, label: "Photo description (for screen readers)", widget: string }
+          - name: special
+            label: "House special"
+            widget: object
+            fields:
+              - { name: name, label: "Name", widget: string }
+              - { name: blurb, label: "Description", widget: text }
+              - { name: image, label: "Photo", widget: image }
+
+      - name: gallery
+        label: "Photos page"
+        file: content/gallery.yml
+        fields:
+          - { name: intro, label: "Intro", widget: text }
+          - name: photos
+            label: "Photos (first six also show on the home page)"
+            widget: list
+            fields:
+              - { name: src, label: "Photo", widget: image }
+              - { name: caption, label: "Caption", widget: string }
+
+      - name: events
+        label: "Events page"
+        file: content/events.yml
+        fields:
+          - { name: intro, label: "Intro", widget: text }
+          - name: events
+            label: "Events"
+            widget: list
+            required: false
+            fields:
+              - { name: date, label: "Date", widget: string, hint: "YYYY-MM-DD — past events fade for a week, then hide themselves" }
+              - { name: title, label: "Title", widget: string }
+              - { name: when, label: "When (as shown)", widget: string }
+              - { name: description, label: "Description", widget: text }
+              - { name: soldOut, label: "Sold out?", widget: boolean, required: false, default: false }
+              - { name: poster, label: "Poster", widget: image, required: false }
+              - { name: link, label: "Link", widget: string, required: false }
+              - { name: linkText, label: "Link text", widget: string, required: false }
+
+      - name: bookings
+        label: "Bookings page"
+        file: content/bookings.yml
+        fields:
+          - { name: intro, label: "Intro", widget: text }
+          - name: bookingTypes
+            label: "What you can book — cards"
+            widget: list
+            fields:
+              - { name: title, label: "Title", widget: string }
+              - { name: body, label: "Text", widget: text }

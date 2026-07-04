@@ -1,19 +1,19 @@
 {
   "name": "rannys",
-  "version": "1.0.0",
-  "description": "Ranny's — coffee shop website. Static site built from YAML content.",
+  "version": "2.0.0",
+  "description": "Ranny's — coffee shop website. Astro static site built from YAML content.",
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "node build.mjs",
-    "serve": "node build.mjs && npx --yes serve dist -l 5173",
-    "dev": "npm run serve"
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
   },
   "dependencies": {
-    "js-yaml": "^4.1.0"
-  },
-  "devDependencies": {
-    "esbuild": "^0.28.1",
+    "@astrojs/sitemap": "^3.4.0",
+    "astro": "^5.12.0",
+    "js-yaml": "^4.1.0",
     "three": "^0.184.0"
   }
 }
