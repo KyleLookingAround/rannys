@@ -244,15 +244,6 @@ body::before {
   .hero-art { order: -1; }
   .hero-art img { max-width: 360px; }
 }
-.hero-photo { background-size: cover; background-position: center; background-repeat: no-repeat; }
-.hero-photo .hero-overlay {
-  position: absolute; inset: 0; pointer-events: none;
-  background: linear-gradient(100deg,
-    rgba(244,236,216,.97) 0%, rgba(244,236,216,.9) 40%,
-    rgba(244,236,216,.55) 72%, rgba(244,236,216,.25) 100%);
-}
-.hero-photo .hero-grid { position: relative; z-index: 1; }
-
 .eyebrow {
   font-family: var(--text); font-weight: 600;
   font-size: 13px; letter-spacing: 0.16em; text-transform: uppercase;
@@ -347,9 +338,6 @@ body::before {
 .closer-line em { font-style: normal; color: var(--green); }
 
 @media (max-width: 900px) {
-  .hero-photo .hero-overlay {
-    background: linear-gradient(180deg, rgba(244,236,216,.96) 0%, rgba(244,236,216,.82) 62%, rgba(244,236,216,.5) 100%);
-  }
   .mug-stage--sm { max-width: 260px; }
 }
 

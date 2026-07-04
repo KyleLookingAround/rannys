@@ -50,7 +50,6 @@ const settings = defineCollection({
 const home = defineCollection({
   loader: single('content/home.yml'),
   schema: z.object({
-    heroImage: image,
     eyebrow: z.string(),
     tagline: z.string(),
     marquee: z.array(z.string()).min(1),
