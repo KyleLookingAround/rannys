@@ -22,11 +22,22 @@ It shows every page's content as simple forms — text boxes, photo uploads,
 add/remove buttons for lists. Hit **Save** and the site rebuilds and goes live
 on its own a minute or two later.
 
-Signing in: the editor uses your GitHub account. You need a (free) GitHub
-account with access to this repository; on first sign-in it will ask for a
-*personal access token* — create one at GitHub → Settings → Developer settings
-→ Fine-grained tokens, scoped to this repository with **Contents: read and
-write** permission, and paste it in. It's remembered after that.
+Signing in: the editor uses a GitHub account. You need a (free) GitHub
+account that's been added as a **collaborator** on this repository (repo
+Settings → Collaborators → Add people). On first sign-in the editor asks for
+a *personal access token*:
+
+1. On github.com go to **Settings → Developer settings → Personal access
+   tokens → Tokens (classic) → Generate new token (classic)**.
+2. Name it (e.g. "Ranny's site editor"), pick an expiry you're comfortable
+   with, and tick the **`repo`** scope — nothing else.
+3. Generate, copy the token, and paste it into the editor's sign-in box.
+   It's remembered on that device after that.
+
+(It must be a *classic* token: GitHub's newer fine-grained tokens can't yet
+be used on a repository you've been invited to as a collaborator. When the
+token expires, editing stops working with an authentication error — just
+generate a new one the same way.)
 
 **The hands-on way:** edit the files in [`content/`](content/) directly on
 github.com (open a file, click the ✏️ pencil, commit). One file per page:

@@ -59,7 +59,6 @@ collections:
         label: "Home page"
         file: content/home.yml
         fields:
-          - { name: heroImage, label: "Hero background photo", widget: image }
           - { name: eyebrow, label: "Hero eyebrow line", widget: string }
           - { name: tagline, label: "Hero tagline", widget: text }
           - name: marquee
