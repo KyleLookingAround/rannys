@@ -8,11 +8,14 @@
  */
 import { defineCollection, z } from 'astro:content';
 import { file } from 'astro/loaders';
-import { load } from 'js-yaml';
+import { load, CORE_SCHEMA } from 'js-yaml';
 
 // Wrap a whole YAML file as one entry so `getEntry(name, 'main')` returns it.
+// CORE_SCHEMA keeps unquoted dates as plain strings (the default schema turns
+// "date: 2026-06-30" into a Date object, which is what the /admin editor
+// writes and would fail the string schemas below).
 const single = (path: string) =>
-  file(path, { parser: (text) => [{ id: 'main', ...(load(text) as Record<string, unknown>) }] });
+  file(path, { parser: (text) => [{ id: 'main', ...(load(text, { schema: CORE_SCHEMA }) as Record<string, unknown>) }] });
 
 // Image paths are stored as "/assets/…" (the form the /admin editor writes)
 // and normalised to the relative "./assets/…" the pages need — every built
