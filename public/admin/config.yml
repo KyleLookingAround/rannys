@@ -6,7 +6,7 @@ backend:
   branch: main
 
 media_folder: public/assets   # where uploaded photos land in the repo
-public_folder: ./assets       # how the site refers to them
+public_folder: /assets        # how the content files refer to them
 
 site_url: https://kylelookingaround.github.io/rannys/
 display_url: https://kylelookingaround.github.io/rannys/

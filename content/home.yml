@@ -3,7 +3,7 @@
 # ════════════════════════════════════════════════════════════════════
 
 # ── Hero ───────────────────────────────────────────────────────────
-heroImage: "./assets/hero-bg.jpg"      # front-page background photo
+heroImage: "/assets/hero-bg.jpg"      # front-page background photo
 eyebrow: "Hempshaw Lane · Offerton, Stockport"
 tagline: "The little green coffee shop on Hempshaw Lane. Beans by Atkinsons of Lancaster, ridiculously good cake, and a warm room to linger in. No airs, no graces — just a good brew and a proper natter."
 
@@ -51,7 +51,7 @@ partners:
 #  Featured painting credit + a strip of everyone local who made the
 #  place what it is. Add `url:` to any line to turn the name into a link.
 localArt:
-  image: "./assets/sketch-stockport.jpg"
+  image: "/assets/sketch-stockport.jpg"
   caption: "Our shopfront, painted by Sketch Stockport — hung on the wall by the window."
   blurb: "Nothing here is off-a-shelf. The art on the walls, the sign over the door, the photos you've been scrolling — all made by people from round here."
 localCredits:
@@ -83,7 +83,7 @@ community:
 quote:
   text: "What a start. We honestly couldn't be prouder of the little place we've made."
   by: "Ranny's x"
-  image: "./assets/interior.jpg"
+  image: "/assets/interior.jpg"
 
 # ── Mailing list ("on the list") ───────────────────────────────────
 # For now this is a one-tap email. To switch to a proper subscribe form,

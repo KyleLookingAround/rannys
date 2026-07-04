@@ -30,7 +30,7 @@ instagram: "https://www.instagram.com/rannyscoffeeshop"
 facebook: "https://facebook.com/61583039575566"
 
 # ── Link-preview card (WhatsApp/Twitter/Facebook) — 1200×630 ───────
-previewImage: "./assets/share-card.png"
+previewImage: "/assets/share-card.png"
 
 # ── Opening status + hours ─────────────────────────────────────────
 statusShort: "Open Tue–Sun"          # the little pill, top-right of every page
