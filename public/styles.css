@@ -38,7 +38,6 @@
   --terra-text: #a8420c;
   --wood: #5b3a24;        /* chalkboard / walnut */
   --wood-light: #9a5a2c;  /* tables */
-  --brass: #b08d57;       /* brass trays / divider rules */
   --hazelnut: #7c5a42;    /* "Roasted Hazelnut" — the What's-on band */
   --brown: #241710;
   --brown-mid: #4a3220;
@@ -101,9 +100,9 @@ body::before {
 .community :focus-visible, .closer :focus-visible { outline-color: var(--cream); }
 
 /* Shared display-heading helpers */
-.display, .hero h1, .page-title, .marquee, .ticker-track, .menu-cat,
+.display, .hero h1, .page-title, .marquee, .ticker-track,
 .story h2, .inside h2, .community h2, .partners h2, .signup h2, .visit h2,
-.event-title, .ev-day, .mi-price, footer .wordmark, .logo, .badge .big {
+.event-title, .ev-day, footer .wordmark, .logo, .badge .big {
   font-family: var(--display);
   font-weight: 800;
   letter-spacing: 0;
@@ -457,6 +456,7 @@ body::before {
   letter-spacing: 0.08em; text-transform: uppercase; color: var(--brown);
   padding: 12px 14px; border-top: var(--rule) solid var(--brown);
 }
+.gallery-more { max-width: 1140px; margin: 40px auto 0; text-align: center; }
 @media (max-width: 820px) { .gallery-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 520px) { .gallery-grid { grid-template-columns: 1fr; } }
 
@@ -680,26 +680,9 @@ footer .small { font-family: var(--text); font-weight: 500; font-size: 11px; let
 .page-note { font-family: var(--text); font-weight: 600; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--brown-mid); margin-top: 18px; }
 @media (max-width: 820px) { .page-head-grid { grid-template-columns: 1fr; gap: 26px; } }
 
-/* ===== Menu (enamel board) ===== */
+/* ===== Menu (photo cards) ===== */
 .menu { padding: 70px 28px 100px; background: var(--cream); }
-.menu-inner {
-  max-width: 780px; margin: 0 auto;
-  background: var(--board); border: var(--rule) solid var(--brown); border-radius: 24px;
-  box-shadow: 12px 12px 0 var(--brown);
-  padding: 48px clamp(24px, 5vw, 56px);
-  display: grid; gap: 44px;
-}
-.menu-section { break-inside: avoid; }
-.menu-cat { font-family: var(--display); font-size: clamp(28px, 4vw, 42px); text-transform: uppercase; letter-spacing: 0.01em; color: var(--brown); border-bottom: var(--rule) solid var(--brown); padding-bottom: 8px; }
-.menu-cat-note { font-family: var(--text); font-weight: 600; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--brown-mid); margin-top: 8px; }
-.menu-list { list-style: none; margin-top: 16px; }
-.menu-item { display: flex; align-items: baseline; gap: 8px; padding: 9px 0; font-size: 19px; }
-.mi-name { color: var(--brown); font-weight: 500; }
-.mi-note { font-family: var(--text); font-weight: 600; font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--brown-mid); margin-left: 6px; }
-.mi-dots { flex: 1; border-bottom: 2px dotted var(--brown-mid); opacity: .5; transform: translateY(-4px); }
-.mi-price { font-family: var(--display); font-size: 22px; color: var(--terra-text); white-space: nowrap; letter-spacing: 0.01em; }
-.menu-fallback { max-width: 780px; margin: 24px auto 0; text-align: center; font-family: var(--text); font-weight: 500; font-size: 13px; letter-spacing: 0.03em; color: var(--brown-mid); }
-.menu-fallback a { color: var(--terra-text); }
+.menu-cards figure.shot { margin: 0; }
 
 /* ===== Events (ticket stubs) ===== */
 .events { padding: 64px 28px 96px; background: var(--cream); }
@@ -782,7 +765,7 @@ footer .small { font-family: var(--text); font-weight: 500; font-size: 11px; let
 /* Big headings in a friendly mixed case (warmer than all-caps), with the
    rounded display face. Small labels/chips stay uppercase for the sign look.
    Placed last so it wins over the per-component text-transform rules. */
-.hero h1, .page-title, .menu-cat, .story h2, .inside h2, .gallery-head h2,
+.hero h1, .page-title, .story h2, .inside h2, .gallery-head h2,
 .community h2, .partners h2, .signup h2, .visit h2, .event-title, .closer-line,
 footer .wordmark, .topbar .logo, .address strong, .open-flag, .ticker-tag {
   text-transform: none;
@@ -794,11 +777,10 @@ footer .wordmark, .topbar .logo, .address strong, .open-flag, .ticker-tag {
    Decorative hand-made surface: wobbly borders, tape, pins,
    polaroids, handwriting. Text stays on flat paper, crisp.
    ============================================================ */
-.svg-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
 
 /* Handwriting accents — eyebrows, labels and captions = margin notes */
 .eyebrow, .section-eyebrow, .story-label, .partners-label, .visit-label,
-.page-note, .menu-cat-note, .signature, .mug-hint, .shot-cap, .ticker-tag {
+.page-note, .signature, .mug-hint, .shot-cap, .ticker-tag {
   font-family: var(--hand);
   text-transform: none;
   letter-spacing: 0;
@@ -808,7 +790,7 @@ footer .wordmark, .topbar .logo, .address strong, .open-flag, .ticker-tag {
 }
 .eyebrow { gap: 10px; }
 .eyebrow::before { border-radius: 3px; }
-.page-note, .menu-cat-note { font-size: 19px; font-weight: 600; }
+.page-note { font-size: 19px; font-weight: 600; }
 .signature { font-family: var(--hand); font-size: 40px; }
 .mug-hint { font-size: 17px; letter-spacing: 0; }
 .ticker-tag { font-size: 30px; }
@@ -864,20 +846,6 @@ footer .wordmark, .topbar .logo, .address strong, .open-flag, .ticker-tag {
   box-shadow: 0 6px 14px rgba(36, 23, 16, 0.16);
 }
 
-/* Eucalyptus-sprig dividers between sections (brass rule + sprig) */
-.leaf-divider {
-  display: flex; align-items: center; justify-content: center; gap: 16px;
-  max-width: 740px; margin: 0 auto; padding: 30px 28px;
-}
-.leaf-divider::before, .leaf-divider::after {
-  content: ''; height: 2px; flex: 1; max-width: 130px; border-radius: 2px;
-  background: linear-gradient(90deg, transparent, var(--brass));
-}
-.leaf-divider::after { transform: scaleX(-1); }
-.leaf-divider .sprig { flex: none; width: 42px; height: auto; color: var(--green-deep); display: block; }
-.leaf-divider .marigold { flex: none; width: 30px; height: auto; color: var(--orange); display: block; }
-.sprig.flip { transform: scaleX(-1); }
-
 /* Featured quote band — her photo behind a line in her voice */
 .quote-band {
   position: relative; padding: clamp(80px, 12vw, 130px) 28px;
@@ -886,7 +854,6 @@ footer .wordmark, .topbar .logo, .address strong, .open-flag, .ticker-tag {
 }
 .quote-overlay { position: absolute; inset: 0; background: linear-gradient(rgba(36,23,16,.66), rgba(36,23,16,.60)); }
 .quote { position: relative; z-index: 1; max-width: 860px; margin: 0 auto; }
-.quote .marigold { width: 42px; height: auto; color: var(--orange); margin: 0 auto 16px; display: block; }
 .quote p { font-family: var(--display); font-weight: 800; font-size: clamp(28px, 4.4vw, 50px); line-height: 1.18; color: var(--cream); }
 .quote cite { display: block; font-style: normal; font-family: var(--hand); font-size: 32px; color: var(--green); margin-top: 20px; }
 
@@ -897,42 +864,6 @@ footer .wordmark, .topbar .logo, .address strong, .open-flag, .ticker-tag {
   box-shadow: 0 10px 24px rgba(36, 23, 16, 0.14);
 }
 .story-photo img { display: block; width: 100%; height: auto; }
-
-/* Footer flora */
-.foot-flora { display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 18px; }
-.foot-flora .sprig { width: 46px; height: auto; color: var(--green); }
-.foot-flora .marigold { width: 34px; height: auto; color: var(--orange); }
-
-/* ===== Chalkboard menu — her wooden board, white chalk ===== */
-.menu-inner {
-  position: relative; color: var(--cream);
-  background-color: var(--wood);
-  background-image:
-    repeating-linear-gradient(91deg, rgba(0,0,0,.05) 0 2px, transparent 2px 8px),
-    linear-gradient(165deg, #6d4429 0%, #4d3120 100%);
-  border: 3px solid #3c2716;
-  box-shadow: 0 14px 30px rgba(36, 23, 16, 0.34);
-}
-/* inner chalk-line frame */
-.menu-inner::before {
-  content: ''; position: absolute; inset: 9px; border-radius: 14px;
-  border: 2px solid rgba(244, 236, 216, 0.4); pointer-events: none;
-}
-.menu-cat {
-  font-family: var(--hand); font-weight: 700; color: var(--cream);
-  text-transform: none; letter-spacing: 0;
-  border-bottom: 2px solid rgba(244, 236, 216, 0.35);
-}
-.menu-cat-note { color: rgba(244, 236, 216, 0.72); }
-.mi-name { color: var(--cream); font-family: var(--hand); font-size: 23px; font-weight: 600; }
-.mi-note { color: rgba(244, 236, 216, 0.6); }
-.mi-dots { border-bottom: 2px dotted rgba(244, 236, 216, 0.4); opacity: 1; }
-.mi-price { color: var(--cream); font-family: var(--hand); font-size: 26px; }
-.menu-item { padding: 7px 0; }
-.chalk-doodle { position: absolute; color: rgba(244, 236, 216, 0.85); pointer-events: none; z-index: 3; }
-.chalk-doodle svg { width: 100%; height: auto; display: block; }
-.cd-1 { top: 20px; right: 30px; width: 36px; transform: rotate(8deg); }
-.cd-2 { bottom: 24px; left: 28px; width: 30px; transform: rotate(-6deg); }
 
 /* ===== House special (Menu page) ===== */
 .special { padding: 80px 28px; background: var(--cream-warm); border-block: var(--rule) solid var(--brown); }

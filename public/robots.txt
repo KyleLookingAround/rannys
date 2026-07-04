@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /rannys/admin/
+
+Sitemap: https://kylelookingaround.github.io/rannys/sitemap-index.xml

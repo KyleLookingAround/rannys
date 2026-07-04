@@ -1,0 +1,13 @@
+# ════════════════════════════════════════════════════════════════════
+#  RANNY'S · bookings page (bookings.html)
+# ════════════════════════════════════════════════════════════════════
+
+intro: "We've chosen every piece of furniture and little detail carefully, to make the space feel like a home away from home. Fancy borrowing it? Private events — baby showers, hen dos and the like — or just a corner for your group. Tell us what you're after and we'll sort it."
+
+bookingTypes:
+  - title: "Private hire"
+    body: "Have the whole shop after hours for a get-together, a launch, or a do. We'll talk numbers, food and timings with you."
+  - title: "Group meet-ups"
+    body: "Book clubs, knit nights, running crews, new-mum hangs — a reserved corner and a standing welcome. Often free; just ask."
+  - title: "Celebrations"
+    body: "Birthdays, baby showers and the like. A warm room, good coffee and cake sorted — you bring the people."

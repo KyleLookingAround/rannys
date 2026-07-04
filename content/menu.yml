@@ -1,0 +1,34 @@
+# ════════════════════════════════════════════════════════════════════
+#  RANNY'S · menu page (menu.html)
+#
+#  The menu is a handful of photo cards with captions — no price list.
+#  Swap a photo by changing `src` (drop the file into public/assets/
+#  first), and keep captions short and in the shop's voice.
+# ════════════════════════════════════════════════════════════════════
+
+intro: "Beans by Atkinsons of Lancaster, made properly. Bakes from people who know what they're doing. No 17-word drink names — just the good stuff. Oat, soya and coconut milk all in."
+note: "Oat, soya and coconut milk all in — no extra charge."
+
+# ── The photo cards ─────────────────────────────────────────────────
+cards:
+  - src: "./assets/atkinsons.jpg"
+    caption: "coffee — beans by Atkinsons of Lancaster"
+    alt: "An Atkinsons Coffee enamel mug nestled in a bed of freshly ground coffee"
+  - src: "./assets/menu.jpg"
+    caption: "tea & hot drinks — chai, matcha, hot chocolate"
+    alt: "The wooden board menu on the counter beside fresh flowers and stacked cups"
+  - src: "./assets/iced-special.jpg"
+    caption: "iced — ask for the Ranny's Special"
+    alt: "The Ranny's Special — an iced pistachio latte in a tall glass"
+  - src: "./assets/soda.jpg"
+    caption: "soft drinks — craft sodas in the fridge"
+    alt: "A line-up of craft sodas — Living Things, Posh Pop, Breckland Orchard and Sipp'd"
+  - src: "./assets/biscoff.jpg"
+    caption: "cake & bakes — Only Stockport bakes here"
+    alt: "A tray of Biscoff bakes on the counter"
+
+# ── House special (featured with a photo) ───────────────────────────
+special:
+  name: "The Ranny's Special"
+  blurb: "An iced latte combining Moma's pistachio-flavoured oat milk — dairy, gluten and nut free — a drop of Sip Syrups hazelnut, and our house espresso."
+  image: "./assets/iced-special.jpg"

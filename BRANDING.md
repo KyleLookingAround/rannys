@@ -13,7 +13,7 @@ legible — the green is light, so text on it is dark ink, and everything meets
 WCAG AA contrast.
 
 > The whole system is defined once as design tokens at the top of
-> `src/styles.css` (`:root`). This document explains those tokens; change them
+> `public/styles.css` (`:root`). This document explains those tokens; change them
 > there and the site re-themes.
 
 ---
@@ -25,7 +25,7 @@ WCAG AA contrast.
   a cream/dark outline, in the topbar and footer. Headings are **Baloo 2** in
   warm mixed (sentence) case — friendly, not shouty. Only small labels/chips
   are uppercase.
-- The favicon / app icon is a green tile with a bold **"R"** (`assets/icon.svg`).
+- The favicon / app icon is a green tile with a bold **"R"** (`public/assets/icon.svg`).
 
 **Don't:** drop the apostrophe · set the wordmark in anything but the rounded
 orange · recolour the green · crowd the logo with borders.
@@ -34,7 +34,7 @@ orange · recolour the green · crowd the logo with borders.
 
 ## 2. Colour palette
 
-Defined as CSS custom properties at the top of `src/styles.css`:
+Defined as CSS custom properties at the top of `public/styles.css`:
 
 | Token            | Hex        | Use                                            |
 |------------------|------------|------------------------------------------------|
@@ -61,7 +61,7 @@ to keep surfaces feeling printed rather than flat.
 
 ## 3. Typography
 
-Four self-hosted faces (`assets/fonts/`):
+Four self-hosted faces (`public/assets/fonts/`):
 
 - **Bagel Fat One** (`--logo`) — the fat rounded orange wordmark, matching her
   fascia sign. Used only for the "Ranny's" lockup (topbar + footer).

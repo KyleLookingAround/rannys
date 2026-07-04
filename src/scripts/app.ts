@@ -1,34 +1,42 @@
 /* Ranny's — progressive enhancement.
    The site works fully without this file; it just adds live touches:
-   1) a real "open now / closed" status from the hours in content/site.yml
+   1) a real "open now / closed" status from the hours in content/settings.yml
    2) keyboard support for the burger menu and photo lightbox
    3) a little cup that fills as you scroll
-   4) a lazy-loaded 3D enamel mug on the home hero (see mug.js)            */
+   4) a lazy-loaded 3D enamel mug on the home page (see mug.ts)
+   5) fading/hiding of past events                                          */
+
+type HoursData = { tz?: string; days?: Record<number, [number, number][]> };
+declare global {
+  interface Window { __RANNYS__?: HoursData }
+}
 
 const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 /* ---------- 1) live open / closed status ---------- */
-const WEEKDAY = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
+const WEEKDAY: Record<string, number> = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
 const DAY_NAME = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
-function fmtTime(mins) {
-  let h = Math.floor(mins / 60), m = mins % 60;
+function fmtTime(mins: number): string {
+  let h = Math.floor(mins / 60);
+  const m = mins % 60;
   const ap = h >= 12 ? 'pm' : 'am';
   h = h % 12 || 12;
   return m ? `${h}:${String(m).padStart(2, '0')}${ap}` : `${h}${ap}`;
 }
 
-function nowInLondon(tz) {
+function nowInLondon(tz: string) {
   const parts = new Intl.DateTimeFormat('en-GB', {
     timeZone: tz, weekday: 'short', hour: '2-digit', minute: '2-digit', hour12: false,
   }).formatToParts(new Date());
-  const get = (t) => parts.find((p) => p.type === t)?.value;
-  const day = WEEKDAY[get('weekday')] ?? new Date().getDay();
-  let hour = parseInt(get('hour'), 10); if (hour === 24) hour = 0;
-  return { day, mins: hour * 60 + parseInt(get('minute'), 10) };
+  const get = (t: string) => parts.find((p) => p.type === t)?.value;
+  const day = WEEKDAY[get('weekday') ?? ''] ?? new Date().getDay();
+  let hour = parseInt(get('hour') ?? '0', 10);
+  if (hour === 24) hour = 0;
+  return { day, mins: hour * 60 + parseInt(get('minute') ?? '0', 10) };
 }
 
-function computeStatus(data) {
+function computeStatus(data: HoursData) {
   const days = data.days || {};
   const { day, mins } = nowInLondon(data.tz || 'Europe/London');
 
@@ -54,7 +62,7 @@ function computeStatus(data) {
 
 function paintStatus() {
   const data = window.__RANNYS__;
-  const nodes = document.querySelectorAll('[data-open-status]');
+  const nodes = document.querySelectorAll<HTMLElement>('[data-open-status]');
   if (!data || !nodes.length) return;
   const s = computeStatus(data);
   nodes.forEach((el) => {
@@ -69,20 +77,24 @@ function paintStatus() {
 
 /* ---------- 2) keyboard support ---------- */
 function wireBurger() {
-  const burger = document.querySelector('.burger');
-  const toggle = document.getElementById('nav-toggle');
+  const burger = document.querySelector<HTMLElement>('.burger');
+  const toggle = document.getElementById('nav-toggle') as HTMLInputElement | null;
   if (!burger || !toggle) return;
+  const sync = () => burger.setAttribute('aria-expanded', String(toggle.checked));
   burger.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle.checked = !toggle.checked; sync(); }
   });
-  const sync = () => burger.setAttribute('aria-expanded', String(toggle.checked));
   toggle.addEventListener('change', sync);
   document.querySelectorAll('.topbar nav a').forEach((a) =>
     a.addEventListener('click', () => { toggle.checked = false; sync(); }));
 }
 
 function wireLightbox() {
-  const go = (sel, box) => { const a = box.querySelector(sel); if (a) location.href = a.getAttribute('href'); };
+  const go = (sel: string, box: Element) => {
+    const a = box.querySelector(sel);
+    const href = a?.getAttribute('href');
+    if (href) location.href = href;
+  };
   document.addEventListener('keydown', (e) => {
     const box = document.querySelector('.lightbox:target');
     if (!box) return;
@@ -93,7 +105,7 @@ function wireLightbox() {
   // move focus to the open lightbox's close button for keyboard users
   addEventListener('hashchange', () => {
     const box = document.querySelector('.lightbox:target');
-    if (box) box.querySelector('.lb-close')?.focus();
+    if (box) box.querySelector<HTMLElement>('.lb-close')?.focus();
   });
 }
 
@@ -112,7 +124,7 @@ function buildScrollCup() {
     '<ellipse cx="22" cy="42" rx="16" ry="2.6" fill="#827d19" stroke="#241710" stroke-width="2"/>' +
     '</svg>';
   document.body.appendChild(el);
-  const fill = el.querySelector('.cup-fill');
+  const fill = el.querySelector('.cup-fill')!;
   const TOP = 15, H = 23;
   let ticking = false;
   const update = () => {
@@ -129,7 +141,7 @@ function buildScrollCup() {
   update();
 }
 
-/* ---------- 4) lazy 3D mug on the home hero ---------- */
+/* ---------- 4) lazy 3D mug on the home page ---------- */
 function hasWebGL() {
   try {
     const c = document.createElement('canvas');
@@ -137,10 +149,10 @@ function hasWebGL() {
   } catch { return false; }
 }
 function maybeMountMug() {
-  const stage = document.querySelector('[data-mug]');
+  const stage = document.querySelector<HTMLElement>('[data-mug]');
   if (!stage || reduceMotion || !hasWebGL()) return;   // stage stays hidden
   stage.hidden = false;                                 // reveal now we'll mount
-  const start = () => import('./mug.js').then((m) => m.mountMug(stage)).catch(() => { stage.hidden = true; });
+  const start = () => import('./mug').then((m) => m.mountMug(stage)).catch(() => { stage.hidden = true; });
   if ('IntersectionObserver' in window) {
     const io = new IntersectionObserver((entries) => {
       if (entries.some((e) => e.isIntersecting)) { io.disconnect(); start(); }
@@ -159,8 +171,8 @@ function tidyEvents() {
     const iso = el.getAttribute('data-date');
     if (!iso) return;
     const d = new Date(iso + 'T00:00:00');
-    if (isNaN(d)) return;
-    const daysPast = Math.round((today - d) / 86400000);
+    if (isNaN(d.getTime())) return;
+    const daysPast = Math.round((today.getTime() - d.getTime()) / 86400000);
     if (daysPast > 7) { el.remove(); return; }       // over a week old → hide
     if (daysPast >= 1) {                              // been & gone → fade, links off
       el.classList.add('is-past');
@@ -175,7 +187,7 @@ function tidyEvents() {
   });
   if (!list.querySelector('.event')) {                // nothing left → show the note
     list.remove();
-    const note = document.querySelector('.events-none');
+    const note = document.querySelector<HTMLElement>('.events-none');
     if (note) note.hidden = false;
   }
 }

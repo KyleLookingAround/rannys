@@ -1,62 +1,55 @@
 # Ranny's — website
 
 The site for **Ranny's**, an independent coffee shop on Hempshaw Lane,
-Stockport. A warm, retro-caff site — Home, Menu, Events and Bookings, with a
-photo gallery on the home page — all driven from a single plain-text content
-file so anyone can update it.
+Stockport. A warm, retro-caff site — Home, Menu, Events, Photos and Bookings —
+all driven from a handful of plain-text content files so anyone can update it.
 
-It's a **static site**. A small build step turns the content file into the
-finished pages in `dist/`, and GitHub Pages serves it. There's no database and
-nothing to run in the background. The pages are plain HTML + CSS and load fast;
-a small JavaScript layer (`src/app.js`) adds progressive-enhancement touches —
-a live "open now / closed" status, keyboard support for the menu and photo
-lightbox, a cup that fills as you scroll, and a lazy-loaded 3D mug on the home
-hero. Everything still works with JavaScript switched off.
+It's a **static site**, built with [Astro](https://astro.build). The build
+turns the content files into finished pages in `dist/`, and GitHub Pages
+serves them. There's no database and nothing to run in the background. The
+pages are plain HTML + CSS and load fast; a small JavaScript layer
+(`src/scripts/app.ts`) adds progressive-enhancement touches — a live "open
+now / closed" status, keyboard support for the menu and photo lightbox, a cup
+that fills as you scroll, and a lazy-loaded 3D mug at the foot of the home
+page. Everything still works with JavaScript switched off.
 
 ---
 
 ## ✏️ Updating the site (no coding needed)
 
-You only ever touch one file: **`content/site.yml`**.
+**The easy way: the editor at [`/admin/`](https://kylelookingaround.github.io/rannys/admin/).**
+It shows every page's content as simple forms — text boxes, photo uploads,
+add/remove buttons for lists. Hit **Save** and the site rebuilds and goes live
+on its own a minute or two later.
 
-It holds everything editable across all five pages — the shop name, address,
-opening hours, the hero copy, the marquee words, your story, the "what's
-inside" cards, the partners, the **coffee menu**, the **events**, the **photos**,
-the **bookings** options, the mailing-list blurb and your contact/social links.
-Each block is labelled with a comment explaining what it does. Change the text
-inside the `"quotes"`, keep the labels and the indentation as they are.
+Signing in: the editor uses your GitHub account. You need a (free) GitHub
+account with access to this repository; on first sign-in it will ask for a
+*personal access token* — create one at GitHub → Settings → Developer settings
+→ Fine-grained tokens, scoped to this repository with **Contents: read and
+write** permission, and paste it in. It's remembered after that.
 
-The site has four pages, all built from that one file:
-**Home**, **Menu**, **Events** and **Bookings** (the photos live in a gallery
-on the home page).
+**The hands-on way:** edit the files in [`content/`](content/) directly on
+github.com (open a file, click the ✏️ pencil, commit). One file per page:
 
-- **Menu** — add/remove sections (Coffee, Cake…) and items under `shop.menu`.
-  `price` and `note` are optional on each item. It's typeset straight onto the
-  page — no image to re-export.
-- **Events** — add a block per event under `shop.events` (`date` as
-  `YYYY-MM-DD`, plus `title`, `when`, `description`; optional `soldOut`, `link`
-  and `linkText`). The date pill is made from `date`, and once an event has
-  passed the site fades it (links off) for a week, then hides it on its own.
-  Empty the list and the page shows a tidy "nothing on right now" note.
-- **Photos** — drop image files into `assets/` and point each `src` under
-  `shop.photos` at them (e.g. `./assets/inside-1.jpg`). They show in the gallery
-  on the home page; until then they show a placeholder tile.
-- **Opening hours** — edit `shop.hours` (shown on the page) and
-  `shop.openingHours` (the machine-readable version the live open/closed status
-  reads). Keep the two in step.
-- **Bookings** — intro + the "what you can book" cards under `shop.bookingTypes`.
-  The enquiry button opens a pre-filled email to you.
-- **Mailing list** — a one-tap email for now. To use a real signup form, paste
-  your provider's form URL into `shop.mailingList.action` (see the comment there).
+| File | What's in it |
+|---|---|
+| `content/settings.yml` | Name, address, contact, opening hours, press links |
+| `content/home.yml` | Hero, ticker, the story, suppliers, local credits, mailing list |
+| `content/menu.yml` | The menu photo cards + the house special |
+| `content/gallery.yml` | The photos (the first six also show on the home page) |
+| `content/events.yml` | What's on — past events fade, then hide themselves |
+| `content/bookings.yml` | The bookings cards + intro |
 
-> **Editing on github.com is the easy way:** open `content/site.yml`, click the
-> ✏️ pencil, make your change, and hit *Commit*. The site rebuilds and goes
-> live on its own a minute or two later.
-
-A couple of gentle rules so nothing breaks: use spaces (never tabs) for
+A couple of gentle rules for hand-editing: use spaces (never tabs) for
 indentation, keep values inside quotes, and line up the `-` in a list with the
-examples already there. (The map and "get directions" links are generated
-automatically from the address — no need to touch any URLs.)
+examples already there.
+
+**A safety net either way:** every edit is checked when the site rebuilds. If
+something's off — a missing field, broken indentation — the build stops with a
+clear message and **the live site stays exactly as it was**. If that happens
+you'll get an email from GitHub saying the workflow failed; it just means the
+last edit didn't go live. Open the edit again and fix it (or ask a developer
+to look at the error in the repo's *Actions* tab).
 
 ---
 
@@ -64,17 +57,20 @@ automatically from the address — no need to touch any URLs.)
 
 ```bash
 npm install      # one time
+npm run dev      # live-reloading dev server at http://localhost:4321/rannys
 npm run build    # writes the finished site to dist/
-npm run serve    # builds, then serves dist/ at http://localhost:5173
+npm run preview  # serves the built dist/ locally
 ```
 
 ---
 
 ## 🚀 How it gets published
 
-Pushing to the `main` branch (including editing content on github.com) triggers
-the GitHub Actions workflow in `.github/workflows/deploy.yml`, which builds the
-site and deploys `dist/` to **GitHub Pages**.
+Pushing to the `main` branch (including saving in `/admin/` or editing content
+on github.com) triggers the GitHub Actions workflow in
+`.github/workflows/deploy.yml`, which builds the site and deploys `dist/` to
+**GitHub Pages**. Pull requests get a build check (`ci.yml`) so a broken edit
+can't merge unnoticed.
 
 One-time setup: in the repo, go to **Settings → Pages → Build and deployment**
 and set **Source = "GitHub Actions"**.
@@ -85,39 +81,39 @@ and set **Source = "GitHub Actions"**.
 
 ```
 rannys/
-├── content/
-│   └── site.yml              ← edit this (plain text, no code): all the site's content
+├── content/                  ← edit these (plain text, no code): all the site's content
+│   ├── settings.yml            shop identity, hours, contact, press
+│   ├── home.yml                the home page
+│   ├── menu.yml                menu photo cards + house special
+│   ├── gallery.yml             the photos page (+ home teaser)
+│   ├── events.yml              what's on
+│   └── bookings.yml            bookings
 ├── src/                      ← the site itself (for developers)
-│   ├── layout.html           ← shared shell (head, header nav, footer)
-│   ├── pages/                ← the body of each page ({{tokens}} + {{#each}}/{{#if}})
-│   │   ├── home.html         ← hero, ticker, story, gallery, partners, visit…
-│   │   ├── menu.html
-│   │   ├── events.html
-│   │   └── bookings.html
-│   ├── app.js                ← progressive enhancement (live status, a11y, scroll cup)
-│   ├── mug.js                ← the lazy-loaded 3D enamel mug (three.js)
-│   ├── styles.css            ← all styling (design tokens at the top)
-│   ├── 404.html              ← "not found" page
-│   └── site.webmanifest      ← PWA / home-screen metadata
-├── assets/                   ← icons & images copied into the site as-is
-│   ├── icon.svg              ← the lime "R" favicon / app icon
-│   └── photo-placeholder.svg ← shown in the gallery until real photos are added
-├── build.mjs                 ← fills content/site.yml into the templates → dist/
+│   ├── content.config.ts       schemas that guard every content file at build time
+│   ├── layouts/Base.astro      shared shell (head, meta/OG/JSON-LD, nav, footer)
+│   ├── components/             shared pieces (the photo grid + lightbox)
+│   ├── pages/                  one .astro file per page → one .html in dist/
+│   ├── scripts/app.ts          progressive enhancement (live status, a11y, scroll cup)
+│   ├── scripts/mug.ts          the lazy-loaded 3D enamel mug (three.js)
+│   └── lib/site.ts             build-time helpers (hours parsing, map URLs, JSON-LD)
+├── public/                   ← copied into the site as-is
+│   ├── assets/                 photos, fonts, icons
+│   ├── admin/                  the content editor (Sveltia CMS)
+│   ├── styles.css              all styling (design tokens at the top)
+│   ├── robots.txt · 404.html · site.webmanifest
+├── astro.config.mjs          ← site URL/base, sitemap
 ├── package.json
 ├── .github/workflows/        ← deploy.yml (publish on main) · ci.yml (PR build check)
 └── dist/                     ← the built site (generated; not committed)
 ```
 
-**How the build works:** `build.mjs` reads `content/site.yml` and, for each
-page, fills the values into `src/pages/<page>.html`, wraps it in
-`src/layout.html`, and writes the finished page to `dist/`. Repeating sections
-use `{{#each list}}…{{/each}}` and `{{#if value}}…{{/if}}`; the coffee menu
-(nested sections → items) is assembled in `build.mjs`. It also generates the
-Google Maps embed, JSON-LD for search engines, and
-the machine-readable opening hours the live status uses. `src/app.js` is
-minified to `dist/app.js`, and `src/mug.js` is bundled (with three.js) to
-`dist/mug.js`, which only the home hero fetches. So the *content* lives in
-`content/` and the *markup* lives in `src/` — they're never tangled together.
+**How the build works:** each file in `src/pages/` reads its content from
+`content/*.yml` (validated against the schemas in `src/content.config.ts` —
+a bad edit fails the build loudly instead of shipping), renders inside
+`src/layouts/Base.astro`, and is written to `dist/` as a plain `.html` page.
+The Google Maps embed, JSON-LD for search engines, the sitemap, and the
+machine-readable opening hours are generated automatically. `three.js` (the
+mug) is bundled into its own file that only the home page fetches, on demand.
 
 ---
 
@@ -125,18 +121,19 @@ minified to `dist/app.js`, and `src/mug.js` is bundled (with three.js) to
 
 - **Brand palette** — the whole look is driven by her shopfront colours (green
   `#a7bd1c`, orange `#db5e20`, cream `#f4ecd8`, mustard, terracotta, walnut),
-  defined once as design tokens at the top of `src/styles.css` (`:root`). Change
-  them there and the entire site re-themes. See `BRANDING.md` for the full
-  system. Fonts (Bagel Fat One, Baloo 2, DM Sans, Caveat) are self-hosted in
-  `assets/fonts/`.
-- **As featured in** — add press links under `shop.press` in `content/site.yml`;
+  defined once as design tokens at the top of `public/styles.css` (`:root`).
+  Change them there and the entire site re-themes. See `BRANDING.md` for the
+  full system. Fonts (Bagel Fat One, Baloo 2, DM Sans, Caveat) are self-hosted
+  in `public/assets/fonts/`.
+- **As featured in** — add press links under `press` in `content/settings.yml`;
   the strip above the footer hides itself when the list is empty.
-- **Real photos** — the home-page gallery uses placeholder tiles until you add
-  images. Drop JPGs into `assets/` and point `shop.photos[].src` at them.
 - **Share image** — link previews on WhatsApp/Instagram/Facebook use the enamel
-  card at `assets/share-card.png` (1200×630), wired up via `og:image` /
-  `twitter:image` in `src/layout.html`. Replace that file to change the card.
+  card at `public/assets/share-card.png` (1200×630), wired up via `og:image` /
+  `twitter:image` in the layout. Replace that file to change the card.
+- **One-click editor sign-in** — the editor currently uses a personal access
+  token. A "Sign in with GitHub" button needs a small (free) OAuth helper
+  hosted elsewhere; worth adding if the token dance gets annoying.
 - **Custom domain** — to use a domain like `auntyrannys.com`, add a file
-  `src/CNAME` containing just the domain (the build copies it to `dist/`),
-  update `site.url` in `content/site.yml`, then point the domain's DNS at GitHub
-  Pages and tick *Settings → Pages → Enforce HTTPS*.
+  `public/CNAME` containing just the domain, update `site`/`base` in
+  `astro.config.mjs` and `url` in `content/settings.yml`, then point the
+  domain's DNS at GitHub Pages and tick *Settings → Pages → Enforce HTTPS*.

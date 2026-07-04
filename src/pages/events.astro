@@ -1,0 +1,68 @@
+---
+import Base from '../layouts/Base.astro';
+import { getEntry } from 'astro:content';
+import { getSettings, eventPill } from '../lib/site';
+
+const s = await getSettings();
+const eventsEntry = await getEntry('events', 'main');
+if (!eventsEntry) throw new Error('content/events.yml is missing');
+const { intro, events } = eventsEntry.data;
+const list = events.map((ev) => ({ ...ev, ...eventPill(ev.date) }));
+---
+
+<Base title={`Events — ${s.name}`} description={`What's on at ${s.name}, ${s.street}, ${s.locality}.`} nav="events" page="events.html">
+
+<!-- PAGE HEADER -->
+<section class="page-head">
+  <div class="page-head-grid">
+    <div>
+      <div class="eyebrow">What's On</div>
+      <h1 class="page-title">Events at <em>Ranny's.</em></h1>
+      <p class="page-lede">{intro}</p>
+    </div>
+  </div>
+</section>
+
+<!-- EVENTS LIST -->
+<section class="events">
+  <div class="events-inner">
+    {list.length > 0 && (
+      <ul class="event-list">
+        {list.map((ev) => (
+          <li class={`event${ev.soldOut ? ' is-sold-out' : ''}`} data-date={ev.dateISO}>
+            <div class="event-date">
+              <span class="ev-day">{ev.day}</span>
+              <span class="ev-month">{ev.month}</span>
+            </div>
+            <div class="event-body">
+              <div class="event-main">
+                <h3 class="event-title">{ev.title}{ev.soldOut && <> <span class="sold-out">Sold out</span></>}</h3>
+                <p class="event-when">{ev.when}</p>
+                <p class="event-desc">{ev.description}</p>
+                {ev.link && <a class="event-link" href={ev.link} target="_blank" rel="noopener">{ev.linkText} ↗</a>}
+              </div>
+              {ev.poster && (
+                <a class="event-poster" href={ev.poster} target="_blank" rel="noopener" aria-label={`Open the full poster for ${ev.title}`}>
+                  <img src={ev.poster} alt={`Poster for ${ev.title}`} loading="lazy">
+                </a>
+              )}
+            </div>
+          </li>
+        ))}
+      </ul>
+    )}
+    <p class="events-none" hidden={list.length > 0}>Nothing in the diary right now — keep an eye on <a href={s.instagram} target="_blank" rel="noopener">Instagram</a> or join the list below and we'll shout when something's on.</p>
+  </div>
+</section>
+
+<!-- Host your own -->
+<section class="community">
+  <div class="community-inner">
+    <div class="eyebrow">Got a group?</div>
+    <h2>Run your own <em>thing.</em></h2>
+    <p>Book club, knit night, running crew, new-mum meet-up — if you've got the people, we've got the room and the cake. Have a look at bookings.</p>
+    <a class="btn" href="./bookings.html">See bookings</a>
+  </div>
+</section>
+
+</Base>
