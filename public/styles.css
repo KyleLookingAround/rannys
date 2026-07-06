@@ -222,28 +222,8 @@ body::before {
 
 /* ===== Hero ===== */
 .hero { position: relative; padding: 70px 28px 46px; overflow: hidden; }
-.hero-grid {
-  max-width: 1300px; margin: 0 auto;
-  display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
-  gap: 40px; align-items: center;
-}
-.hero-grid > div { max-width: 840px; }
+.hero-grid { max-width: 840px; margin: 0 auto; }
 
-/* hero brand art — Rhianne's real shopfront illustration */
-.hero-art { margin: 0; display: grid; justify-items: center; gap: 12px; }
-.hero-art img {
-  display: block; width: 100%; max-width: 480px; height: auto;
-  filter: drop-shadow(6px 8px 0 rgba(36, 23, 16, 0.12));
-}
-.hero-art figcaption {
-  font-family: var(--display); font-size: clamp(18px, 2.4vw, 26px);
-  letter-spacing: 0.01em; color: var(--brown); text-align: center;
-}
-@media (max-width: 900px) {
-  .hero-grid { grid-template-columns: 1fr; gap: 28px; }
-  .hero-art { order: -1; }
-  .hero-art img { max-width: 360px; }
-}
 .eyebrow {
   font-family: var(--text); font-weight: 600;
   font-size: 13px; letter-spacing: 0.16em; text-transform: uppercase;
