@@ -16,14 +16,17 @@ statusShort: Open Tue–Sun
 hoursShort: Tue–Fri 7–4 · wknds 9–4
 hours:
   - day: Tue – Fri
-    time: 7:00am – 4:00pm
-  - day: Sat & Sun
-    time: 9:00am – 4:00pm
+    time: 7:00am – 16:00pm
+  - day: Sat
+    time: 9:00am – 15:00pm
   - day: Monday
     time: Closed
+  - day: Sun
+    time: 10:00am-15:00pm
 openingHours:
   - Tu-Fr 07:00-16:00
-  - Sa-Su 09:00-16:00
+  - Sat 09:00am-15:00pm
+  - Sun 10:00am-15:00pm
 press:
   - name: Manchester's Finest
     url: https://www.manchestersfinest.com/places/rannys/
