@@ -13,16 +13,16 @@ instagram: https://www.instagram.com/rannyscoffeeshop
 facebook: https://facebook.com/61583039575566
 previewImage: /assets/share-card.png
 statusShort: Open Tue–Sun
-hoursShort: Tue–Fri 7–4 · wknds 9–4
+hoursShort: Tue–Fri 7–4 · Sat 9–3 · Sun 10-3
 hours:
   - day: Tue – Fri
     time: 7:00am – 16:00pm
   - day: Sat
     time: 9:00am – 15:00pm
-  - day: Monday
-    time: Closed
   - day: Sun
     time: 10:00am-15:00pm
+  - day: Monday
+    time: Closed
 openingHours:
   - Tu-Fr 07:00-16:00
   - Sa 09:00-15:00
