@@ -3,7 +3,7 @@
  * The shared shell: head (meta/OG/JSON-LD), top bar, press strip, footer.
  * Every page renders inside this. Ported from the old src/layout.html.
  */
-import { getSettings, ogImage, hoursData, jsonLd } from '../lib/site';
+import { getSettings, ogImage, hoursData, jsonLd, statusShort } from '../lib/site';
 
 interface Props {
   title: string;
@@ -81,7 +81,7 @@ const active = (n: string) => (nav === n ? 'active' : undefined);
     <a href="index.html#visit">Visit</a>
   </nav>
   <div class="status" data-open-status title="Opening hours">
-    <span class="pulse"></span><span class="status-text">{s.statusShort}</span>
+    <span class="pulse"></span><span class="status-text">{statusShort(s)}</span>
   </div>
 </header>
 

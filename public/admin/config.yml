@@ -34,19 +34,40 @@ collections:
           - { name: instagram, label: "Instagram URL", widget: string }
           - { name: facebook, label: "Facebook URL", widget: string }
           - { name: previewImage, label: "Link-preview image (1200×630)", widget: image }
-          - { name: statusShort, label: "Status pill text (top of every page)", widget: string }
-          - { name: hoursShort, label: "Short hours line (home hero)", widget: string }
           - name: hours
-            label: "Opening hours (as shown on the site)"
+            label: "Opening hours"
+            hint: "One row per day or block of days. This drives the hours table, the live open/closed pill and the Google listing — you only edit it here."
             widget: list
+            summary: "{{fields.fromDay}}{{fields.toDay}} {{fields.open}}-{{fields.close}}"
             fields:
-              - { name: day, label: "Day(s)", widget: string }
-              - { name: time, label: "Times", widget: string }
-          - name: openingHours
-            label: "Opening hours (machine format for Google)"
-            hint: "One line per range, like 'Tu-Fr 07:00-16:00'. Powers the live open/closed pill too."
-            widget: list
-            field: { name: line, label: Line, widget: string }
+              - name: fromDay
+                label: "Day (or first day of a block)"
+                widget: select
+                options:
+                  - { label: Monday, value: Mo }
+                  - { label: Tuesday, value: Tu }
+                  - { label: Wednesday, value: We }
+                  - { label: Thursday, value: Th }
+                  - { label: Friday, value: Fr }
+                  - { label: Saturday, value: Sa }
+                  - { label: Sunday, value: Su }
+              - name: toDay
+                label: "Last day of the block (leave as “—” for a single day)"
+                widget: select
+                required: false
+                default: ""
+                options:
+                  - { label: "—", value: "" }
+                  - { label: Monday, value: Mo }
+                  - { label: Tuesday, value: Tu }
+                  - { label: Wednesday, value: We }
+                  - { label: Thursday, value: Th }
+                  - { label: Friday, value: Fr }
+                  - { label: Saturday, value: Sa }
+                  - { label: Sunday, value: Su }
+              - { name: closed, label: "Closed this day?", widget: boolean, default: false }
+              - { name: open, label: "Opens", hint: "24-hour, e.g. 07:00 (leave blank if closed)", widget: string, required: false, default: "", pattern: ['^([01][0-9]|2[0-3]):[0-5][0-9]$|^$', "use 24-hour time like 07:00"] }
+              - { name: close, label: "Closes", hint: "24-hour, e.g. 16:00 (leave blank if closed)", widget: string, required: false, default: "", pattern: ['^([01][0-9]|2[0-3]):[0-5][0-9]$|^$', "use 24-hour time like 16:00"] }
           - name: press
             label: "As featured in"
             widget: list
