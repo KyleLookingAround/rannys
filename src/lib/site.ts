@@ -30,24 +30,54 @@ export function ogImage(s: Settings) {
   return s.url + s.previewImage.replace(/^\.?\//, '');
 }
 
-/**
- * Opening hours → the machine-readable map the client script uses for the
- * live "open now / closed" status. Parses the Google format ("Tu-Fr
- * 07:00-16:00") into { 0..6: [[openMins, closeMins], …] }, Sun=0.
- */
+// ── Opening hours ────────────────────────────────────────────────────
+// Everything hours-related derives from the single structured `hours` field
+// (see the schema): the display table, the live open/closed pill, and the
+// Google (schema.org) hours. Sun=0 to match JS getDay().
 const DAY_IDX: Record<string, number> = { Su: 0, Mo: 1, Tu: 2, We: 3, Th: 4, Fr: 5, Sa: 6 };
+const DAY_SHORT: Record<string, string> = { Mo: 'Mon', Tu: 'Tue', We: 'Wed', Th: 'Thu', Fr: 'Fri', Sa: 'Sat', Su: 'Sun' };
+type HoursRow = Settings['hours'][number];
 
+/** "07:00" → "7am", "16:00" → "4pm", "10:30" → "10:30am". */
+function prettyTime(t: string) {
+  const [h, m] = t.split(':').map(Number);
+  const ap = h < 12 ? 'am' : 'pm';
+  const h12 = h % 12 === 0 ? 12 : h % 12;
+  return m === 0 ? `${h12}${ap}` : `${h12}:${String(m).padStart(2, '0')}${ap}`;
+}
+
+/** The rows shown in the on-page hours table: friendly day + time labels. */
+export function hoursRows(s: Settings) {
+  return s.hours.map((r) => ({
+    day: r.toDay && r.toDay !== r.fromDay
+      ? `${DAY_SHORT[r.fromDay]} – ${DAY_SHORT[r.toDay]}`
+      : DAY_SHORT[r.fromDay],
+    time: r.closed ? 'Closed' : `${prettyTime(r.open)} – ${prettyTime(r.close)}`,
+  }));
+}
+
+/** The Google/schema.org format, e.g. ["Tu-Fr 07:00-16:00", "Sa 09:00-15:00"]. */
+export function openingHoursList(s: Settings) {
+  return s.hours
+    .filter((r): r is HoursRow & { open: string; close: string } => !r.closed && !!r.open && !!r.close)
+    .map((r) => `${r.fromDay}${r.toDay && r.toDay !== r.fromDay ? '-' + r.toDay : ''} ${r.open}-${r.close}`);
+}
+
+/**
+ * The machine-readable map the client script uses for the live "open now /
+ * closed" pill: { 0..6: [[openMins, closeMins], …] }, Sun=0.
+ */
 export function hoursData(s: Settings) {
   const days: Record<number, [number, number][]> = { 0: [], 1: [], 2: [], 3: [], 4: [], 5: [], 6: [] };
-  for (const line of s.openingHours) {
-    const m = /^([A-Za-z]{2})(?:-([A-Za-z]{2}))?\s+(\d{1,2}):(\d{2})-(\d{1,2}):(\d{2})$/.exec(line.trim());
-    if (!m) continue;
-    const [, d1, d2, oh, om, ch, cm] = m;
-    const open = +oh * 60 + +om;
-    const close = +ch * 60 + +cm;
-    const start = DAY_IDX[d1];
+  for (const r of s.hours) {
+    if (r.closed || !r.open || !r.close) continue;
+    const [oh, om] = r.open.split(':').map(Number);
+    const [ch, cm] = r.close.split(':').map(Number);
+    const open = oh * 60 + om;
+    const close = ch * 60 + cm;
+    const start = DAY_IDX[r.fromDay];
     if (start == null) continue;
-    const end = d2 != null ? DAY_IDX[d2] : start;
+    const end = r.toDay ? DAY_IDX[r.toDay] : start;
     for (let i = start; ; i = (i + 1) % 7) {
       days[i].push([open, close]);
       if (i === end) break;
@@ -74,7 +104,7 @@ export function jsonLd(s: Settings) {
       addressCountry: s.country,
     },
     areaServed: s.locality,
-    ...(s.openingHours.length ? { openingHours: s.openingHours } : {}),
+    ...((list) => (list.length ? { openingHours: list } : {}))(openingHoursList(s)),
     servesCuisine: ['Coffee', 'Cake', 'Bakery'],
     ...(s.priceRange ? { priceRange: s.priceRange } : {}),
     sameAs: [s.instagram, s.facebook].filter(Boolean),

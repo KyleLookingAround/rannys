@@ -25,6 +25,11 @@ const image = z.string()
   .regex(/^\/assets\//, 'image paths start with /assets/')
   .transform((path) => `.${path}`);
 
+// Two-letter day codes (the /admin editor shows full day names but stores
+// these) and 24-hour HH:MM times — the building blocks of the hours field.
+const DAY = z.enum(['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su']);
+const HHMM = z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/, 'use 24-hour time, e.g. 07:00');
+
 const settings = defineCollection({
   loader: single('content/settings.yml'),
   schema: z.object({
@@ -44,8 +49,21 @@ const settings = defineCollection({
     previewImage: image,
     statusShort: z.string(),
     hoursShort: z.string(),
-    hours: z.array(z.object({ day: z.string(), time: z.string() })),
-    openingHours: z.array(z.string().regex(/^[A-Za-z]{2}(-[A-Za-z]{2})?\s+\d{1,2}:\d{2}-\d{1,2}:\d{2}$/, 'use the "Tu-Fr 07:00-16:00" format')),
+    // One structured source of truth for opening hours. Editors pick days
+    // from a dropdown and type 24-hour times; the display table, the live
+    // open/closed pill and the Google (schema.org) hours are all derived
+    // from this in src/lib/site.ts — nothing to keep in sync by hand.
+    hours: z.array(
+      z.object({
+        fromDay: DAY,
+        toDay: z.union([DAY, z.literal('')]).default(''),
+        closed: z.boolean().default(false),
+        open: z.union([HHMM, z.literal('')]).default(''),
+        close: z.union([HHMM, z.literal('')]).default(''),
+      }).refine((r) => r.closed || (r.open !== '' && r.close !== ''), {
+        message: 'set both an opening and closing time, or tick "closed"',
+      }),
+    ),
     press: z.array(z.object({ name: z.string(), url: z.string().url() })).default([]),
   }),
 });
