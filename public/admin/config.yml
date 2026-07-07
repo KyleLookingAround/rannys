@@ -8,8 +8,8 @@ backend:
 media_folder: public/assets   # where uploaded photos land in the repo
 public_folder: /assets        # how the content files refer to them
 
-site_url: https://kylelookingaround.github.io/rannys/
-display_url: https://kylelookingaround.github.io/rannys/
+site_url: https://rannys.co.uk/
+display_url: https://rannys.co.uk/
 
 collections:
   - name: site
