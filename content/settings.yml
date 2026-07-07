@@ -1,55 +1,33 @@
-# ════════════════════════════════════════════════════════════════════
-#  RANNY'S · shop settings (name, address, contact, hours)
-#
-#  Edit the text inside the "quotes". Keep the labels (the word before
-#  each colon) and the indentation exactly as they are (spaces, not tabs).
-#  After editing, the site rebuilds itself on push — or edit it the easy
-#  way at /admin/ on the live site.
-# ════════════════════════════════════════════════════════════════════
-
-# The published web address (used for social-share + search metadata).
-# While the site lives on GitHub Pages this is the github.io URL; swap it
-# for your custom domain when you have one (and add a public/CNAME file).
-url: "https://kylelookingaround.github.io/rannys/"
-
-name: "Ranny's"
-description: "Independent coffee shop on Hempshaw Lane, Stockport. Good coffee, proper cake, no nonsense."
-priceRange: "££"
-
-# ── Address ────────────────────────────────────────────────────────
-street: "407 Hempshaw Lane"
-locality: "Stockport"
-region: "Greater Manchester"
-postcode: "SK1 4QA"
-country: "GB"
-
-# ── Contact + socials ──────────────────────────────────────────────
-email: "info@auntyrannys.com"
-instagramHandle: "@rannyscoffeeshop"
-instagram: "https://www.instagram.com/rannyscoffeeshop"
-facebook: "https://facebook.com/61583039575566"
-
-# ── Link-preview card (WhatsApp/Twitter/Facebook) — 1200×630 ───────
-previewImage: "/assets/share-card.png"
-
-# ── Opening status + hours ─────────────────────────────────────────
-statusShort: "Open Tue–Sun"          # the little pill, top-right of every page
-hoursShort: "Tue–Fri 7–4 · wknds 9–4" # short line in the hero
+url: rannys co.uk
+name: Ranny's
+description: Independent coffee shop on Hempshaw Lane, Stockport. Good coffee, proper cake, no nonsense.
+priceRange: ££
+street: 407 Hempshaw Lane
+locality: Stockport
+region: Greater Manchester
+postcode: SK1 4QA
+country: GB
+email: info@auntyrannys.com
+instagramHandle: '@rannyscoffeeshop'
+instagram: https://www.instagram.com/rannyscoffeeshop
+facebook: https://facebook.com/61583039575566
+previewImage: /assets/share-card.png
+statusShort: Open Tue–Sun
+hoursShort: Tue–Fri 7–4 · wknds 9–4
 hours:
-  - day: "Tue – Fri"
-    time: "7:00am – 4:00pm"
-  - day: "Sat & Sun"
-    time: "9:00am – 4:00pm"
-  - day: "Monday"
-    time: "Closed"
-# Same hours in the format Google/search engines read. Update if hours change.
+  - day: Tue – Fri
+    time: 7:00am – 4:00pm
+  - day: Sat & Sun
+    time: 9:00am – 4:00pm
+  - day: Monday
+    time: Closed
 openingHours:
-  - "Tu-Fr 07:00-16:00"
-  - "Sa-Su 09:00-16:00"
-
-# ── Press / "as featured in" ───────────────────────────────────────
-#  Add outlets here as you get real links — the strip hides itself if empty.
+  - Tu-Fr 07:00-16:00
+  - Sa-Su 09:00-16:00
 press:
-  - { name: "Manchester's Finest", url: "https://www.manchestersfinest.com/places/rannys/" }
-  - { name: "Stockport Nub News", url: "https://stockport.nub.news/news/local-news/new-mid-century-style-coffee-shop-opens-in-offerton-298750" }
-  - { name: "Brik Studio", url: "https://www.instagram.com/reel/DZJ08wRi4Qt/" }
+  - name: Manchester's Finest
+    url: https://www.manchestersfinest.com/places/rannys/
+  - name: Stockport Nub News
+    url: https://stockport.nub.news/news/local-news/new-mid-century-style-coffee-shop-opens-in-offerton-298750
+  - name: Brik Studio
+    url: https://www.instagram.com/reel/DZJ08wRi4Qt/
