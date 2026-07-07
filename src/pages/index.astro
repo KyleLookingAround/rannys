@@ -2,7 +2,7 @@
 import Base from '../layouts/Base.astro';
 import Gallery from '../components/Gallery.astro';
 import { getEntry } from 'astro:content';
-import { getSettings, mapEmbedUrl, directionsUrl } from '../lib/site';
+import { getSettings, mapEmbedUrl, directionsUrl, hoursRows, hoursShort, statusShort } from '../lib/site';
 
 const s = await getSettings();
 const homeEntry = await getEntry('home', 'main');
@@ -31,14 +31,14 @@ const listMailto = `mailto:${s.email}?subject=Add%20me%20to%20the%20${encodeURIC
       <p class="hero-tag">{h.tagline}</p>
 
       <div class="hero-meta">
-        <div>Open<span>{s.hoursShort}</span></div>
+        <div>Open<span>{hoursShort(s)}</span></div>
         <div>Find us<span>{s.street}</span></div>
         <div>Postcode<span>{s.postcode}</span></div>
       </div>
 
       <div class="open-flag" data-open-status>
         <span class="pulse"></span>
-        <span class="status-text">{s.statusShort}</span>
+        <span class="status-text">{statusShort(s)}</span>
         <span class="of-sub"></span>
       </div>
     </div>
@@ -209,7 +209,7 @@ const listMailto = `mailto:${s.email}?subject=Add%20me%20to%20the%20${encodeURIC
         {s.locality}, {s.postcode}
       </div>
       <ul class="hours-list">
-        {s.hours.map((hr) => <li><span class="hl-day">{hr.day}</span><span class="hl-time">{hr.time}</span></li>)}
+        {hoursRows(s).map((hr) => <li><span class="hl-day">{hr.day}</span><span class="hl-time">{hr.time}</span></li>)}
       </ul>
       <ul class="contact-list">
         <li><span class="lbl">Email</span><a href={`mailto:${s.email}`}>{s.email}</a></li>
