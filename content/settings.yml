@@ -25,8 +25,8 @@ hours:
     time: 10:00am-15:00pm
 openingHours:
   - Tu-Fr 07:00-16:00
-  - Sat 09:00am-15:00pm
-  - Sun 10:00am-15:00pm
+  - Sa 09:00-15:00
+  - Su 10:00-15:00
 press:
   - name: Manchester's Finest
     url: https://www.manchestersfinest.com/places/rannys/
