@@ -19,8 +19,8 @@ const single = (path: string) =>
 
 // Image paths are stored as "/assets/…" (the form the /admin editor writes)
 // and normalised to the relative "./assets/…" the pages need — every built
-// page sits at the site root, so relative paths survive the /rannys base
-// path and any future custom-domain move.
+// page sits at the site root, so relative paths work directly on the
+// rannys.co.uk domain.
 const image = z.string()
   .regex(/^\/assets\//, 'image paths start with /assets/')
   .transform((path) => `.${path}`);
