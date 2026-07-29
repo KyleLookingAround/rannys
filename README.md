@@ -143,7 +143,11 @@ mug) is bundled into its own file that only the home page fetches, on demand.
   `twitter:image` in the layout. Replace that file to change the card.
 - **One-click editor sign-in** — the editor currently uses a personal access
   token. A "Sign in with GitHub" button needs a small (free) OAuth helper
-  hosted elsewhere; worth adding if the token dance gets annoying.
+  hosted elsewhere; worth adding if the token dance gets annoying. See
+  [`BACKEND.md`](BACKEND.md) for how.
+- **Forms, mailing list, anything that needs a server** — the site is static,
+  so booking enquiries and the mailing list currently open an email.
+  [`BACKEND.md`](BACKEND.md) weighs up the options and recommends a plan.
 - **Custom domain** — to use a domain like `auntyrannys.com`, add a file
   `public/CNAME` containing just the domain, update `site`/`base` in
   `astro.config.mjs` and `url` in `content/settings.yml`, then point the
