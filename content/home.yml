@@ -1,94 +1,74 @@
-# ════════════════════════════════════════════════════════════════════
-#  RANNY'S · home page (index.html)
-# ════════════════════════════════════════════════════════════════════
-
-# ── Hero ───────────────────────────────────────────────────────────
-eyebrow: "Hempshaw Lane · Offerton, Stockport"
-tagline: "The little green coffee shop on Hempshaw Lane. Beans by Atkinsons of Lancaster, ridiculously good cake, and a warm room to linger in. No airs, no graces — just a good brew and a proper natter."
-
-# ── "Today" ticker on the home page — add or remove lines freely ───
+eyebrow: Hempshaw Lane · Offerton, Stockport
+tagline: The little green coffee shop on Hempshaw Lane. Beans by Atkinsons of Lancaster, ridiculously good cake, and a warm room to linger in. No airs, no graces — just a good brew and a proper natter.
 marquee:
-  - "Beans by Atkinsons"
-  - "Only Stockport bakes here"
-  - "The Ranny's Special"
-  - "Proper natters"
-  - "Dog-friendly"
-  - "Kettle's on"
-  - "Craft sodas in the fridge"
-
-# ── Story (Rhianne's bit — in her own words) ───────────────────────
+  - ‘Archetype’ espresso roast with notes of dark chocolate, hazelnut and molasses by Atkinsons
+  - Only Stockport bakes here
+  - The Ranny's Special
+  - A good natter
+  - Dog-friendly
+  - Kettle's on
+  - Craft sodas in the fridge
+  - Some Healthy stuff
 story:
-  name: "Rhianne"
-  lede: "The girl covered in paint, fluffy socks and a half-ate butty in hand."
+  name: Rhianne
+  lede: The girl covered in paint, fluffy socks and a half-ate butty in hand.
   paragraphs:
-    - "I've spent most of my adult life on the SK1 hospitality scene — learning the ropes, pulling the pints, working out what makes a room actually feel good to be in."
+    - I've spent most of my adult life on the SK1 hospitality scene — learning the ropes, pulling the pints, working out what makes a room actually feel good to be in.
     - "Ranny's is me taking the leap: a little green coffee shop on Hempshaw Lane that's properly my own. Beans by Atkinsons of Lancaster, ridiculously good cake, fresh flowers on the counter, and the kind of vintage charm that makes you want to stop a while."
-    - "We've had the odd hiccup — locking ourselves out on a Saturday morning, *awkward* — but honestly, what a start. No airs, no graces, just a good brew and a warm welcome. Come and say hello."
-  signature: "Ranny's x"
-
-# ── "What you'll find inside" — three cards ────────────────────────
+    - We've had the odd hiccup — locking ourselves out on a Saturday morning, *awkward* — but honestly, what a start. No airs, no graces, just a good brew and a warm welcome. Come and say hello.
+  signature: Ranny's x
 inside:
-  - title: "Coffee, done right"
-    body: "A medium-roast blend with milk-chocolate notes, by Atkinsons of Lancaster. Proper oat milk, dialled-in espresso, and a Ranny's Special worth ordering — our iced pistachio latte."
-  - title: "Only Stockport bakes here"
-    body: "Pastries fresh from Sticky Fingers every morning, cakes and cookies from Silver Apples — plus flourless and plant-based options. It changes with the day, so ask what's in."
-  - title: "A room to linger in"
-    body: "Speckled stoneware, fresh flowers, a wooden board menu, and walls in coffee shades — Milk & Honey and Roasted Hazelnut, finished with a smart border. Mismatched, much loved and dog-friendly — somewhere, not anywhere."
-
-# ── Suppliers ("from our suppliers") ───────────────────────────────
+  - title: Coffee, done right
+    body: A medium-roast blend with dark chocolate notes, by Atkinsons of Lancaster. Proper oat milk, dialled-in espresso, and a Ranny's Special worth ordering — our iced pistachio latte.
+  - title: Only Stockport bakes here
+    body: Pastries fresh from Sticky Fingers every morning, cakes and cookies from Silver Apples — plus flourless and plant-based options. Brownies supplied by local baker “Brownie points by Amy”. Bakes change with the day, so ask what's in.
+  - title: A room to linger in
+    body: Speckled stoneware, fresh flowers, a wooden board menu, and walls in coffee shades — Milk & Honey and Roasted Hazelnut, finished with a smart border. Mismatched, much loved and dog-friendly — somewhere, not anywhere.
 partners:
-  - category: "Cakes & Bakes"
-    name: "Silver Apples Bakery"
-    url: "https://silverapplesbakery.com/"
-    body: "The cakes and cookies on our stand — plus a proper variety of flourless and plant-based options for everyone."
-  - category: "Pastries"
-    name: "Sticky Fingers"
-    url: "https://www.instagram.com/stickyfingersstockport/"
-    body: "Pastries delivered fresh every morning — croissants, pain au chocolat, and the famous cinnamon rolls."
-
-# ── "By local hands" — the makers & artists behind the shop ────────
-#  Featured painting credit + a strip of everyone local who made the
-#  place what it is. Add `url:` to any line to turn the name into a link.
+  - category: Cakes & Bakes
+    name: Silver Apples Bakery
+    url: https://silverapplesbakery.com/
+    body: The cakes and cookies on our stand — plus a proper variety of flourless and plant-based options for everyone.
+  - category: Pastries
+    name: Sticky Fingers
+    url: https://www.instagram.com/stickyfingersstockport/
+    body: Pastries delivered fresh every morning — croissants, pain au chocolat, and the famous cinnamon rolls.
 localArt:
-  image: "/assets/sketch-stockport.jpg"
-  caption: "Our shopfront, painted by Sketch Stockport — hung on the wall by the window."
-  blurb: "Nothing here is off-a-shelf. The art on the walls, the sign over the door, the photos you've been scrolling — all made by people from round here."
+  image: /assets/sketch-stockport.jpg
+  caption: Our shopfront, painted by Sketch Stockport — hung on the wall by the window.
+  blurb: Nothing here is off-a-shelf. The art on the walls, the sign over the door, the photos you've been scrolling — all made by people from round here.
 localCredits:
-  - role: "The painting"
-    name: "Sketch Stockport"
-    note: "The coffee-and-matcha shopfront on the wall"
-  - role: "Shopfront signwriting"
-    name: "Cactus Sign Painting"
-    note: "Gregg, hand-lettered — all old-school"
-  - role: "Photography"
-    name: "Chroma Productions"
-    url: "https://chromaproductions.co.uk/"
-    note: "@chromaproductionsuk"
-  - role: "Beans"
-    name: "Atkinsons of Lancaster"
-    note: "Roasted since 1837"
-  - role: "Decaf"
-    name: "Worker Bee Coffee"
-    note: "Round the corner in Edgeley"
-  - role: "Bakes"
-    name: "Silver Apples & Sticky Fingers"
-    note: "Only Stockport bakes here"
-
-# ── Community / "hire out" teaser ──────────────────────────────────
+  - role: The painting
+    name: Sketch Stockport
+    url: ''
+    note: The coffee-and-matcha shopfront on the wall
+  - role: Shopfront signwriting
+    name: Cactus Sign Painting
+    url: ''
+    note: Gregg, hand-lettered — all old-school
+  - role: Photography
+    name: Chroma Productions
+    url: https://chromaproductions.co.uk/
+    note: '@chromaproductionsuk'
+  - role: Beans
+    name: Atkinsons of Lancaster
+    url: ''
+    note: Roasted since 1837
+  - role: Decaf
+    name: Worker Bee Coffee
+    url: ''
+    note: Round the corner in Edgeley
+  - role: Bakes
+    name: Silver Apples & Sticky Fingers
+    url: ''
+    note: Only Stockport bakes here
 community:
-  blurb: "We're happy to lend the room. Book clubs, running crews, new-mum hangs, board-game nights — if you've got the people, we've got the room and the cake."
-
-# ── Featured quote band (photo + a line in her voice) ──────────────
+  blurb: We're happy to lend the room. Book clubs, running crews, new-mum hangs, board-game nights — if you've got the people, we've got the room and the cake.
 quote:
-  text: "What a start. We honestly couldn't be prouder of the little place we've made."
-  by: "Ranny's x"
-  image: "/assets/interior.jpg"
-
-# ── Mailing list ("on the list") ───────────────────────────────────
-# For now this is a one-tap email. To switch to a proper subscribe form,
-# paste your provider's form action URL into "action" (Buttondown / Formspree
-# / Mailchimp etc.) and set fieldName ("email", or "EMAIL" for Mailchimp).
+  text: What a start. We honestly couldn't be prouder of the little place we've made.
+  by: Ranny's x
+  image: /assets/interior.jpg
 mailingList:
-  blurb: "Now and then we'll send a quick note — new things on the menu, events worth turning up for. That's it."
-  action: ""
-  fieldName: "email"
+  blurb: Now and then we'll send a quick note — new things on the menu, events worth turning up for. That's it.
+  action: ''
+  fieldName: email
