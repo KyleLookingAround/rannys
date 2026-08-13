@@ -14,17 +14,15 @@ facebook: https://facebook.com/61583039575566
 previewImage: /assets/share-card.png
 hours:
   - fromDay: Tu
-    toDay: Fr
-    open: '07:00'
-    close: '16:00'
-  - fromDay: Sa
-    open: '09:00'
-    close: '15:00'
-  - fromDay: Su
-    open: '10:00'
-    close: '15:00'
+    toDay: Su
+    closed: false
+    open: 08:30
+    close: 14:30
   - fromDay: Mo
+    toDay: ''
     closed: true
+    open: ''
+    close: ''
 press:
   - name: Manchester's Finest
     url: https://www.manchestersfinest.com/places/rannys/
