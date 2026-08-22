@@ -4,6 +4,7 @@ events:
     title: Pop-Up Shop — Ranny's × Mardy
     when: Tue 30 June · 10am–1pm · free in
     description: Cool kids' vintage clothes & accessories with Mardy Kids Vintage, popping up here at Ranny's. Don't be basic. First ten customers through the door get a free coffee — just show the flyer to redeem.
+    soldOut: true
     poster: /assets/event-mardy.jpg
     link: https://www.instagram.com/mardykidsvintage
     linkText: Mardy Kids Vintage on Instagram
@@ -15,3 +16,13 @@ events:
     poster: /assets/event-pottery.jpg
     link: https://www.franksstudio.co.uk/product-page/ranny-s-stockport-workshops
     linkText: Workshop details at Frank's Studio
+  - date: 23/08/2026
+    title: Ranny’s X RunMcr
+    when: Sunday 23rd August
+    description: |-
+      5K run starting and finishing at ours by the incredible RunMcr team! 
+      Flatt white’s on the house for those joining our first event
+    soldOut: false
+    poster: /assets/fe33e85f-4511-4c67-97e4-f8bb95b74073.jpeg
+    link: ''
+    linkText: ''
