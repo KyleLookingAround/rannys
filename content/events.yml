@@ -26,3 +26,11 @@ events:
     poster: /assets/fe33e85f-4511-4c67-97e4-f8bb95b74073.jpeg
     link: ''
     linkText: ''
+  - date: 10/09/2026
+    title: Make a Mug workshop with @Franks__studio
+    when: Thursday 10th September
+    description: The workshops are 2.5 hours long, and you'll get to hand build your mug before choosing one of the glaze options available for it to be fired in.
+    soldOut: false
+    poster: /assets/IMG_2786.jpeg
+    link: http://www.franksstudio.co.uk
+    linkText: Tickets sold here!
