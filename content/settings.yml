@@ -11,18 +11,28 @@ email: info@auntyrannys.com
 instagramHandle: '@rannyscoffeeshop'
 instagram: https://www.instagram.com/rannyscoffeeshop
 facebook: https://facebook.com/61583039575566
-previewImage: /assets/share-card.png
+previewImage: /assets/IMG_4077.jpeg
 hours:
   - fromDay: Tu
-    toDay: Su
+    toDay: Fr
     closed: false
-    open: 08:30
-    close: 14:30
+    open: 07:00
+    close: 16:00
   - fromDay: Mo
     toDay: ''
     closed: true
     open: ''
     close: ''
+  - fromDay: Sa
+    toDay: Sa
+    closed: false
+    open: 09:00
+    close: 15:00
+  - fromDay: Su
+    toDay: Su
+    closed: false
+    open: 10:00
+    close: 15:00
 press:
   - name: Manchester's Finest
     url: https://www.manchestersfinest.com/places/rannys/
