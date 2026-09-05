@@ -31,6 +31,6 @@ events:
     when: Thursday 10th September
     description: The workshops are 2.5 hours long, and you'll get to hand build your mug before choosing one of the glaze options available for it to be fired in.
     soldOut: false
-    poster: /assets/IMG_2786.jpeg
+    poster: /assets/event-pottery.jpg
     link: http://www.franksstudio.co.uk
-    linkText: Tickets sold here!
+    linkText: Tickets here!
