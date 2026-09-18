@@ -82,3 +82,11 @@ events:
     poster: /assets/Workshop.jpeg
     link: https://sweetbud.co.uk/products/christmas-wreath-making-at-rannys-thursday-18th-november-7-9pm
     linkText: Tickets available here!
+  - date: 2026-09-13
+    title: Ranny’s X RunMcr
+    when: Sunday 13Th September
+    description: Round 2, Get involved, meet like minded people
+    soldOut: false
+    poster: /assets/WHEN.jpeg
+    link: ''
+    linkText: ''
