@@ -13,23 +13,23 @@ instagram: https://www.instagram.com/rannyscoffeeshop
 facebook: https://facebook.com/61583039575566
 previewImage: /assets/IMG_4077.jpeg
 hours:
-  - fromDay: Tu
-    toDay: Fr
-    closed: false
-    open: 07:00
-    close: 16:00
   - fromDay: Mo
     toDay: ''
     closed: true
     open: ''
     close: ''
+  - fromDay: Tu
+    toDay: Fr
+    closed: false
+    open: 07:00
+    close: 16:00
   - fromDay: Sa
-    toDay: Sa
+    toDay: ''
     closed: false
     open: 09:00
     close: 15:00
   - fromDay: Su
-    toDay: Su
+    toDay: ''
     closed: false
     open: 10:00
     close: 15:00
