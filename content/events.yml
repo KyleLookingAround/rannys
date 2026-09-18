@@ -34,3 +34,51 @@ events:
     poster: /assets/event-pottery.jpg
     link: http://www.franksstudio.co.uk
     linkText: Tickets here!
+  - date: 2026-11-23
+    title: Christmas Wreath Making at Ranny's – Monday 23rd November, 7–9pm
+    when: Monday 23rd November
+    description: |-
+      Have some festive fun with us as we gear up for Christmas with an evening of wreath making! Using gorgeous fresh foliages and natural decorations, imagine all the Christmas aromas — pine, spruce, dried oranges and cinnamon — all in the most beautiful mid-century setting that is Ranny's Café in Offerton.
+
+      Date: Monday 23rd November
+      Time: 7–9pm
+      Location: Ranny's Café, Offerton, Stockport
+      Price: £65 per person
+      Spaces: Limited to 10
+      All materials are included. Simply arrive, relax, and leave with a beautiful handmade wreath ready to hang on your door!
+    soldOut: false
+    poster: /assets/Workshop.jpeg
+    link: https://sweetbud.co.uk/products/christmas-wreath-making-at-rannys-monday-23rd-november-7-9pm
+    linkText: Tickets available here!
+  - date: 2026-11-26
+    title: Christmas Wreath Making at Ranny's – Thursday 26th November, 7–9pm
+    when: Thursday 26th November
+    description: |-
+      Have some festive fun with us as we gear up for Christmas with an evening of wreath making! Using gorgeous fresh foliages and natural decorations, imagine all the Christmas aromas — pine, spruce, dried oranges and cinnamon — all in the most beautiful mid-century setting that is Ranny's Café in Offerton.
+
+      Date: Thursday 26th November
+      Time: 7–9pm
+      Location: Ranny's Café, Offerton, Stockport
+      Price: £65 per person
+      Spaces: Limited to 8
+      All materials are included. Simply arrive, relax, and leave with a beautiful handmade wreath ready to hang on your door!
+    soldOut: false
+    poster: /assets/Workshop.jpeg
+    link: https://sweetbud.co.uk/products/christmas-wreath-making-at-rannys-thursday-26th-november-7-30-9-30pm
+    linkText: Tickets available here!
+  - date: 2026-12-02
+    title: Christmas Wreath Making at Ranny's – Wednesday 2nd December, 7–9pm
+    when: Wednesday 2nd December
+    description: |-
+      Have some festive fun with us as we gear up for Christmas with an evening of wreath making! Using gorgeous fresh foliages and natural decorations, imagine all the Christmas aromas — pine, spruce, dried oranges and cinnamon — all in the most beautiful mid-century setting that is Ranny's Café in Offerton.
+
+      Date: Wednesday 2nd December 
+      Time: 7–9pm
+      Location: Ranny's Café, Offerton, Stockport
+      Price: £65 per person
+      Spaces: Limited to 8
+      All materials are included. Simply arrive, relax, and leave with a beautiful handmade wreath ready to hang on your door!
+    soldOut: false
+    poster: /assets/Workshop.jpeg
+    link: https://sweetbud.co.uk/products/christmas-wreath-making-at-rannys-thursday-18th-november-7-9pm
+    linkText: Tickets available here!
