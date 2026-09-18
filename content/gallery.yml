@@ -1,16 +1,12 @@
 intro: A few snaps of the place and the good stuff. Pop in and see the real thing.
 photos:
-  - src: /assets/storefront.jpg
-    caption: Our “Fickle pickle” green shop
   - src: /assets/preview.jpg
     caption: Pistachio & white chocolate cronut, by Silver Apples Bakery
-  - src: /assets/menu.jpg
+  - src: /assets/interior.jpg
     caption: it's cor-tad-o not cor-tar-do, we know that now
-  - src: /assets/iced-special.jpg
-    caption: Iced “Ranny's Special”
-  - src: /assets/biscoff.jpg
-    caption: Bakes o'clock
-  - src: /assets/soda.jpg
-    caption: The soft-drink line-up
   - src: /assets/IMG_4077.jpeg
     caption: Loyalty cards!
+  - src: /assets/storefront.jpg
+    caption: Our “Fickle pickle” green shop
+  - src: /assets/IMG_4849.jpeg
+    caption: “Working from Ranny’s” area
