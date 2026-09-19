@@ -95,6 +95,6 @@ events:
     when: Sunday 13th October 9am
     description: Round 3! Who’s ready?
     soldOut: false
-    poster: ''
+    poster: /assets/Ranny’s x RunMcr.png
     link: ''
     linkText: ''
