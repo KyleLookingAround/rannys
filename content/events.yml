@@ -90,3 +90,11 @@ events:
     poster: /assets/WHEN.jpeg
     link: ''
     linkText: ''
+  - date: 2026-10-11
+    title: Ranny’s X RunMcr
+    when: Sunday 13th October 9am
+    description: Round 3! Who’s ready?
+    soldOut: false
+    poster: ''
+    link: ''
+    linkText: ''
