@@ -11,5 +11,8 @@
 <!-- Sveltia CMS — a Git-based editor. Saving here commits straight to the
      repo, which rebuilds and republishes the site automatically. -->
 <script src="https://unpkg.com/@sveltia/cms/dist/sveltia-cms.js" type="module"></script>
+<!-- Says whether the last save actually reached the live site; a failed build
+     is otherwise invisible from in here. -->
+<script src="./publish-status.js" type="module"></script>
 </body>
 </html>
