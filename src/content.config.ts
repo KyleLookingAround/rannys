@@ -30,6 +30,12 @@ const image = z.string()
 const DAY = z.enum(['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su']);
 const HHMM = z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/, 'use 24-hour time, e.g. 07:00');
 
+// The /admin editor writes a blank "required: false" string field as ''
+// rather than omitting it, so an optional URL needs to accept '' as "no
+// link" too — plain z.string().url().optional() rejects '' and fails the
+// build every time an editor leaves an optional link blank.
+const optionalUrl = z.preprocess((v) => (v === '' ? undefined : v), z.string().url().optional());
+
 const settings = defineCollection({
   loader: single('content/settings.yml'),
   schema: z.object({
@@ -83,14 +89,14 @@ const home = defineCollection({
     partners: z.array(z.object({
       category: z.string(),
       name: z.string(),
-      url: z.string().url().optional(),
+      url: optionalUrl,
       body: z.string(),
     })),
     localArt: z.object({ image: image, caption: z.string(), blurb: z.string() }),
     localCredits: z.array(z.object({
       role: z.string(),
       name: z.string(),
-      url: z.string().url().optional(),
+      url: optionalUrl,
       note: z.string().optional(),
     })),
     community: z.object({ blurb: z.string() }),
@@ -136,7 +142,7 @@ const events = defineCollection({
       description: z.string(),
       soldOut: z.boolean().optional(),
       poster: image.optional(),
-      link: z.string().url().optional(),
+      link: optionalUrl,
       linkText: z.string().optional(),
     })).default([]),
   }),
