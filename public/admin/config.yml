@@ -20,7 +20,7 @@ collections:
         label: "Shop settings (name, hours, contact)"
         file: content/settings.yml
         fields:
-          - { name: url, label: "Site address", hint: "The published web address — only change this when moving to a custom domain.", widget: string }
+          - { name: url, label: "Site address", hint: "The published web address — only change this when moving to a custom domain.", widget: string, pattern: ['^https?://\S+$', "must be a full web address, starting with https://"] }
           - { name: name, label: "Shop name", widget: string }
           - { name: description, label: "One-line description (search results & link previews)", widget: text }
           - { name: priceRange, label: "Price range", widget: select, options: ["£", "££", "£££"] }
@@ -29,10 +29,10 @@ collections:
           - { name: region, label: "Region", widget: string }
           - { name: postcode, label: "Postcode", widget: string }
           - { name: country, label: "Country code", widget: string, default: "GB" }
-          - { name: email, label: "Email", widget: string }
+          - { name: email, label: "Email", widget: string, pattern: ['^[^@\s]+@[^@\s]+\.[^@\s]+$', "that doesn't look like an email address"] }
           - { name: instagramHandle, label: "Instagram handle", widget: string }
-          - { name: instagram, label: "Instagram URL", widget: string }
-          - { name: facebook, label: "Facebook URL", widget: string }
+          - { name: instagram, label: "Instagram URL", widget: string, pattern: ['^https?://\S+$', "paste the whole link, starting with https://"] }
+          - { name: facebook, label: "Facebook URL", widget: string, pattern: ['^https?://\S+$', "paste the whole link, starting with https://"] }
           - { name: previewImage, label: "Link-preview image (1200×630)", widget: image }
           - name: hours
             label: "Opening hours"
@@ -74,7 +74,7 @@ collections:
             required: false
             fields:
               - { name: name, label: "Outlet", widget: string }
-              - { name: url, label: "Link", widget: string }
+              - { name: url, label: "Link", widget: string, pattern: ['^https?://\S+$', "paste the whole link, starting with https://"] }
 
       - name: home
         label: "Home page"
@@ -85,6 +85,7 @@ collections:
           - name: marquee
             label: "'Today' ticker lines"
             widget: list
+            min: 1
             field: { name: line, label: Line, widget: string }
           - name: story
             label: "The story"
@@ -111,7 +112,7 @@ collections:
             fields:
               - { name: category, label: "Category chip", widget: string }
               - { name: name, label: "Name", widget: string }
-              - { name: url, label: "Link", widget: string, required: false }
+              - { name: url, label: "Link", widget: string, required: false, pattern: ['^https?://\S+$|^$', "paste the whole link, starting with https:// — or leave it empty"] }
               - { name: body, label: "Text", widget: text }
           - name: localArt
             label: "Made local — featured painting"
@@ -126,7 +127,7 @@ collections:
             fields:
               - { name: role, label: "Role", widget: string }
               - { name: name, label: "Name", widget: string }
-              - { name: url, label: "Link", widget: string, required: false }
+              - { name: url, label: "Link", widget: string, required: false, pattern: ['^https?://\S+$|^$', "paste the whole link, starting with https:// — or leave it empty"] }
               - { name: note, label: "Note", widget: string, required: false }
           - name: community
             label: "Hire-out teaser"
@@ -157,6 +158,7 @@ collections:
           - name: cards
             label: "Photo cards"
             widget: list
+            min: 1
             fields:
               - { name: src, label: "Photo", widget: image }
               - { name: caption, label: "Caption", widget: string }
@@ -177,6 +179,7 @@ collections:
           - name: photos
             label: "Photos (first six also show on the home page)"
             widget: list
+            min: 1
             fields:
               - { name: src, label: "Photo", widget: image }
               - { name: caption, label: "Caption", widget: string }
@@ -191,13 +194,22 @@ collections:
             widget: list
             required: false
             fields:
-              - { name: date, label: "Date", widget: string, hint: "YYYY-MM-DD — past events fade for a week, then hide themselves" }
+              # Pick from a calendar rather than typing: shown day-first the way
+              # you'd say it, saved in the machine format the site needs.
+              - name: date
+                label: "Date"
+                hint: "Past events fade for a week, then hide themselves"
+                widget: datetime
+                format: "YYYY-MM-DD"
+                date_format: "DD/MM/YYYY"
+                time_format: false
+                picker_utc: true
               - { name: title, label: "Title", widget: string }
               - { name: when, label: "When (as shown)", widget: string }
               - { name: description, label: "Description", widget: text }
               - { name: soldOut, label: "Sold out?", widget: boolean, required: false, default: false }
               - { name: poster, label: "Poster", widget: image, required: false }
-              - { name: link, label: "Link", widget: string, required: false }
+              - { name: link, label: "Link", widget: string, required: false, pattern: ['^https?://\S+$|^$', "paste the whole link, starting with https:// — or leave it empty"] }
               - { name: linkText, label: "Link text", widget: string, required: false }
 
       - name: bookings
@@ -208,6 +220,7 @@ collections:
           - name: bookingTypes
             label: "What you can book — cards"
             widget: list
+            min: 1
             fields:
               - { name: title, label: "Title", widget: string }
               - { name: body, label: "Text", widget: text }
