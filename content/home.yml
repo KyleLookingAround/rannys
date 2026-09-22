@@ -21,7 +21,7 @@ inside:
   - title: Coffee, done right
     body: A medium-roast blend of dark chocolate, Hazelnut and Molasses by Atkinsons of Lancaster.
   - title: Only Stockport bakes here
-    body: Pastries fresh from Sticky Fingers every morning, cakes and cookies from Silver Apples — plus flourless and plant-based options. Brownies supplied by local baker “Brownie points by Amy”. Bakes change with the day, so ask what's in.
+    body: Pastries fresh from Sticky Fingers every morning, cakes and cookies from Silver Apples — plus flourless and plant-based options. Miniature cheesecakes in a variety of flavours by “Lulabellecheesecakes& Bakes”.  Brownies supplied by local baker “Brownie points by Amy”. Bakes change with the day, so ask what's in.
   - title: A room to linger in
     body: Speckled stoneware, fresh flowers, a wooden board menu, and walls in coffee shades — Milk & Honey and Roasted Hazelnut, finished with a smart border. Mismatched, much loved and dog-friendly — somewhere, not anywhere.
 partners:
@@ -33,6 +33,10 @@ partners:
     name: Sticky Fingers
     url: https://www.instagram.com/stickyfingersstockport/
     body: Pastries delivered fresh every morning — croissants, pain au chocolat, and the famous cinnamon rolls.
+  - category: Cheesecakes
+    name: Lulabelle cheesecakes & bakes
+    url: https://www.instagram.com/lulabellecheesecakesandbakes?stkn=aDdmZ21udGVsaTFh
+    body: Variety of 3 flavours changed weekly
 localArt:
   image: /assets/sketch-stockport.jpg
   caption: Our shopfront, painted by Sketch Stockport — hung on the wall by the window.
