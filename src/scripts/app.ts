@@ -1,9 +1,10 @@
 /* Ranny's — progressive enhancement.
    Pages work without it; this adds the live status, today's hours,
-   the "coming up" events, dots under the swipe rows, swipe and keyboard
-   support for the photo lightbox, and the booking enquiry builder. */
+   the "coming up" events, dots under the swipe rows, the photo viewer
+   (viewer.ts), and the booking enquiry builder. */
 import { paintStatus, tidyEvents, fmtTime, nowInLondon } from './shared';
 import { wireAnalytics, trackEnquiry } from './analytics';
+import { wireViewer } from './viewer';
 
 /* today's opening hours, e.g. "Today 7am – 4pm" or "Closed today" */
 function paintToday() {
@@ -86,51 +87,6 @@ function wireDots() {
   });
 }
 
-/* Esc / arrow keys / swipes in the photo lightbox */
-function wireLightbox() {
-  // Moving between photos or closing replaces the history entry, so the
-  // phone's Back button leaves the viewer instead of stepping through photos.
-  const go = (sel: string, box: Element) => {
-    const href = box.querySelector(sel)?.getAttribute('href');
-    if (href) location.replace(href);
-  };
-  document.addEventListener('click', (e) => {
-    const a = (e.target as Element).closest?.<HTMLAnchorElement>('.lightbox .lb-nav, .lightbox .lb-close, .lightbox .lb-backdrop');
-    const href = a?.getAttribute('href');
-    if (!href) return;
-    e.preventDefault();
-    location.replace(href);
-  });
-  document.addEventListener('keydown', (e) => {
-    const box = document.querySelector('.lightbox:target');
-    if (!box) return;
-    if (e.key === 'Escape') go('.lb-close', box);
-    else if (e.key === 'ArrowLeft') go('.lb-prev', box);
-    else if (e.key === 'ArrowRight') go('.lb-next', box);
-  });
-  addEventListener('hashchange', () => {
-    document.querySelector('.lightbox:target')?.querySelector<HTMLElement>('.lb-close')?.focus();
-  });
-
-  // swipe left / right on a phone to move between photos; swipe down to close
-  let x0 = 0, y0 = 0, t0 = 0;
-  document.addEventListener('touchstart', (e) => {
-    if (!(e.target as Element).closest?.('.lightbox:target')) return;
-    x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; t0 = Date.now();
-  }, { passive: true });
-  document.addEventListener('touchend', (e) => {
-    const box = document.querySelector('.lightbox:target');
-    if (!box || !t0 || e.touches.length) return;
-    const dx = e.changedTouches[0].clientX - x0;
-    const dy = e.changedTouches[0].clientY - y0;
-    const quick = Date.now() - t0 < 600;
-    t0 = 0;
-    if (!quick) return;
-    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) go(dx < 0 ? '.lb-next' : '.lb-prev', box);
-    else if (dy > 80 && Math.abs(dy) > Math.abs(dx) * 1.5) go('.lb-close', box);
-  }, { passive: true });
-}
-
 /* the booking form builds an email; with no JS the plain email link still works */
 function wireEnquiry() {
   const form = document.querySelector<HTMLFormElement>('[data-enquiry]');
@@ -175,6 +131,6 @@ tidyEvents();
 markNext();
 pickNext();
 wireDots();
-wireLightbox();
+wireViewer();
 wireEnquiry();
 wireAnalytics();

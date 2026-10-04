@@ -70,14 +70,9 @@ function onClick(e: MouseEvent) {
   if (/(^|\.)facebook\.com$/.test(url.hostname)) { track('social/facebook', `Facebook (${placement(a)})`); return; }
 }
 
-/* Photos shown in the full-screen viewer: menu photos and gallery photos,
-   whether opened by tapping, swiping or arriving from a link */
-let lastShot = '';
-function onShot() {
-  const box = document.querySelector('.lightbox:target');
-  if (!box || box.id === lastShot) { if (!box) lastShot = ''; return; }
-  lastShot = box.id;
-  const caption = box.getAttribute('aria-label') || box.id;
+/* Photos shown in the full-screen viewer (menu photos and gallery photos),
+   called by viewer.ts whenever a photo settles on screen */
+export function trackPhoto(caption: string) {
   const onMenu = location.pathname.startsWith('/menu');
   track(`${onMenu ? 'menu-photo' : 'photo'}/${slug(caption)}`, `${onMenu ? 'Menu photo' : 'Photo'}: ${caption}`);
 }
@@ -89,11 +84,4 @@ export function trackEnquiry(type: string) {
 
 export function wireAnalytics() {
   document.addEventListener('click', onClick, { capture: true });
-  addEventListener('hashchange', onShot);
-  // GoatCounter's script loads after ours; count a photo opened from a link once it's ready
-  if (location.hash.startsWith('#shot-')) {
-    let tries = 0;
-    const wait = () => { if (window.goatcounter?.count) onShot(); else if (tries++ < 20) setTimeout(wait, 250); };
-    wait();
-  }
 }

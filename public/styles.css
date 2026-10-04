@@ -458,6 +458,44 @@ body:has(.lightbox:target) :is(.tabs, .bar) { visibility: hidden; }
   .lb-figure img { max-height: calc(100dvh - 230px); }
 }
 
+/* JS photo viewer (viewer.ts): one overlay with a native scroll-snap strip,
+   so the photo follows the finger and each swipe moves exactly one photo */
+.has-viewer .lightbox { display: none !important; }
+.lbx {
+  position: fixed; inset: 0; z-index: 400; display: flex; flex-direction: column;
+  background: rgba(26, 18, 6, .985); touch-action: manipulation; animation: lb-in .18s ease;
+}
+.lbx[hidden] { display: none; }
+.lbx-track {
+  flex: 1; min-height: 0; display: flex; overflow-x: auto; overflow-y: hidden;
+  scroll-snap-type: x mandatory; overscroll-behavior: contain; scrollbar-width: none;
+}
+.lbx-track::-webkit-scrollbar { display: none; }
+.lbx-slide {
+  flex: 0 0 100%; scroll-snap-align: center; scroll-snap-stop: always; margin: 0;
+  display: grid; place-content: center; justify-items: center; gap: var(--s3);
+  padding: calc(64px + env(safe-area-inset-top, 0px)) 12px calc(24px + env(safe-area-inset-bottom, 0px));
+}
+.lbx-slide img { width: auto; height: auto; max-width: 100%; max-height: calc(100dvh - 190px); object-fit: contain; border-radius: 2px; }
+.js .lbx-slide img:not(.is-loaded) {
+  min-width: min(70vw, 420px); aspect-ratio: 4 / 5;
+  background: var(--paper-3) linear-gradient(100deg, transparent 30%, rgba(250, 245, 234, .75) 50%, transparent 70%) 0 0 / 250% 100% no-repeat;
+  animation: skel 1.3s ease-in-out infinite;
+}
+.lbx-count {
+  position: absolute; top: calc(22px + env(safe-area-inset-top, 0px)); left: 0; right: 0; text-align: center; pointer-events: none;
+  font-family: var(--poster); font-stretch: 125%; font-weight: 800; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--biscuit-lt);
+}
+.lbx :is(.lb-nav, .lb-close) { cursor: pointer; padding: 0; font-family: inherit; }
+.lbx .lb-nav:hover, .lbx .lb-close:hover { background: var(--biscuit); }
+body.lbx-open { overflow: hidden; }
+body.lbx-open :is(.tabs, .bar) { visibility: hidden; }
+@media (max-width: 639px) {
+  .lbx-slide { padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px)); }
+  .lbx-slide img { max-height: calc(100dvh - 230px); }
+}
+@media (prefers-reduced-motion: reduce) { .lbx { animation: none; } .js .lbx-slide img { animation: none !important; } }
+
 /* booking form */
 .r-form { display: grid; gap: 6px; padding: var(--s5) var(--s4); }
 .r-form label { margin-top: var(--s3); font-family: var(--poster); font-stretch: 112%; font-weight: 800; font-size: 11.5px; letter-spacing: 0.12em; text-transform: uppercase; }
