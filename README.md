@@ -9,9 +9,10 @@ turns the content files into finished pages in `dist/`, and GitHub Pages
 serves them. There's no database and nothing to run in the background. The
 pages are plain HTML + CSS and load fast; a small JavaScript layer
 (`src/scripts/app.ts`) adds progressive-enhancement touches — a live "open
-now / closed" status, keyboard support for the menu and photo lightbox, a cup
-that fills as you scroll, and a lazy-loaded 3D mug at the foot of the home
-page. Everything still works with JavaScript switched off.
+now / closed" status with today's hours, the "Coming up" events row, swipe and
+keyboard support for the photo viewer, the booking form, and loading
+placeholders for photos. Everything still works with JavaScript switched off.
+On phones, a tab bar at the bottom of the screen gets you to every page.
 
 ---
 
@@ -45,7 +46,7 @@ github.com (open a file, click the ✏️ pencil, commit). One file per page:
 | File | What's in it |
 |---|---|
 | `content/settings.yml` | Name, address, contact, opening hours, press links |
-| `content/home.yml` | Hero, ticker, the story, suppliers, local credits, mailing list |
+| `content/home.yml` | Hero line, the story, what's inside, the quote, suppliers, local credits, mailing list |
 | `content/menu.yml` | The menu photo cards + the house special |
 | `content/gallery.yml` | The photos (the first six also show on the home page) |
 | `content/events.yml` | What's on — past events fade, then hide themselves |
@@ -101,16 +102,18 @@ rannys/
 │   └── bookings.yml            bookings
 ├── src/                      ← the site itself (for developers)
 │   ├── content.config.ts       schemas that guard every content file at build time
-│   ├── layouts/Base.astro      shared shell (head, meta/OG/JSON-LD, nav, footer)
-│   ├── components/             shared pieces (the photo grid + lightbox)
+│   ├── layouts/Site.astro      shared shell (head, meta/OG/JSON-LD, header, tab bar, footer)
+│   ├── components/             RHead (section headings), RCta (closing band), RGallery (photos + viewer)
 │   ├── pages/                  one .astro file per page → one .html in dist/
-│   ├── scripts/app.ts          progressive enhancement (live status, a11y, scroll cup)
-│   ├── scripts/mug.ts          the lazy-loaded 3D enamel mug (three.js)
-│   └── lib/site.ts             build-time helpers (hours parsing, map URLs, JSON-LD)
+│   ├── scripts/app.ts          progressive enhancement (status, events row, photo viewer, form)
+│   ├── scripts/shared.ts       open/closed status + past-event tidying
+│   └── lib/                    build-time helpers: site.ts (hours, maps, JSON-LD), img.ts
+│                               (right-sized photos), collage.ts (photo collage), hours.ts
+├── scripts/images.mjs        ← makes web-sized photo copies before each build
 ├── public/                   ← copied into the site as-is
 │   ├── assets/                 photos, fonts, icons
 │   ├── admin/                  the content editor (Sveltia CMS)
-│   ├── styles.css              all styling (design tokens at the top)
+│   ├── styles.css              all styling (the design system is described at the top)
 │   ├── robots.txt · 404.html · site.webmanifest
 ├── astro.config.mjs          ← site URL/base, sitemap
 ├── package.json
@@ -121,26 +124,31 @@ rannys/
 **How the build works:** each file in `src/pages/` reads its content from
 `content/*.yml` (validated against the schemas in `src/content.config.ts` —
 a bad edit fails the build loudly instead of shipping), renders inside
-`src/layouts/Base.astro`, and is written to `dist/` as a plain `.html` page.
+`src/layouts/Site.astro`, and is written to `dist/` as a plain `.html` page.
 The Google Maps embed, JSON-LD for search engines, the sitemap, and the
-machine-readable opening hours are generated automatically. `three.js` (the
-mug) is bundled into its own file that only the home page fetches, on demand.
+machine-readable opening hours are generated automatically.
+
+**Photos:** before every build (and `npm run dev`), `scripts/images.mjs` makes
+web-sized WebP copies of each photo in `public/assets/` (400–1600px wide, in
+`public/assets/_w/`) plus a 1200×630 JPEG for link previews. Unchanged photos
+are skipped. Upload photos as normal; the copies are made for you and aren't
+committed.
 
 ---
 
 ## 📌 Good to know / nice next steps
 
-- **Brand palette** — the whole look is driven by her shopfront colours (green
-  `#a7bd1c`, orange `#db5e20`, cream `#f4ecd8`, mustard, terracotta, walnut),
-  defined once as design tokens at the top of `public/styles.css` (`:root`).
-  Change them there and the entire site re-themes. See `BRANDING.md` for the
-  full system. Fonts (Bagel Fat One, Baloo 2, DM Sans, Caveat) are self-hosted
-  in `public/assets/fonts/`.
+- **Brand palette** — the look comes from the shop itself: the fascia sign
+  (brick `#882603` and biscuit `#d09d5a`), the event posters (deep olive
+  `#4f4c24`, pickle `#7f7a1a`, burnt orange `#a24d00`, walnut, paper `#f3ead8`)
+  and the line-drawn shopfront. The tokens live at the top of
+  `public/styles.css`. See `BRANDING.md` for the full system. Fonts (Archivo,
+  Playfair Display, DM Sans, Caveat) are self-hosted in `public/assets/fonts/`.
 - **As featured in** — add press links under `press` in `content/settings.yml`;
   the strip above the footer hides itself when the list is empty.
-- **Share image** — link previews on WhatsApp/Instagram/Facebook use the enamel
-  card at `public/assets/share-card.png` (1200×630), wired up via `og:image` /
-  `twitter:image` in the layout. Replace that file to change the card.
+- **Share image** — link previews on WhatsApp/Instagram/Facebook use the
+  "Link-preview image" chosen in the editor's settings. The build makes a
+  1200×630 copy of it automatically, so any photo works.
 - **One-click editor sign-in** — the editor currently uses a personal access
   token. A "Sign in with GitHub" button needs a small (free) OAuth helper
   hosted elsewhere; worth adding if the token dance gets annoying.

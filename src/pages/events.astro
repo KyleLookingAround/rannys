@@ -1,68 +1,59 @@
 ---
-import Base from '../layouts/Base.astro';
+import Site from '../layouts/Site.astro';
+import RHead from '../components/RHead.astro';
+import RCta from '../components/RCta.astro';
 import { getEntry } from 'astro:content';
 import { getSettings, eventPill } from '../lib/site';
+import { pic, full } from '../lib/img';
 
 const s = await getSettings();
-const eventsEntry = await getEntry('events', 'main');
-if (!eventsEntry) throw new Error('content/events.yml is missing');
-const { intro, events } = eventsEntry.data;
-const list = events.map((ev) => ({ ...ev, ...eventPill(ev.date) }));
+const { intro, events } = (await getEntry('events', 'main'))!.data;
+// soonest first; past ones fade then disappear (see shared.ts)
+const list = [...events].sort((a, b) => a.date.localeCompare(b.date)).map((e) => ({ ...e, ...eventPill(e.date) }));
+// the first upcoming one (as of the build) shows its poster large, the rest as thumbnails
+const today = new Date().toISOString().slice(0, 10);
+const firstUp = list.findIndex((e) => e.date >= today);
 ---
 
-<Base title={`Events — ${s.name}`} description={`What's on at ${s.name}, ${s.street}, ${s.locality}.`} nav="events" page="events.html">
+<Site title={`What's on — ${s.name}`} description={`What's on at ${s.name}, ${s.street}, ${s.locality}.`} nav="events" page="events.html">
 
-<!-- PAGE HEADER -->
-<section class="page-head">
-  <div class="page-head-grid">
-    <div>
-      <div class="eyebrow">What's On</div>
-      <h1 class="page-title">Events at <em>Ranny's.</em></h1>
-      <p class="page-lede">{intro}</p>
-    </div>
+<section class="band r-page-head">
+  <div class="r-wrap">
+    <RHead kicker="What's on" level={1}>Events at <em>Ranny's.</em><Fragment slot="lede">{intro}</Fragment></RHead>
   </div>
 </section>
 
-<!-- EVENTS LIST -->
-<section class="events">
-  <div class="events-inner">
+<section class="band band-alt">
+  <div class="r-wrap">
     {list.length > 0 && (
-      <ul class="event-list">
-        {list.map((ev) => (
-          <li class={`event${ev.soldOut ? ' is-sold-out' : ''}`} data-date={ev.dateISO}>
-            <div class="event-date">
-              <span class="ev-day">{ev.day}</span>
-              <span class="ev-month">{ev.month}</span>
-            </div>
-            <div class="event-body">
-              <div class="event-main">
-                <h3 class="event-title">{ev.title}{ev.soldOut && <> <span class="sold-out">Sold out</span></>}</h3>
-                <p class="event-when">{ev.when}</p>
-                <p class="event-desc">{ev.description}</p>
-                {ev.link && <a class="event-link" href={ev.link} target="_blank" rel="noopener">{ev.linkText} ↗</a>}
+      <ol class="event-list r-events">
+        {list.map((e, i) => (
+          <li class="event r-tile" data-date={e.dateISO}>
+            {e.poster && (
+              <a class="r-ev-poster" href={full(e.poster)} target="_blank" rel="noopener" aria-label={`Open the full poster for ${e.title}`}>
+                <img {...pic(e.poster, i === firstUp ? '(min-width: 640px) 280px, 360px' : '120px')} alt={`Poster for ${e.title}`} loading="lazy" decoding="async">
+              </a>
+            )}
+            <div>
+              <p class="r-date"><b>{e.day}</b> {e.month}<span class="r-pill">Next up</span></p>
+              <h2 class="event-title r-event-title">{e.title}{e.soldOut && <span class="sold-out">Sold out</span>}</h2>
+              <p class="r-when">{e.when}</p>
+              <div class="r-ev-actions">
+                {e.link && <a class="event-link r-btn" href={e.link} target="_blank" rel="noopener">{e.linkText || 'Details'}&nbsp;↗</a>}
+                <details class="r-disclose">
+                  <summary>More about this</summary>
+                  <p class="r-ev-desc">{e.description}</p>
+                </details>
               </div>
-              {ev.poster && (
-                <a class="event-poster" href={ev.poster} target="_blank" rel="noopener" aria-label={`Open the full poster for ${ev.title}`}>
-                  <img src={ev.poster} alt={`Poster for ${ev.title}`} loading="lazy">
-                </a>
-              )}
             </div>
           </li>
         ))}
-      </ul>
+      </ol>
     )}
-    <p class="events-none" hidden={list.length > 0}>Nothing in the diary right now — keep an eye on <a href={s.instagram} target="_blank" rel="noopener">Instagram</a> or join the list below and we'll shout when something's on.</p>
+    <p class="events-none r-lede" hidden={list.length > 0}>Nothing in the diary right now. Keep an eye on <a href={s.instagram} target="_blank" rel="noopener">Instagram</a> and we'll shout when something's on.</p>
   </div>
 </section>
 
-<!-- Host your own -->
-<section class="community">
-  <div class="community-inner">
-    <div class="eyebrow">Got a group?</div>
-    <h2>Run your own <em>thing.</em></h2>
-    <p>Book club, knit night, running crew, new-mum meet-up — if you've got the people, we've got the room and the cake. Have a look at bookings.</p>
-    <a class="btn" href="./bookings.html">See bookings</a>
-  </div>
-</section>
+<RCta kicker="Got a group?" text="Book club, knit night, running crew, new-mum meet-up. If you've got the people, we've got the room and the cake." href="/bookings.html" label="Ask about a booking">Run your own <em>thing.</em></RCta>
 
-</Base>
+</Site>

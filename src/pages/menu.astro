@@ -1,61 +1,39 @@
 ---
-import Base from '../layouts/Base.astro';
+import Site from '../layouts/Site.astro';
+import RHead from '../components/RHead.astro';
+import RCta from '../components/RCta.astro';
+import RGallery from '../components/RGallery.astro';
 import { getEntry } from 'astro:content';
 import { getSettings } from '../lib/site';
+import { pic } from '../lib/img';
 
 const s = await getSettings();
-const menuEntry = await getEntry('menu', 'main');
-if (!menuEntry) throw new Error('content/menu.yml is missing');
-const m = menuEntry.data;
+const m = (await getEntry('menu', 'main'))!.data;
 ---
 
-<Base title={`Menu — ${s.name}`} description={`The ${s.name} menu — proper coffee, cake and the good stuff. ${s.locality}.`} nav="menu" page="menu.html">
+<Site title={`Menu — ${s.name}`} description={`The ${s.name} menu — proper coffee, cake and the good stuff. ${s.locality}.`} nav="menu" page="menu.html">
 
-<!-- PAGE HEADER -->
-<section class="page-head">
-  <div class="page-head-grid">
-    <div>
-      <div class="eyebrow">The Menu</div>
-      <h1 class="page-title">What's <em>on.</em></h1>
-      <p class="page-lede">{m.intro}</p>
-      <p class="page-note">{m.note}</p>
-    </div>
+<section class="band r-page-head">
+  <div class="r-wrap">
+    <RHead kicker="The menu" level={1}>What's <em>on.</em><Fragment slot="lede">{m.intro}</Fragment></RHead>
+    <p class="r-note">{m.note}</p>
   </div>
 </section>
 
-<!-- MENU (photo cards — swap photos & captions in content/menu.yml) -->
-<section class="menu">
-  <div class="gallery-grid menu-cards">
-    {m.cards.map((card) => (
-      <figure class="shot">
-        <img src={card.src} alt={card.alt} loading="lazy">
-        <figcaption class="shot-cap">{card.caption}</figcaption>
-      </figure>
-    ))}
+<section class="band band-alt">
+  <div class="r-wrap">
+    <p class="r-tip">Tap a photo to see it bigger.</p>
+    <RGallery photos={m.cards} layout="even" sizes="(min-width: 900px) 25vw, 50vw" />
   </div>
 </section>
 
-<!-- HOUSE SPECIAL (photo + description) -->
-<section class="special">
-  <div class="special-inner">
-    <figure class="special-photo">
-      <img src={m.special.image} alt={`${m.special.name} — an iced pistachio latte`} loading="lazy">
-    </figure>
-    <div class="special-text">
-      <div class="eyebrow">The house special</div>
-      <h2>{m.special.name}<em>.</em></h2>
-      <p>{m.special.blurb}</p>
-    </div>
+<section class="band" id="special">
+  <div class="r-wrap r-split">
+    <figure class="r-frame r-special-photo r-reveal"><img {...pic(m.special.image, '(min-width: 900px) 45vw, 100vw')} alt={`${m.special.name}, an iced pistachio latte`} loading="lazy" decoding="async"></figure>
+    <RHead kicker="House special">{m.special.name}<em>.</em><Fragment slot="lede">{m.special.blurb}</Fragment></RHead>
   </div>
 </section>
 
-<!-- CTA strip -->
-<section class="community">
-  <div class="community-inner">
-    <h2>Come and <em>try it.</em></h2>
-    <p>We're on Hempshaw Lane, {s.locality}. Kettle's on.</p>
-    <a class="btn" href="index.html#visit">Find us</a>
-  </div>
-</section>
+<RCta kicker="Come in" text={`We're on ${s.street}, ${s.locality}. Kettle's on.`} href="/#visit" label="Find us">Come and <em>try it.</em></RCta>
 
-</Base>
+</Site>

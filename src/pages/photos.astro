@@ -1,40 +1,29 @@
 ---
-import Base from '../layouts/Base.astro';
-import Gallery from '../components/Gallery.astro';
+import Site from '../layouts/Site.astro';
+import RHead from '../components/RHead.astro';
+import RCta from '../components/RCta.astro';
+import RGallery from '../components/RGallery.astro';
 import { getEntry } from 'astro:content';
 import { getSettings } from '../lib/site';
 
 const s = await getSettings();
-const galleryEntry = await getEntry('gallery', 'main');
-if (!galleryEntry) throw new Error('content/gallery.yml is missing');
-const g = galleryEntry.data;
+const g = (await getEntry('gallery', 'main'))!.data;
 ---
 
-<Base title={`Photos — ${s.name}`} description={`Photos of ${s.name} — the little green coffee shop on ${s.street}, ${s.locality}.`} nav="photos" page="photos.html">
+<Site title={`Photos — ${s.name}`} description={`A look around ${s.name} on ${s.street}, ${s.locality}.`} nav="photos" page="photos.html">
 
-<!-- PAGE HEADER -->
-<section class="page-head">
-  <div class="page-head-grid">
-    <div>
-      <div class="eyebrow">The Place</div>
-      <h1 class="page-title">Have a <em>nosey.</em></h1>
-      <p class="page-lede">{g.intro}</p>
-    </div>
+<section class="band r-page-head">
+  <div class="r-wrap">
+    <RHead kicker="The place" level={1}>Have a <em>nosey.</em><Fragment slot="lede">{g.intro}</Fragment></RHead>
   </div>
 </section>
 
-<!-- ALL THE PHOTOS (tap to open the lightbox) -->
-<section class="gallery gallery-page">
-  <Gallery photos={g.photos} mode="lightbox" />
-</section>
-
-<!-- CTA strip -->
-<section class="community">
-  <div class="community-inner">
-    <h2>Come see it <em>in person.</em></h2>
-    <p>We're on Hempshaw Lane, {s.locality}. Kettle's on.</p>
-    <a class="btn" href="index.html#visit">Find us</a>
+<section class="band band-alt">
+  <div class="r-wrap">
+    <RGallery photos={g.photos} layout="collage" />
   </div>
 </section>
 
-</Base>
+<RCta kicker="Come in" text={`It looks even better with a brew in hand. We're on ${s.street}, ${s.locality}.`} href="/#visit" label="Find us">See it in <em>person.</em></RCta>
+
+</Site>

@@ -1,0 +1,15 @@
+---
+/**
+ * The burnt-orange band that closes the inner pages, so every page ends the
+ * same way before the footer.
+ */
+import RHead from './RHead.astro';
+interface Props { kicker: string; text: string; href: string; label: string }
+const { kicker, text, href, label } = Astro.props;
+---
+<section class="band band-burnt">
+  <div class="r-wrap">
+    <RHead kicker={kicker}><slot /><Fragment slot="lede">{text}</Fragment></RHead>
+    <a class="r-btn" href={href}>{label}</a>
+  </div>
+</section>
