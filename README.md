@@ -148,6 +148,11 @@ committed.
   editor's settings (the `xyz` in `xyz.goatcounter.com`) and every page counts
   visits. No cookies, so no cookie banner. Leave it empty to switch stats off.
   The GoatCounter API key is private and never goes in the site.
+  Besides page views, `src/scripts/analytics.ts` counts these clicks as
+  events: Get directions, ticket links (per event), the booking form (per
+  type), email and Join the list, Instagram/Facebook, supplier and maker
+  links, and each menu or gallery photo opened. They appear in the dashboard
+  as paths like `directions`, `tickets/…`, `booking-enquiry/…`, `photo/…`.
 - **As featured in** — add press links under `press` in `content/settings.yml`;
   the strip above the footer hides itself when the list is empty.
 - **Share image** — link previews on WhatsApp/Instagram/Facebook use the
