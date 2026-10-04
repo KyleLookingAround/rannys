@@ -43,7 +43,7 @@ events:
       Location: Ranny's Café, Offerton, Stockport
       Spaces: Limited to 10
       All materials are included. Simply arrive, relax, and leave with a beautiful handmade wreath ready to hang on your door!
-    soldOut: false
+    soldOut: true
     poster: /assets/Workshop.jpeg
     link: https://sweetbud.co.uk/products/christmas-wreath-making-at-rannys-monday-23rd-november-7-9pm
     linkText: Tickets available here!
@@ -56,7 +56,7 @@ events:
       Location: Ranny's Café, Offerton, Stockport
       Spaces: Limited to 8
       All materials are included. Simply arrive, relax, and leave with a beautiful handmade wreath ready to hang on your door!
-    soldOut: false
+    soldOut: true
     poster: /assets/Workshop.jpeg
     link: https://sweetbud.co.uk/products/christmas-wreath-making-at-rannys-thursday-26th-november-7-30-9-30pm
     linkText: Tickets available here!
