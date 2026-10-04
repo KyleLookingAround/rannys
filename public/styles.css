@@ -274,8 +274,7 @@ a, button, summary, select, input, textarea { touch-action: manipulation; }
 .r-ev-card.is-next .r-pill { display: inline-flex; }
 
 /* position dots under each swipe row (added by app.ts; phones/tablets only) */
-.r-dots { display: flex; justify-content: center; gap: 2px; margin-top: var(--s2); }
-.r-dots[hidden] { display: none; }
+.r-dots { display: flex; justify-content: center; gap: 2px; margin-top: var(--s2); min-height: 24px; }
 .r-dots button { display: grid; place-items: center; width: 24px; height: 24px; padding: 0; border: 0; background: none; cursor: pointer; }
 .r-dots button::before { content: ''; width: 8px; height: 8px; border-radius: 999px; background: var(--ink); opacity: .22; transition: width .2s ease, opacity .2s ease; }
 .r-dots button[aria-current="true"]::before { width: 20px; opacity: 1; background: var(--brick); }

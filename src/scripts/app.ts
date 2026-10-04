@@ -48,8 +48,14 @@ function wireDots() {
   document.querySelectorAll<HTMLElement>('.r-scroller').forEach((row) => {
     const items = [...row.children].filter((c) => !(c as HTMLElement).hidden) as HTMLElement[];
     if (items.length < 2) return;
-    const dots = document.createElement('div');
-    dots.className = 'r-dots';
+    // the page reserves an empty .r-dots after each row so nothing shifts
+    // when the dots arrive; fall back to adding one
+    let dots = row.nextElementSibling as HTMLElement | null;
+    if (!dots?.classList.contains('r-dots')) {
+      dots = document.createElement('div');
+      dots.className = 'r-dots';
+      row.after(dots);
+    }
     const label = row.getAttribute('aria-label') || 'Items';
     items.forEach((item, i) => {
       const b = document.createElement('button');
@@ -62,10 +68,10 @@ function wireDots() {
       });
       dots.append(b);
     });
-    row.after(dots);
     const buttons = [...dots.children] as HTMLElement[];
     const update = () => {
-      dots.hidden = row.scrollWidth <= row.clientWidth + 2;   // everything fits: no dots
+      // everything fits: hide the dots but keep their space
+      dots.style.visibility = row.scrollWidth <= row.clientWidth + 2 ? 'hidden' : '';
       const x = row.getBoundingClientRect().left + (parseFloat(getComputedStyle(row).scrollPaddingLeft) || 0);
       let best = 0, bestD = Infinity;
       items.forEach((item, i) => {
@@ -165,7 +171,31 @@ function wireSkeletons() {
   });
 }
 
+/* Links like /#visit: the browser jumps on arrival, but fonts and photos
+   arriving afterwards can shift the page, and not every phone corrects for
+   it. Once things settle, put the page back on the linked section, unless
+   the visitor has already started scrolling. */
+function settleHashTarget() {
+  const id = decodeURIComponent(location.hash.slice(1));
+  if (!id || /^(shot|thumb)-/.test(id)) return;     // photo viewer handles its own
+  const target = document.getElementById(id);
+  if (!target) return;
+  let moved = false;
+  const stop = () => { moved = true; };
+  ['wheel', 'touchstart', 'keydown', 'pointerdown'].forEach((e) => addEventListener(e, stop, { once: true, passive: true }));
+  const align = () => {
+    if (moved || location.hash.slice(1) !== id) return;
+    const off = Math.abs(target.getBoundingClientRect().top - (parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0));
+    if (off > 4) target.scrollIntoView({ block: 'start' });
+  };
+  document.fonts?.ready.then(align);
+  if (document.readyState === 'complete') align(); else addEventListener('load', align, { once: true });
+  setTimeout(align, 1500);
+  setTimeout(align, 3500);
+}
+
 wireSkeletons();
+settleHashTarget();
 paintStatus();
 paintToday();
 setInterval(() => { paintStatus(); paintToday(); }, 60000);
