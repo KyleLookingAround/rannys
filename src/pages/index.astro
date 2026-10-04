@@ -1,246 +1,225 @@
 ---
-import Base from '../layouts/Base.astro';
-import Gallery from '../components/Gallery.astro';
+import Site from '../layouts/Site.astro';
+import RHead from '../components/RHead.astro';
 import { getEntry } from 'astro:content';
-import { getSettings, mapEmbedUrl, directionsUrl, hoursRows, hoursShort, statusShort } from '../lib/site';
+import { getSettings, mapEmbedUrl, directionsUrl, statusShort, eventPill } from '../lib/site';
+import { pic, full } from '../lib/img';
+import { hoursWithDays } from '../lib/hours';
 
 const s = await getSettings();
-const homeEntry = await getEntry('home', 'main');
-if (!homeEntry) throw new Error('content/home.yml is missing');
-const h = homeEntry.data;
-const galleryEntry = await getEntry('gallery', 'main');
-if (!galleryEntry) throw new Error('content/gallery.yml is missing');
-const teaserPhotos = galleryEntry.data.photos.slice(0, 6);
+const h = (await getEntry('home', 'main'))!.data;
+const m = (await getEntry('menu', 'main'))!.data;
+const g = (await getEntry('gallery', 'main'))!.data;
+const ev = (await getEntry('events', 'main'))!.data;
 
-const listMailto = `mailto:${s.email}?subject=Add%20me%20to%20the%20${encodeURIComponent(s.name)}%20list&body=Hi%2C%0A%0APop%20me%20on%20the%20list%20please.%0A%0AThanks%21`;
+// The next three events, swipeable on phones. A few spares are built in: the
+// page script drops any that have passed since the last rebuild and shows the
+// first three left, so the row stays right between rebuilds.
+const SHOW = 3;
+const today = new Date().toISOString().slice(0, 10);
+const upcoming = [...ev.events]
+  .sort((a, b) => a.date.localeCompare(b.date))
+  .filter((e) => e.date >= today)
+  .slice(0, SHOW + 3)
+  .map((e) => ({ ...e, ...eventPill(e.date) }));
+
+const rows = hoursWithDays(s);
+const heroPhoto = g.photos.find((p) => p.src.includes('storefront')) ?? g.photos[0];
+const teaser = g.photos.filter((p) => p !== heroPhoto).slice(0, 6);
+const listMailto = `mailto:${s.email}?subject=Add%20me%20to%20the%20${encodeURIComponent(s.name)}%20list`;
+const rowSizes = '(min-width: 900px) 280px, (min-width: 640px) 40vw, 72vw';
 ---
 
-<Base title={`${s.name} — coffee, cake & a proper natter`} description={s.description} nav="home" page="index.html">
+<Site title={`${s.name} — coffee, cake & a proper natter`} description={s.description} nav="home" page="">
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-grid">
-    <div>
-      <div class="eyebrow">{h.eyebrow}</div>
-      <h1>
-        <span class="lime-bg">Coffee,</span><br>
-        cake <span class="amp">&amp;</span><br>
-        a proper<br>
-        natter.
-      </h1>
-      <p class="hero-tag">{h.tagline}</p>
-
-      <div class="hero-meta">
-        <div>Open<span>{hoursShort(s)}</span></div>
-        <div>Find us<span>{s.street}</span></div>
-        <div>Postcode<span>{s.postcode}</span></div>
-      </div>
-
-      <div class="open-flag" data-open-status>
-        <span class="pulse"></span>
-        <span class="status-text">{statusShort(s)}</span>
-        <span class="of-sub"></span>
+<!-- HERO: the shop, whether it's open, and how to get there -->
+<section class="band r-hero">
+  <div class="r-hero-wrap">
+    <div class="r-hero-grid">
+      <figure class="r-hero-photo">
+        <img {...pic(heroPhoto.src, '(min-width: 900px) 56vw, 100vw')} alt={heroPhoto.caption} fetchpriority="high" decoding="async">
+      </figure>
+      <div class="r-hero-card r-panel">
+        <p class="r-kicker">{h.eyebrow}</p>
+        <h1 class="r-hero-sign"><img src="/assets/ranny-sign.webp" alt={s.name} width="919" height="231"></h1>
+        <p class="r-hero-line">Coffee, cake <span>&amp;</span> a proper natter.</p>
+        <div class="r-today" data-open-status>
+          <span class="pulse"></span>
+          <div>
+            <p class="r-today-main"><span class="status-text">{statusShort(s)}</span> <span class="of-sub"></span></p>
+            <p class="r-today-sub"><span data-today-hours>Hours below</span> · {s.street}</p>
+          </div>
+        </div>
+        <div class="r-actions">
+          <a class="r-btn" href={directionsUrl(s)} target="_blank" rel="noopener">Get directions</a>
+          <a class="r-btn r-btn-ghost" href="/menu.html">See the menu</a>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- TODAY'S SPECIALS TICKER -->
-<div class="ticker" aria-label="Today at Ranny's">
-  <div class="ticker-tag">Today</div>
-  <div class="ticker-track">
-    {h.marquee.map((item) => <span>{item}</span>)}
-    {h.marquee.map((item) => <span>{item}</span>)}
+<!-- COMING UP: the next three events, swipeable on phones -->
+{upcoming.length > 0 && (
+  <section class="band band-alt" data-next data-show={SHOW}>
+    <div class="r-wrap">
+      <RHead kicker="What's on" more={{ href: '/events.html', label: 'All events' }}>Coming <em>up.</em></RHead>
+      <div class="r-scroller r-scroller-events" tabindex="0" aria-label="Upcoming events">
+        {upcoming.map((e, i) => (
+          <article class={`r-ev-card r-tile${i === 0 ? ' is-next' : ''}`} data-date={e.dateISO} hidden={i >= SHOW}>
+            <a class="r-ev-card-poster" href="/events.html" tabindex="-1" aria-hidden="true">
+              {e.poster
+                ? <img {...pic(e.poster, '(min-width: 900px) 360px, (min-width: 640px) 44vw, 78vw')} alt="" loading="lazy" decoding="async">
+                : <span class="r-ev-card-blank"><b>{e.day}</b>{e.month}</span>}
+            </a>
+            <div class="r-ev-card-body">
+              <p class="r-date"><b>{e.day}</b> {e.month}<span class="r-pill">Next up</span></p>
+              <h3 class="r-event-title"><a href="/events.html">{e.title}</a></h3>
+              <p class="r-when">{e.when}</p>
+              {e.link
+                ? <a class="r-link" href={e.link} target="_blank" rel="noopener">{e.linkText || 'Details'}&nbsp;↗</a>
+                : <a class="r-link" href="/events.html">More about this&nbsp;→</a>}
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+)}
+
+<!-- ON THE BOARD -->
+<section class="band">
+  <div class="r-wrap">
+    <RHead kicker="The menu" more={{ href: '/menu.html', label: 'Full menu' }}>
+      On the <em>board.</em>
+      <Fragment slot="lede">{m.intro}</Fragment>
+    </RHead>
+    <div class="r-scroller" tabindex="0" aria-label="Menu photos">
+      {m.cards.map((c, i) => (
+        <a class="r-card-photo r-tile r-reveal" href={`/menu.html#shot-${i + 1}`}>
+          <img {...pic(c.src, rowSizes)} alt={c.alt} loading="lazy" decoding="async">
+          <span class="r-cap">{c.caption}</span>
+        </a>
+      ))}
+    </div>
+    <a class="r-special r-reveal" href="/menu.html#special">
+      <img {...pic(m.special.image, '88px')} alt="" loading="lazy" decoding="async">
+      <span><small>House special</small><b>{m.special.name}</b>{m.special.blurb}</span>
+    </a>
   </div>
-</div>
+</section>
 
 <!-- STORY -->
-<section class="story" id="story">
-  <div class="story-inner">
-    <div>
-      <div class="story-label">01 — The Story</div>
-      <h2>Hi, I'm <em>{h.story.name}</em>.</h2>
-      <figure class="story-photo">
-        <img src="./assets/story.jpg" alt="Rhianne outside the freshly-painted Ranny's, pointing up at the new sign before opening" loading="lazy">
-      </figure>
-    </div>
-    <div>
-      <p class="lede">{h.story.lede}</p>
-      {h.story.paragraphs.map((p) => <p>{p}</p>)}
-      <div class="signature">{h.story.signature}</div>
-    </div>
-  </div>
-</section>
-
-<!-- INSIDE -->
-<section class="inside" id="inside">
-  <h2>What you'll find <em>inside.</em></h2>
-  <div class="cards">
-    <div class="card">
-      <div class="card-num">№ 01</div>
-      <svg class="card-icon" aria-hidden="true" viewBox="0 0 60 60" fill="none" stroke="currentColor" stroke-width="2.5">
-        <path d="M10 28h32v14a8 8 0 0 1-8 8H18a8 8 0 0 1-8-8V28z"/>
-        <path d="M42 32h6a6 6 0 0 1 0 12h-6"/>
-        <path d="M18 10c0 4 4 4 4 8s-4 4-4 8"/><path d="M28 10c0 4 4 4 4 8s-4 4-4 8"/><path d="M38 10c0 4 4 4 4 8s-4 4-4 8"/>
-      </svg>
-      <h3>{h.inside[0].title}</h3>
-      <p>{h.inside[0].body}</p>
-    </div>
-    <div class="card">
-      <div class="card-num">№ 02</div>
-      <svg class="card-icon" aria-hidden="true" viewBox="0 0 60 60" fill="none" stroke="currentColor" stroke-width="2.5">
-        <path d="M10 22 L30 12 L50 22 L50 26 L10 26 Z"/><path d="M14 26 L14 48 L46 48 L46 26"/>
-        <path d="M20 32 L40 32"/><path d="M18 40 L42 40"/><circle cx="30" cy="18" r="2" fill="currentColor"/>
-      </svg>
-      <h3>{h.inside[1].title}</h3>
-      <p>{h.inside[1].body}</p>
-    </div>
-    <div class="card">
-      <div class="card-num">№ 03</div>
-      <svg class="card-icon" aria-hidden="true" viewBox="0 0 60 60" fill="none" stroke="currentColor" stroke-width="2.5">
-        <path d="M14 26 C 14 18, 46 18, 46 26 L46 42 C46 48, 14 48, 14 42 Z"/><ellipse cx="30" cy="26" rx="16" ry="4"/>
-        <path d="M22 14 C22 10, 24 8, 26 10"/><path d="M30 12 C30 8, 32 6, 34 8"/><path d="M38 14 C38 10, 40 8, 42 10"/>
-      </svg>
-      <h3>{h.inside[2].title}</h3>
-      <p>{h.inside[2].body}</p>
+<section class="band band-alt r-story">
+  <div class="r-wrap r-split">
+    <figure class="r-frame r-reveal"><img {...pic('/assets/story.jpg', '(min-width: 900px) 45vw, 100vw')} alt="Rhianne outside the freshly-painted Ranny's, pointing up at the new sign before opening" loading="lazy" decoding="async"></figure>
+    <div class="r-prose">
+      <RHead kicker="The story">Hi, I'm <em>{h.story.name}.</em></RHead>
+      <p class="r-lede">{h.story.lede}</p>
+      <p>{h.story.paragraphs[0]}</p>
+      {h.story.paragraphs.length > 1 && (
+        <details class="r-disclose">
+          <summary>Read the rest</summary>
+          <div class="r-prose">{h.story.paragraphs.slice(1).map((p) => <p>{p}</p>)}</div>
+        </details>
+      )}
+      <p class="r-sign-off">{h.story.signature}</p>
     </div>
   </div>
 </section>
 
-<!-- GALLERY TEASER (tap a photo to see the lot) -->
-<section class="gallery" id="gallery">
-  <div class="gallery-head">
-    <div class="section-eyebrow">The Place</div>
-    <h2>Have a <em>nosey.</em></h2>
+<!-- WHAT YOU'LL FIND -->
+<section class="band band-olive">
+  <div class="r-wrap">
+    <RHead kicker="Inside">What you'll <em>find.</em></RHead>
+    <ol class="r-numbered r-numbered-3">
+      {h.inside.map((it) => <li class="r-reveal"><h3 class="r-h3">{it.title}</h3><p>{it.body}</p></li>)}
+    </ol>
   </div>
-  <Gallery photos={teaserPhotos} mode="teaser" />
-  <p class="gallery-more"><a class="btn" href="./photos.html">See all the photos</a></p>
 </section>
 
-<!-- FEATURED QUOTE BAND (her photo + a line in her voice) -->
-<section class="quote-band" style={`background-image: url('${h.quote.image}')`}>
-  <div class="quote-overlay"></div>
-  <blockquote class="quote">
-    <p>{h.quote.text}</p>
-    <cite>{h.quote.by} <span aria-hidden="true">💚</span></cite>
-  </blockquote>
-</section>
-
-<!-- SUPPLIERS -->
-<section class="partners" id="partners">
-  <div class="partners-inner">
-    <div class="partners-label">02 — In Good Company</div>
-    <h2>From our <em>suppliers.</em></h2>
-    <div class="partners-grid">
-      {h.partners.map((p) => (
-        <div class="partner">
-          <span class="partner-cat">{p.category}</span>
-          <h3>{p.url
-            ? <a class="partner-link" href={p.url} target="_blank" rel="noopener">{p.name} ↗</a>
-            : p.name}</h3>
-          <p>{p.body}</p>
-        </div>
+<!-- PHOTOS -->
+<section class="band">
+  <div class="r-wrap">
+    <RHead kicker="The place" more={{ href: '/photos.html', label: 'All photos' }}>Have a <em>nosey.</em></RHead>
+    <div class="r-scroller r-scroller-photos" tabindex="0" aria-label="Photos of the shop">
+      {teaser.map((p) => (
+        <a class="r-card-photo r-tile r-reveal" href={`/photos.html#shot-${g.photos.indexOf(p) + 1}`}>
+          <img {...pic(p.src, '(min-width: 900px) 360px, (min-width: 640px) 40vw, 72vw')} alt={p.caption} loading="lazy" decoding="async">
+          <span class="r-cap">{p.caption}</span>
+        </a>
       ))}
     </div>
   </div>
 </section>
 
-<!-- MADE LOCAL — credits the local artists & makers -->
-<section class="made-local" id="made-local">
-  <div class="made-local-inner">
-    <figure class="ml-art">
-      <img src={h.localArt.image} alt="Framed watercolour of the Ranny's shopfront by local artist Sketch Stockport, hung on the shop wall" loading="lazy">
-      <figcaption>{h.localArt.caption}</figcaption>
-    </figure>
-    <div class="ml-text">
-      <div class="section-eyebrow">By local hands</div>
-      <h2>Made <em>local.</em></h2>
-      <p class="lede">{h.localArt.blurb}</p>
-      <ul class="ml-credits">
+<!-- QUOTE -->
+<section class="band r-quote" style={`--bg: url('${full(h.quote.image)}')`}>
+  <blockquote>
+    <p>{h.quote.text}</p>
+    <cite>{h.quote.by}</cite>
+  </blockquote>
+</section>
+
+<!-- MADE ROUND HERE: suppliers + local makers -->
+<section class="band band-alt">
+  <div class="r-wrap r-split r-split-rev">
+    <div>
+      <RHead kicker="Made round here">
+        Who's <em>behind it.</em>
+        <Fragment slot="lede">{h.localArt.blurb}</Fragment>
+      </RHead>
+      <ul class="r-credits">
+        {h.partners.map((p) => (
+          <li><span>{p.category}</span>{p.url ? <a href={p.url} target="_blank" rel="noopener">{p.name}&nbsp;↗</a> : <b>{p.name}</b>}</li>
+        ))}
         {h.localCredits.map((c) => (
-          <li>
-            <span class="ml-role">{c.role}</span>
-            <span class="ml-name">{c.url
-              ? <a class="ml-link" href={c.url} target="_blank" rel="noopener">{c.name} ↗</a>
-              : c.name}</span>
-            <span class="ml-note">{c.note}</span>
-          </li>
+          <li><span>{c.role}</span>{c.url ? <a href={c.url} target="_blank" rel="noopener">{c.name}&nbsp;↗</a> : <b>{c.name}</b>}</li>
         ))}
       </ul>
     </div>
+    <figure class="r-frame r-reveal">
+      <img {...pic(h.localArt.image, '(min-width: 900px) 40vw, 100vw')} alt="Framed watercolour of the Ranny's shopfront by Sketch Stockport, hung on the shop wall" loading="lazy" decoding="async">
+      <figcaption>{h.localArt.caption}</figcaption>
+    </figure>
   </div>
 </section>
 
-<!-- COMMUNITY (teaser → bookings) -->
-<section class="community" id="community">
-  <div class="community-inner">
-    <div class="eyebrow">Got a group?</div>
-    <h2>Hire out <em>Rannys.</em></h2>
-    <p>{h.community.blurb}</p>
-    <a class="btn" href="./bookings.html">See bookings</a>
+<!-- BOOK + LIST -->
+<section class="band r-duo">
+  <div class="band-burnt">
+    <RHead kicker="Got a group?">Hire out <em>Ranny's.</em><Fragment slot="lede">{h.community.blurb}</Fragment></RHead>
+    <a class="r-btn" href="/bookings.html">Ask about a booking</a>
   </div>
-</section>
-
-<!-- MAILING LIST -->
-<section class="signup" id="notify">
-  <div class="signup-inner">
-    <div class="eyebrow">On the list</div>
-    <h2>Know what's <em>on.</em></h2>
-    <p class="lede">{h.mailingList.blurb}</p>
-    {h.mailingList.action
-      ? <form class="signup-form" action={h.mailingList.action} method="post" target="_blank">
-          <input class="signup-input" type="email" name={h.mailingList.fieldName} placeholder="you@email.com" required aria-label="Email address">
-          <button class="btn btn-signup" type="submit">Join the list</button>
-        </form>
-      : <a class="btn btn-signup" href={listMailto}>Join the list</a>}
-    <p class="signup-fineprint">No spam. No nonsense. Just the good stuff.</p>
+  <div class="band-walnut">
+    <RHead kicker="On the list">Know what's <em>on.</em><Fragment slot="lede">{h.mailingList.blurb}</Fragment></RHead>
+    <a class="r-btn" href={listMailto}>Join the list</a>
   </div>
 </section>
 
 <!-- VISIT -->
-<section class="visit" id="visit">
-  <div class="visit-inner">
+<section class="band" id="visit">
+  <div class="r-wrap r-split">
     <div>
-      <div class="visit-label">03 — Come Say Hi</div>
-      <h2>Find us on {s.street}.</h2>
-      <div class="address">
-        <strong>{s.name} Coffee Shop</strong>
-        {s.street}<br>
-        {s.locality}, {s.postcode}
+      <RHead kicker="Come say hi">
+        Find <em>us.</em>
+        <Fragment slot="lede">{`${s.name}, ${s.street}, ${s.locality} ${s.postcode}`}</Fragment>
+      </RHead>
+      <table class="r-hours">
+        <caption><span class="r-kicker">Opening hours</span></caption>
+        <tbody>
+          {rows.map((r) => <tr data-days={r.days}><th scope="row">{r.day}</th><td>{r.time}</td></tr>)}
+        </tbody>
+      </table>
+      <div class="r-actions">
+        <a class="r-btn" href={directionsUrl(s)} target="_blank" rel="noopener">Get directions</a>
+        <a class="r-btn r-btn-ghost" href={`mailto:${s.email}`}>Email us</a>
       </div>
-      <ul class="hours-list">
-        {hoursRows(s).map((hr) => <li><span class="hl-day">{hr.day}</span><span class="hl-time">{hr.time}</span></li>)}
-      </ul>
-      <ul class="contact-list">
-        <li><span class="lbl">Email</span><a href={`mailto:${s.email}`}>{s.email}</a></li>
-        <li><span class="lbl">Social</span><a href={s.instagram} target="_blank" rel="noopener">{s.instagramHandle}</a></li>
-      </ul>
     </div>
-
-    <div class="map-col">
-      <div class="map-card">
-        <iframe
-          src={mapEmbedUrl(s)}
-          width="100%" height="100%"
-          style="border:0; display:block;"
-          loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"
-          title={`${s.name} on ${s.street}, ${s.locality}`}
-          allowfullscreen></iframe>
-      </div>
-      <a class="map-link" href={directionsUrl(s)} target="_blank" rel="noopener">Get directions →</a>
+    <div class="r-map">
+      <iframe src={mapEmbedUrl(s)} loading="lazy" referrerpolicy="no-referrer-when-downgrade" title={`${s.name} on ${s.street}, ${s.locality}`} allowfullscreen></iframe>
     </div>
   </div>
 </section>
 
-<!-- CLOSING FLOURISH — the draggable 3D enamel mug -->
-<section class="closer">
-  <div class="closer-inner">
-    <div class="mug-stage mug-stage--sm" data-mug hidden>
-      <span class="mug-hint">drag to spin</span>
-    </div>
-    <p class="closer-line">Right then — <em>kettle's on.</em></p>
-  </div>
-</section>
-
-</Base>
+</Site>

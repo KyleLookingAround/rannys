@@ -1,0 +1,132 @@
+---
+/**
+ * The shared shell for every page: head (meta, link previews, search data),
+ * compact header, a bottom tab bar on phones, and the same footer (opening
+ * hours, address, contact) on every page.
+ */
+import { getSettings, hoursData, statusShort, directionsUrl, jsonLd } from '../lib/site';
+import { ogCopy } from '../lib/img';
+import { hoursWithDays } from '../lib/hours';
+
+interface Props {
+  title: string;
+  description: string;
+  nav?: 'home' | 'menu' | 'events' | 'photos' | 'bookings';
+  /** this page's path, e.g. "menu.html" ("" for home), for the share links */
+  page?: string;
+}
+
+const { title, description, nav, page = '' } = Astro.props;
+const s = await getSettings();
+const year = new Date().getFullYear();
+const hours = hoursWithDays(s);
+const pageUrl = s.url + page;
+// the owner's chosen link-preview image, as a 1200×630 copy
+const shareImage = s.url.replace(/\/$/, '') + ogCopy(s.previewImage);
+const cur = (n: string) => (nav === n ? 'page' : undefined);
+const tabs = [
+  { id: 'home', href: '/', label: 'Home',
+    icon: '<path d="M4 11 12 4l8 7v9h-5v-6H9v6H4z"/>' },
+  { id: 'menu', href: '/menu.html', label: 'Menu',
+    icon: '<path d="M5 9h11v6a5 5 0 0 1-5 5h-1a5 5 0 0 1-5-5z"/><path d="M16 11h1.5a2.5 2.5 0 0 1 0 5H16"/><path d="M9 3c0 1.5 1.5 1.5 1.5 3M12.5 3c0 1.5 1.5 1.5 1.5 3"/>' },
+  { id: 'events', href: '/events.html', label: "What's on",
+    icon: '<rect x="4" y="5" width="16" height="15" rx="1"/><path d="M4 10h16M9 3v4M15 3v4"/>' },
+  { id: 'photos', href: '/photos.html', label: 'Photos',
+    icon: '<rect x="3" y="6" width="18" height="14" rx="1"/><circle cx="12" cy="13" r="3.5"/><path d="M8 6l1.5-2h5L16 6"/>' },
+  { id: 'bookings', href: '/bookings.html', label: 'Book',
+    icon: '<path d="M8 3h8a1 1 0 0 1 1 1v8H7V4a1 1 0 0 1 1-1z"/><path d="M5 12h14v3H5zM7 15v6M17 15v6"/>' },
+];
+---
+
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>{title}</title>
+<meta name="description" content={description} />
+<meta name="theme-color" content="#f3ead8" />
+<link rel="canonical" href={pageUrl}>
+<link rel="sitemap" href="/sitemap-index.xml">
+<link rel="icon" type="image/svg+xml" href="/assets/icon.svg">
+<link rel="preload" href="/assets/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/dmsans.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/styles.css">
+<!-- lets the CSS show photo skeletons only when the script can clear them -->
+<script is:inline>document.documentElement.classList.add('js')</script>
+
+<meta property="og:type" content="website">
+<meta property="og:title" content={title}>
+<meta property="og:description" content={description}>
+<meta property="og:url" content={pageUrl}>
+<meta property="og:locale" content="en_GB">
+<meta property="og:site_name" content={s.name}>
+<meta property="og:image" content={shareImage}>
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content={`${s.name}: coffee, cake & a proper natter. Hempshaw Lane, Stockport.`}>
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content={shareImage}>
+<link rel="apple-touch-icon" href="/assets/icon.svg">
+<link rel="manifest" href="/site.webmanifest">
+<script type="application/ld+json" set:html={JSON.stringify(jsonLd(s)).replace(/</g, '\\u003c')} />
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="bar">
+  <a class="bar-logo" href="/"><img src="/assets/ranny-sign-sm.webp" alt={s.name} width="420" height="106"></a>
+  <nav class="bar-nav" aria-label="Main">
+    {tabs.map((t) => <a href={t.href} aria-current={cur(t.id)}>{t.label}</a>)}
+  </nav>
+  <a class="bar-status" href="/#visit" data-open-status>
+    <span class="pulse"></span><span class="status-text">{statusShort(s)}</span><span class="of-sub"></span>
+  </a>
+</header>
+
+<main id="main">
+<slot />
+</main>
+
+<footer class="foot">
+  <div class="foot-inner">
+    <div class="foot-brand">
+      <a class="foot-sign" href="/"><img src="/assets/ranny-sign-sm.webp" alt={s.name} width="420" height="106" loading="lazy"></a>
+      <p class="foot-line">Coffee, cake &amp; a proper natter.</p>
+    </div>
+    <div class="foot-col foot-col-hours">
+      <h2 class="r-kicker">Opening hours</h2>
+      <dl class="foot-hours">
+        {hours.map((r) => <div data-days={r.days}><dt>{r.day}</dt><dd>{r.time}</dd></div>)}
+      </dl>
+    </div>
+    <div class="foot-col">
+      <h2 class="r-kicker">Find us</h2>
+      <p>{s.street}<br>{s.locality}, {s.postcode}</p>
+      <a class="r-link" href={directionsUrl(s)} target="_blank" rel="noopener">Get directions&nbsp;↗</a>
+    </div>
+    <div class="foot-col">
+      <h2 class="r-kicker">Say hello</h2>
+      <p><a href={`mailto:${s.email}`}>{s.email}</a></p>
+      <p><a href={s.instagram} target="_blank" rel="noopener">Instagram</a> · <a href={s.facebook} target="_blank" rel="noopener">Facebook</a></p>
+    </div>
+  </div>
+  {s.press.length > 0 && (
+    <p class="foot-press">As featured in {s.press.map((p, i) => <>{i > 0 && ' · '}<a href={p.url} target="_blank" rel="noopener">{p.name}</a></>)}</p>
+  )}
+  <p class="foot-small">© {year} {s.name} · {s.street} · {s.locality} {s.postcode}</p>
+</footer>
+
+<nav class="tabs" aria-label="Main">
+  {tabs.map((t) => (
+    <a href={t.href} aria-current={cur(t.id)}>
+      <svg viewBox="0 0 24 24" aria-hidden="true" set:html={t.icon} />
+      <span>{t.label}</span>
+    </a>
+  ))}
+</nav>
+
+<script is:inline set:html={`window.__RANNYS__=${JSON.stringify(hoursData(s))};`} />
+<script src="../scripts/app.ts"></script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+---
+/**
+ * Photo grid + lightbox (Photos and Menu pages).
+ * Pure CSS (:target) so it works without JS; app.ts adds swipe, arrow
+ * keys and Esc. Thumbnails and the full-size view use web-sized copies.
+ */
+import { pic } from '../lib/img';
+import { collage } from '../lib/collage';
+
+interface Photo { src: string; caption: string; alt?: string }
+interface Props {
+  photos: Photo[];
+  /**
+   * "collage": a mix of big, tall and small tiles fitted together with no gaps
+   * (Photos page; see lib/collage.ts) · "even": equal tiles (Menu page)
+   */
+  layout?: 'collage' | 'even';
+  /** `sizes` for the grid thumbnails */
+  sizes?: string;
+}
+
+const { photos, layout = 'collage', sizes = '(min-width: 900px) 25vw, 50vw' } = Astro.props;
+const n = photos.length;
+const shots = photos.map((p, i) => ({
+  ...p,
+  i: i + 1,
+  prev: ((i - 1 + n) % n) + 1,
+  next: ((i + 1) % n) + 1,
+  thumb: pic(p.src, layout === 'collage' ? '(min-width: 640px) 50vw, 100vw' : sizes),
+  big: pic(p.src, '94vw'),
+}));
+// where each photo sits in the collage, on phones and on wider screens
+const areas = layout === 'collage'
+  ? collage(shots.map((p) => (p.thumb.width && p.thumb.height ? p.thumb.width / p.thumb.height : 0.75)))
+  : [];
+const tileStyle = (i: number) => (areas[i] ? `--pa: ${areas[i].phone}; --wa: ${areas[i].wide}` : undefined);
+---
+
+<div class={`r-grid r-grid-${layout}`}>
+  {shots.map((p, k) => (
+    <a class="r-shot" id={`thumb-${p.i}`} href={`#shot-${p.i}`} style={tileStyle(k)}>
+      <img {...p.thumb} alt={p.alt ?? p.caption} loading="lazy" decoding="async">
+      <span class="r-cap">{p.caption}</span>
+    </a>
+  ))}
+</div>
+
+{shots.map((p) => (
+  <div class="lightbox" id={`shot-${p.i}`} role="dialog" aria-label={p.caption}>
+    <a class="lb-backdrop" href={`#thumb-${p.i}`} tabindex="-1" aria-label="Close"></a>
+    <figure class="lb-figure">
+      <img {...p.big} alt={p.alt ?? p.caption} loading="lazy" decoding="async">
+      <figcaption class="lb-cap"><span class="lb-count">{p.i} of {n}</span>{p.caption}</figcaption>
+    </figure>
+    {n > 1 && <a class="lb-nav lb-prev" href={`#shot-${p.prev}`} aria-label="Previous photo">‹</a>}
+    {n > 1 && <a class="lb-nav lb-next" href={`#shot-${p.next}`} aria-label="Next photo">›</a>}
+    <a class="lb-close" href={`#thumb-${p.i}`} aria-label="Close">✕</a>
+  </div>
+))}

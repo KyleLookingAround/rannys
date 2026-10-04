@@ -81,9 +81,9 @@ collections:
         file: content/home.yml
         fields:
           - { name: eyebrow, label: "Hero eyebrow line", widget: string }
-          - { name: tagline, label: "Hero tagline", widget: text }
+          - { name: tagline, label: "Hero tagline (not currently shown on the site)", widget: text }
           - name: marquee
-            label: "'Today' ticker lines"
+            label: "'Today' lines (not currently shown on the site)"
             widget: list
             min: 1
             field: { name: line, label: Line, widget: string }

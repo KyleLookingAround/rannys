@@ -6,3 +6,7 @@ npm-debug.log*
 .DS_Store
 .vscode/
 .idea/
+
+# generated before each build by scripts/images.mjs
+public/assets/_w/
+src/generated/

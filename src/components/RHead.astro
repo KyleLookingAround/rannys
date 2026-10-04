@@ -1,0 +1,24 @@
+---
+/**
+ * The one section heading used across the site: kicker (with its brick
+ * square), a poster headline (put the accent word in <em>), an optional lede,
+ * and an optional "more" link on the right.
+ */
+interface Props {
+  kicker: string;
+  /** h1 for page heads, h2 for sections */
+  level?: 1 | 2;
+  more?: { href: string; label: string };
+  id?: string;
+}
+const { kicker, level = 2, more, id } = Astro.props;
+const Tag = level === 1 ? 'h1' : 'h2';
+---
+<header class="r-head">
+  <div>
+    <p class="r-kicker">{kicker}</p>
+    <Tag class={level === 1 ? 'r-h1' : 'r-h2'} id={id}><slot /></Tag>
+    {Astro.slots.has('lede') && <p class="r-lede"><slot name="lede" /></p>}
+  </div>
+  {more && <a class="r-link" href={more.href}>{more.label}&nbsp;→</a>}
+</header>

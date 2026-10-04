@@ -1,100 +1,105 @@
 /* Ranny's — progressive enhancement.
-   The site works fully without this file; it just adds live touches:
-   1) a real "open now / closed" status from the hours in content/settings.yml
-   2) keyboard support for the burger menu and photo lightbox
-   3) a little cup that fills as you scroll
-   4) a lazy-loaded 3D enamel mug on the home page (see mug.ts)
-   5) fading/hiding of past events                                          */
+   Pages work without it; this adds the live status, today's hours,
+   the "coming up" events, dots under the swipe rows, swipe and keyboard
+   support for the photo lightbox, and the booking enquiry builder. */
+import { paintStatus, tidyEvents, fmtTime, nowInLondon } from './shared';
 
-type HoursData = { tz?: string; days?: Record<number, [number, number][]> };
-declare global {
-  interface Window { __RANNYS__?: HoursData }
-}
-
-const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-/* ---------- 1) live open / closed status ---------- */
-const WEEKDAY: Record<string, number> = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
-const DAY_NAME = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-
-function fmtTime(mins: number): string {
-  let h = Math.floor(mins / 60);
-  const m = mins % 60;
-  const ap = h >= 12 ? 'pm' : 'am';
-  h = h % 12 || 12;
-  return m ? `${h}:${String(m).padStart(2, '0')}${ap}` : `${h}${ap}`;
-}
-
-function nowInLondon(tz: string) {
-  const parts = new Intl.DateTimeFormat('en-GB', {
-    timeZone: tz, weekday: 'short', hour: '2-digit', minute: '2-digit', hour12: false,
-  }).formatToParts(new Date());
-  const get = (t: string) => parts.find((p) => p.type === t)?.value;
-  const day = WEEKDAY[get('weekday') ?? ''] ?? new Date().getDay();
-  let hour = parseInt(get('hour') ?? '0', 10);
-  if (hour === 24) hour = 0;
-  return { day, mins: hour * 60 + parseInt(get('minute') ?? '0', 10) };
-}
-
-function computeStatus(data: HoursData) {
-  const days = data.days || {};
-  const { day, mins } = nowInLondon(data.tz || 'Europe/London');
-
-  for (const [o, c] of (days[day] || [])) {
-    if (mins >= o && mins < c) {
-      const left = c - mins;
-      return left <= 30
-        ? { state: 'soon', main: 'Closing soon', sub: `til ${fmtTime(c)}` }
-        : { state: 'open', main: 'Open now', sub: `til ${fmtTime(c)}` };
-    }
-  }
-  // closed — find the next opening within the week
-  for (let off = 0; off < 8; off++) {
-    const d = (day + off) % 7;
-    for (const [o] of (days[d] || []).slice().sort((a, b) => a[0] - b[0])) {
-      if (off === 0 && o <= mins) continue;
-      const when = off === 0 ? fmtTime(o) : off === 1 ? `tomorrow ${fmtTime(o)}` : `${DAY_NAME[d]} ${fmtTime(o)}`;
-      return { state: 'closed', main: 'Closed', sub: `opens ${when}` };
-    }
-  }
-  return { state: 'closed', main: 'Closed', sub: '' };
-}
-
-function paintStatus() {
+/* today's opening hours, e.g. "Today 7am – 4pm" or "Closed today" */
+function paintToday() {
   const data = window.__RANNYS__;
-  const nodes = document.querySelectorAll<HTMLElement>('[data-open-status]');
-  if (!data || !nodes.length) return;
-  const s = computeStatus(data);
-  nodes.forEach((el) => {
-    el.dataset.state = s.state;
-    const main = el.querySelector('.status-text');
-    const sub = el.querySelector('.of-sub');
-    if (main) main.textContent = s.main;
-    if (sub) sub.textContent = s.sub;
-    el.setAttribute('title', `${s.main}${s.sub ? ' · ' + s.sub : ''}`);
+  if (!data) return;
+  const { day } = nowInLondon(data.tz || 'Europe/London');
+  const slots = data.days?.[day] || [];
+  const text = slots.length
+    ? 'Today ' + slots.map(([o, c]) => `${fmtTime(o)} – ${fmtTime(c)}`).join(', ')
+    : 'Closed today';
+  document.querySelectorAll<HTMLElement>('[data-today-hours]').forEach((el) => { el.textContent = text; });
+  document.querySelectorAll<HTMLElement>('[data-days]').forEach((row) => {
+    const days = (row.dataset.days || '').split(',').map(Number);
+    row.classList.toggle('is-today', days.includes(day));
   });
 }
 
-/* ---------- 2) keyboard support ---------- */
-function wireBurger() {
-  const burger = document.querySelector<HTMLElement>('.burger');
-  const toggle = document.getElementById('nav-toggle') as HTMLInputElement | null;
-  if (!burger || !toggle) return;
-  const sync = () => burger.setAttribute('aria-expanded', String(toggle.checked));
-  burger.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle.checked = !toggle.checked; sync(); }
-  });
-  toggle.addEventListener('change', sync);
-  document.querySelectorAll('.topbar nav a').forEach((a) =>
-    a.addEventListener('click', () => { toggle.checked = false; sync(); }));
+/* after past events are tidied away, the first one left is "next up" */
+function markNext() {
+  const first = document.querySelector('.event-list .event:not(.is-past)');
+  first?.classList.add('is-next');
 }
 
+/* home page "Coming up": drop events that have passed since the last
+   rebuild, show the next few (data-show) and tag the first "Next up" */
+function pickNext() {
+  const section = document.querySelector<HTMLElement>('[data-next]');
+  if (!section) return;
+  const show = Number(section.dataset.show) || 3;
+  const today = new Date(); today.setHours(0, 0, 0, 0);
+  const cards = [...section.querySelectorAll<HTMLElement>('[data-date]')];
+  const live = cards.filter((c) => new Date(c.dataset.date + 'T00:00:00') >= today).slice(0, show);
+  cards.forEach((c) => {
+    c.hidden = !live.includes(c);
+    c.classList.toggle('is-next', c === live[0]);
+  });
+  if (!live.length) section.hidden = true;
+}
+
+/* dots under each swipe row: show where you are, tap to jump */
+function wireDots() {
+  const smooth = matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+  document.querySelectorAll<HTMLElement>('.r-scroller').forEach((row) => {
+    const items = [...row.children].filter((c) => !(c as HTMLElement).hidden) as HTMLElement[];
+    if (items.length < 2) return;
+    const dots = document.createElement('div');
+    dots.className = 'r-dots';
+    const label = row.getAttribute('aria-label') || 'Items';
+    items.forEach((item, i) => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.setAttribute('aria-label', `${label}: ${i + 1} of ${items.length}`);
+      b.addEventListener('click', () => {
+        const pad = parseFloat(getComputedStyle(row).scrollPaddingLeft) || 0;
+        const left = item.getBoundingClientRect().left - row.getBoundingClientRect().left + row.scrollLeft - pad;
+        row.scrollTo({ left, behavior: smooth as ScrollBehavior });
+      });
+      dots.append(b);
+    });
+    row.after(dots);
+    const buttons = [...dots.children] as HTMLElement[];
+    const update = () => {
+      dots.hidden = row.scrollWidth <= row.clientWidth + 2;   // everything fits: no dots
+      const x = row.getBoundingClientRect().left + (parseFloat(getComputedStyle(row).scrollPaddingLeft) || 0);
+      let best = 0, bestD = Infinity;
+      items.forEach((item, i) => {
+        const d = Math.abs(item.getBoundingClientRect().left - x);
+        if (d < bestD) { bestD = d; best = i; }
+      });
+      // at the far end, the last card counts as current
+      if (row.scrollLeft + row.clientWidth >= row.scrollWidth - 2) best = items.length - 1;
+      buttons.forEach((b, i) => b.setAttribute('aria-current', String(i === best)));
+    };
+    let ticking = false;
+    row.addEventListener('scroll', () => {
+      if (!ticking) { ticking = true; requestAnimationFrame(() => { ticking = false; update(); }); }
+    }, { passive: true });
+    addEventListener('resize', update, { passive: true });
+    update();
+  });
+}
+
+/* Esc / arrow keys / swipes in the photo lightbox */
 function wireLightbox() {
+  // Moving between photos or closing replaces the history entry, so the
+  // phone's Back button leaves the viewer instead of stepping through photos.
   const go = (sel: string, box: Element) => {
-    const a = box.querySelector(sel);
-    const href = a?.getAttribute('href');
-    if (href) location.href = href;
+    const href = box.querySelector(sel)?.getAttribute('href');
+    if (href) location.replace(href);
   };
+  document.addEventListener('click', (e) => {
+    const a = (e.target as Element).closest?.<HTMLAnchorElement>('.lightbox .lb-nav, .lightbox .lb-close, .lightbox .lb-backdrop');
+    const href = a?.getAttribute('href');
+    if (!href) return;
+    e.preventDefault();
+    location.replace(href);
+  });
   document.addEventListener('keydown', (e) => {
     const box = document.querySelector('.lightbox:target');
     if (!box) return;
@@ -102,101 +107,71 @@ function wireLightbox() {
     else if (e.key === 'ArrowLeft') go('.lb-prev', box);
     else if (e.key === 'ArrowRight') go('.lb-next', box);
   });
-  // move focus to the open lightbox's close button for keyboard users
   addEventListener('hashchange', () => {
+    document.querySelector('.lightbox:target')?.querySelector<HTMLElement>('.lb-close')?.focus();
+  });
+
+  // swipe left / right on a phone to move between photos; swipe down to close
+  let x0 = 0, y0 = 0, t0 = 0;
+  document.addEventListener('touchstart', (e) => {
+    if (!(e.target as Element).closest?.('.lightbox:target')) return;
+    x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; t0 = Date.now();
+  }, { passive: true });
+  document.addEventListener('touchend', (e) => {
     const box = document.querySelector('.lightbox:target');
-    if (box) box.querySelector<HTMLElement>('.lb-close')?.focus();
+    if (!box || !t0 || e.touches.length) return;
+    const dx = e.changedTouches[0].clientX - x0;
+    const dy = e.changedTouches[0].clientY - y0;
+    const quick = Date.now() - t0 < 600;
+    t0 = 0;
+    if (!quick) return;
+    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) go(dx < 0 ? '.lb-next' : '.lb-prev', box);
+    else if (dy > 80 && Math.abs(dy) > Math.abs(dx) * 1.5) go('.lb-close', box);
+  }, { passive: true });
+}
+
+/* the booking form builds an email; with no JS the plain email link still works */
+function wireEnquiry() {
+  const form = document.querySelector<HTMLFormElement>('[data-enquiry]');
+  if (!form) return;
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const f = new FormData(form);
+    const val = (k: string) => String(f.get(k) || '').trim();
+    const subject = `Booking enquiry: ${val('type') || 'a booking'}`;
+    const lines = [`Hi Ranny's,`, '', `I'd like to ask about: ${val('type')}`];
+    if (val('date')) lines.push(`Date: ${val('date')}`);
+    if (val('people')) lines.push(`Roughly how many: ${val('people')}`);
+    if (val('details')) lines.push('', val('details'));
+    lines.push('', 'Thanks,', val('name'));
+    const body = lines.join('\n');
+    location.href = `mailto:${form.dataset.enquiry}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    const done = form.querySelector<HTMLElement>('.enq-done');
+    if (done) done.hidden = false;
   });
 }
 
-/* ---------- 3) scroll-fill cup ---------- */
-function buildScrollCup() {
-  if (reduceMotion) return;
-  const el = document.createElement('div');
-  el.className = 'scroll-cup';
-  el.setAttribute('aria-hidden', 'true');
-  el.innerHTML =
-    '<svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">' +
-    '<defs><clipPath id="rcupClip"><rect x="11" y="15" width="22" height="23" rx="3"/></clipPath></defs>' +
-    '<rect class="cup-fill" x="11" y="38" width="22" height="0" fill="#3a2415" clip-path="url(#rcupClip)"/>' +
-    '<rect x="11" y="15" width="22" height="23" rx="3" fill="none" stroke="#241710" stroke-width="2.5"/>' +
-    '<path d="M33 19 q7 0 7 7 q0 7 -7 7" fill="none" stroke="#241710" stroke-width="2.5"/>' +
-    '<ellipse cx="22" cy="42" rx="16" ry="2.6" fill="#827d19" stroke="#241710" stroke-width="2"/>' +
-    '</svg>';
-  document.body.appendChild(el);
-  const fill = el.querySelector('.cup-fill')!;
-  const TOP = 15, H = 23;
-  let ticking = false;
-  const update = () => {
-    ticking = false;
-    const doc = document.documentElement;
-    const max = doc.scrollHeight - doc.clientHeight;
-    const p = max > 0 ? Math.min(1, Math.max(0, doc.scrollTop / max)) : 0;
-    fill.setAttribute('y', (TOP + H * (1 - p)).toFixed(1));
-    fill.setAttribute('height', (H * p).toFixed(1));
-    el.classList.toggle('is-on', doc.scrollTop > 140);
+/* photo skeletons: mark each image loaded so its placeholder clears;
+   ones that arrive after the page appears fade in */
+function wireSkeletons() {
+  const done = (img: HTMLImageElement, fade: boolean) => {
+    img.classList.add('is-loaded');
+    if (fade) img.classList.add('fade-in');
   };
-  addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
-  addEventListener('resize', update, { passive: true });
-  update();
-}
-
-/* ---------- 4) lazy 3D mug on the home page ---------- */
-function hasWebGL() {
-  try {
-    const c = document.createElement('canvas');
-    return !!(c.getContext('webgl2') || c.getContext('webgl'));
-  } catch { return false; }
-}
-function maybeMountMug() {
-  const stage = document.querySelector<HTMLElement>('[data-mug]');
-  if (!stage || reduceMotion || !hasWebGL()) return;   // stage stays hidden
-  stage.hidden = false;                                 // reveal now we'll mount
-  const start = () => import('./mug').then((m) => m.mountMug(stage)).catch(() => { stage.hidden = true; });
-  if ('IntersectionObserver' in window) {
-    const io = new IntersectionObserver((entries) => {
-      if (entries.some((e) => e.isIntersecting)) { io.disconnect(); start(); }
-    });
-    io.observe(stage);
-  } else { start(); }
-}
-
-/* ---------- 5) tidy past events ---------- */
-//  An event fades (and loses its links) for a week after it's been, then hides.
-function tidyEvents() {
-  const list = document.querySelector('.event-list');
-  if (!list) return;
-  const today = new Date(); today.setHours(0, 0, 0, 0);
-  list.querySelectorAll('.event[data-date]').forEach((el) => {
-    const iso = el.getAttribute('data-date');
-    if (!iso) return;
-    const d = new Date(iso + 'T00:00:00');
-    if (isNaN(d.getTime())) return;
-    const daysPast = Math.round((today.getTime() - d.getTime()) / 86400000);
-    if (daysPast > 7) { el.remove(); return; }       // over a week old → hide
-    if (daysPast >= 1) {                              // been & gone → fade, links off
-      el.classList.add('is-past');
-      el.querySelectorAll('.event-link, .sold-out').forEach((n) => n.remove());
-      const title = el.querySelector('.event-title');
-      if (title && !title.querySelector('.gone')) {
-        const tag = document.createElement('span');
-        tag.className = 'gone'; tag.textContent = 'Been & gone';
-        title.append(' ', tag);
-      }
-    }
+  document.querySelectorAll<HTMLImageElement>('main img, .lb-figure img').forEach((img) => {
+    if (img.complete && img.naturalWidth) { done(img, false); return; }
+    img.addEventListener('load', () => done(img, true), { once: true });
+    img.addEventListener('error', () => done(img, false), { once: true });
   });
-  if (!list.querySelector('.event')) {                // nothing left → show the note
-    list.remove();
-    const note = document.querySelector<HTMLElement>('.events-none');
-    if (note) note.hidden = false;
-  }
 }
 
-/* ---------- boot ---------- */
+wireSkeletons();
 paintStatus();
-setInterval(paintStatus, 60000);
-wireBurger();
-wireLightbox();
-buildScrollCup();
+paintToday();
+setInterval(() => { paintStatus(); paintToday(); }, 60000);
 tidyEvents();
-maybeMountMug();
+markNext();
+pickNext();
+wireDots();
+wireLightbox();
+wireEnquiry();
