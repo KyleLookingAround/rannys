@@ -66,8 +66,9 @@ const rowSizes = '(min-width: 900px) 280px, (min-width: 640px) 40vw, 72vw';
       <RHead kicker="What's on" more={{ href: '/events.html', label: 'All events' }}>Coming <em>up.</em></RHead>
       <div class="r-scroller r-scroller-events" tabindex="0" aria-label="Upcoming events">
         {upcoming.map((e, i) => (
-          <article class={`r-ev-card r-tile${i === 0 ? ' is-next' : ''}`} data-date={e.dateISO} hidden={i >= SHOW}>
+          <article class={`r-ev-card r-tile${i === 0 ? ' is-next' : ''}${e.soldOut ? ' is-sold-out' : ''}`} data-date={e.dateISO} hidden={i >= SHOW}>
             <a class="r-ev-card-poster" href="/events.html" tabindex="-1" aria-hidden="true">
+              {e.soldOut && <span class="r-stamp">Sold out</span>}
               {e.poster
                 ? <img {...pic(e.poster, '(min-width: 900px) 360px, (min-width: 640px) 44vw, 78vw')} alt="" loading="lazy" decoding="async">
                 : <span class="r-ev-card-blank"><b>{e.day}</b>{e.month}</span>}
@@ -76,9 +77,11 @@ const rowSizes = '(min-width: 900px) 280px, (min-width: 640px) 40vw, 72vw';
               <p class="r-date"><b>{e.day}</b> {e.month}<span class="r-pill">Next up</span></p>
               <h3 class="r-event-title"><a href="/events.html">{e.title}</a></h3>
               <p class="r-when">{e.when}</p>
-              {e.link
-                ? <a class="r-link" href={e.link} target="_blank" rel="noopener">{e.linkText || 'Details'}&nbsp;↗</a>
-                : <a class="r-link" href="/events.html">More about this&nbsp;→</a>}
+              {e.soldOut
+                ? <p class="r-sold-note"><span class="sold-out">Sold out</span> <a class="r-link" href="/events.html">More about this&nbsp;→</a></p>
+                : e.link
+                  ? <a class="r-link" href={e.link} target="_blank" rel="noopener">{e.linkText || 'Details'}&nbsp;↗</a>
+                  : <a class="r-link" href="/events.html">More about this&nbsp;→</a>}
             </div>
           </article>
         ))}

@@ -28,18 +28,21 @@ const firstUp = list.findIndex((e) => e.date >= today);
     {list.length > 0 && (
       <ol class="event-list r-events">
         {list.map((e, i) => (
-          <li class="event r-tile" data-date={e.dateISO}>
+          <li class={`event r-tile${e.soldOut ? ' is-sold-out' : ''}`} data-date={e.dateISO}>
             {e.poster && (
               <a class="r-ev-poster" href={full(e.poster)} target="_blank" rel="noopener" aria-label={`Open the full poster for ${e.title}`}>
+                {e.soldOut && <span class="r-stamp" aria-hidden="true">Sold out</span>}
                 <img {...pic(e.poster, i === firstUp ? '(min-width: 640px) 280px, 360px' : '120px')} alt={`Poster for ${e.title}`} loading="lazy" decoding="async">
               </a>
             )}
             <div>
               <p class="r-date"><b>{e.day}</b> {e.month}<span class="r-pill">Next up</span></p>
-              <h2 class="event-title r-event-title">{e.title}{e.soldOut && <span class="sold-out">Sold out</span>}</h2>
+              <h2 class="event-title r-event-title">{e.title}</h2>
               <p class="r-when">{e.when}</p>
               <div class="r-ev-actions">
-                {e.link && <a class="event-link r-btn" href={e.link} target="_blank" rel="noopener">{e.linkText || 'Details'}&nbsp;↗</a>}
+                {e.soldOut
+                  ? <span class="sold-out">Sold out</span>
+                  : e.link && <a class="event-link r-btn" href={e.link} target="_blank" rel="noopener">{e.linkText || 'Details'}&nbsp;↗</a>}
                 <details class="r-disclose">
                   <summary>More about this</summary>
                   <p class="r-ev-desc">{e.description}</p>
