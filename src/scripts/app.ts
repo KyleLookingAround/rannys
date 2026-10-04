@@ -3,6 +3,7 @@
    the "coming up" events, dots under the swipe rows, swipe and keyboard
    support for the photo lightbox, and the booking enquiry builder. */
 import { paintStatus, tidyEvents, fmtTime, nowInLondon } from './shared';
+import { wireAnalytics, trackEnquiry } from './analytics';
 
 /* today's opening hours, e.g. "Today 7am – 4pm" or "Closed today" */
 function paintToday() {
@@ -145,6 +146,7 @@ function wireEnquiry() {
     if (val('details')) lines.push('', val('details'));
     lines.push('', 'Thanks,', val('name'));
     const body = lines.join('\n');
+    trackEnquiry(val('type'));
     location.href = `mailto:${form.dataset.enquiry}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     const done = form.querySelector<HTMLElement>('.enq-done');
     if (done) done.hidden = false;
@@ -175,3 +177,4 @@ pickNext();
 wireDots();
 wireLightbox();
 wireEnquiry();
+wireAnalytics();

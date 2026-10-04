@@ -34,6 +34,7 @@ collections:
           - { name: instagram, label: "Instagram URL", widget: string, pattern: ['^https?://\S+$', "paste the whole link, starting with https://"] }
           - { name: facebook, label: "Facebook URL", widget: string, pattern: ['^https?://\S+$', "paste the whole link, starting with https://"] }
           - { name: previewImage, label: "Link-preview image (1200×630)", widget: image }
+          - { name: goatcounter, label: "GoatCounter site code", hint: "The name in your GoatCounter address (the 'rannys' in rannys.goatcounter.com). Leave empty to turn visitor stats off. Never paste the API key here.", widget: string, required: false, pattern: ['^[a-z0-9-]{0,32}$', "Just the site code (lower-case letters, numbers, dashes). The long API key doesn't go here."] }
           - name: hours
             label: "Opening hours"
             hint: "One row per day or block of days. This drives the hours table, the live open/closed pill and the Google listing — you only edit it here."

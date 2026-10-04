@@ -76,6 +76,10 @@ const tabs = [
 <link rel="apple-touch-icon" href="/assets/icon.svg">
 <link rel="manifest" href="/site.webmanifest">
 <script type="application/ld+json" set:html={JSON.stringify(jsonLd(s)).replace(/</g, '\\u003c')} />
+{s.goatcounter && (
+  /* GoatCounter: privacy-friendly visitor counts, no cookies (so no cookie banner needed) */
+  <script is:inline async data-goatcounter={`https://${s.goatcounter}.goatcounter.com/count`} src="https://gc.zgo.at/count.js"></script>
+)}
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
