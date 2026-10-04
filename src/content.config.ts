@@ -53,6 +53,12 @@ const settings = defineCollection({
     instagram: z.string().url(),
     facebook: z.string().url(),
     previewImage: image,
+    // GoatCounter site code (the "xyz" in xyz.goatcounter.com). Empty = no analytics.
+    // This is NOT the API key; that must never go in the site.
+    goatcounter: z.string()
+      .regex(/^[a-z0-9-]*$/, 'just the site code, e.g. rannys (lower-case letters, numbers and dashes)')
+      .max(32, "that looks like the API key, not the site code; use the name from your xyz.goatcounter.com address")
+      .default(''),
     // One structured source of truth for opening hours. Editors pick days
     // from a dropdown and type 24-hour times; the display table, the home-hero
     // short line, the status pill, the live open/closed pill and the Google
