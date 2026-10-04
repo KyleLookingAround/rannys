@@ -386,6 +386,27 @@ a, button, summary, select, input, textarea { touch-action: manipulation; }
 .r-events .event.is-past { opacity: .6; filter: grayscale(.5); }
 .sold-out, .gone { display: inline-flex; vertical-align: middle; margin-left: 6px; padding: 3px 9px; border-radius: 999px; font-family: var(--poster); font-stretch: 112%; font-weight: 800; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; }
 .sold-out { background: var(--ink); color: var(--paper); }
+
+/* Sold-out events (home "Coming up" and the Events page): the poster fades
+   back with a brick stamp across it, the card goes paler, and the ticket
+   link is swapped for a "Sold out" label */
+.r-ev-card-poster, .r-ev-poster { position: relative; }
+.r-ev-poster { display: block; }
+.r-stamp {
+  position: absolute; left: 50%; top: 50%; z-index: 1; transform: translate(-50%, -50%) rotate(-12deg);
+  padding: 6px 14px; white-space: nowrap; pointer-events: none;
+  background: var(--brick); color: var(--paper); border: 2px solid var(--paper); border-radius: 3px;
+  box-shadow: 0 0 0 2px var(--brick), 3px 3px 0 2px rgba(26, 18, 6, .35);
+  font-family: var(--poster); font-stretch: 125%; font-weight: 900; font-size: 20px; letter-spacing: 0.12em; text-transform: uppercase;
+}
+.r-ev-poster .r-stamp { font-size: 11px; padding: 3px 7px; border-width: 1.5px; letter-spacing: 0.08em; }
+.is-sold-out .r-ev-card-poster img, .is-sold-out .r-ev-poster img { opacity: .4; filter: grayscale(.85); }
+.is-sold-out.r-tile { background: var(--paper); border-color: rgba(26, 18, 6, .45); }
+.is-sold-out :is(.r-event-title, .r-when, .r-date b) { opacity: .6; }
+.r-sold-note { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s3) var(--s4); margin-top: auto; }
+.r-sold-note .sold-out { margin-left: 0; }
+.r-ev-actions .sold-out { margin-left: 0; font-size: 11px; padding: 5px 11px; }
+.r-events .event.is-next .r-ev-poster .r-stamp { font-size: 20px; padding: 6px 14px; border-width: 2px; }
 .gone { background: var(--paper-3); color: var(--ink-2); }
 
 /* photo grids + lightbox (RGallery) */
