@@ -22,18 +22,18 @@ hours:
   - fromDay: Tu
     toDay: Fr
     closed: false
-    open: 07:00
-    close: 16:00
+    open: 08:00
+    close: 15:00
   - fromDay: Sa
     toDay: ''
     closed: false
     open: 09:00
-    close: 15:00
+    close: 14:00
   - fromDay: Su
     toDay: ''
     closed: false
     open: 10:00
-    close: 15:00
+    close: 14:00
 press:
   - name: Manchester Evening News
     url: https://www.manchestereveningnews.co.uk/whats-on/food-drink-news/no-airs-graces-stockport-cafe-34635425?fbclid=PAcGRvZgJleHRuA2FlbQIxMQBzcnRjBmFwcF9pZA81NjcwNjczNDMzNTI0MjcAAaeNtTqwErjzh_BOVNBX-AqxLn4pZoM-3yp1J_-xP7zlD2SLfa69f1Y4H3ZKpg_aem_Vu9Vl98xl1HAKG-cU6R49g
