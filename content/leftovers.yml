@@ -1,0 +1,23 @@
+# ════════════════════════════════════════════════════════════════════
+#  RANNY'S · end-of-day bakes (leftovers.html)
+#  Our own "Too Good To Go": whatever's left at the end of the day goes
+#  into bags people pay for online and collect before we close.
+#
+#  Each afternoon: set `date` to today, set how many of each bag are
+#  `left`, save. The bags only show on the site on that date, up to
+#  `collectUntil` — after that the page goes back to "none today" on its
+#  own, so there's nothing to switch off.
+# ════════════════════════════════════════════════════════════════════
+
+intro: "Nothing goes in the bin here. Whatever's left on the counter at the end of the day goes into a bag — pay for it here, then pop in and pick it up before we close."
+
+date: "2026-10-08"
+collectFrom: "14:00"
+collectUntil: "15:00"
+
+bags:
+  - name: "Bake bag"
+    description: "A surprise mix of today's leftover cakes, bakes and pastries. Usually worth £10 or more."
+    price: 4
+    left: 0
+    payLink: ""

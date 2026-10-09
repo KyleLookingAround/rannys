@@ -162,4 +162,30 @@ const bookings = defineCollection({
   }),
 });
 
-export const collections = { settings, home, menu, gallery, events, bookings };
+// End-of-day bakes (our own Too Good To Go). The bags show only on `date`,
+// until `collectUntil` (London time); the page script hides them after that.
+// Payment happens on the payment provider's page (Stripe, Square, SumUp…):
+// each bag just links to a payment link set up there. No link = no button.
+const leftovers = defineCollection({
+  loader: single('content/leftovers.yml'),
+  schema: z.object({
+    intro: z.string(),
+    date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'dates are YYYY-MM-DD'),
+    collectFrom: HHMM,
+    collectUntil: HHMM,
+    bags: z.array(z.object({
+      name: z.string().min(1),
+      description: z.string(),
+      price: z.number().positive('set a price, e.g. 4 or 3.50'),
+      left: z.number().int().min(0, "can't have fewer than none left").default(0),
+      payLink: z.preprocess((v) => (v === '' ? undefined : v),
+        z.string().url().startsWith('https://', 'payment links start with https://').optional()),
+      image: image.optional(),
+    })).default([]),
+  }).refine((d) => d.collectFrom < d.collectUntil, {
+    message: '"collect until" must be later than "collect from"',
+    path: ['collectUntil'],
+  }),
+});
+
+export const collections = { settings, home, menu, gallery, events, bookings, leftovers };

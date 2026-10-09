@@ -41,7 +41,7 @@ const WEEK = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'] as const; // Mon-first, 
 type HoursRow = Settings['hours'][number];
 
 /** "07:00" → "7am", "16:00" → "4pm", "10:30" → "10:30am". */
-function prettyTime(t: string) {
+export function prettyTime(t: string) {
   const [h, m] = t.split(':').map(Number);
   const ap = h < 12 ? 'am' : 'pm';
   const h12 = h % 12 === 0 ? 12 : h % 12;
@@ -172,4 +172,29 @@ export function eventPill(date: string) {
   const d = new Date(date + 'T00:00:00');
   if (isNaN(d.getTime())) return { day: '', month: '', dateISO: '' };
   return { day: String(d.getDate()), month: EV_MONTHS[d.getMonth()], dateISO: date };
+}
+
+// ── End-of-day bakes ─────────────────────────────────────────────────
+/** 4 → "£4", 3.5 → "£3.50". */
+export function money(n: number) {
+  return Number.isInteger(n) ? `£${n}` : `£${n.toFixed(2)}`;
+}
+
+/** Today's date in the shop's time zone, as YYYY-MM-DD. */
+export function londonToday(now = new Date()) {
+  return new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/London', year: 'numeric', month: '2-digit', day: '2-digit' }).format(now);
+}
+
+/** "14:00" → minutes after midnight. */
+export const toMins = (t: string) => { const [h, m] = t.split(':').map(Number); return h * 60 + m; };
+
+/**
+ * Whether the bags are up right now, as of the build. The page script
+ * re-checks this in the visitor's browser, so a page built this morning
+ * still goes live this afternoon and comes down again at collection time.
+ */
+export function leftoversLive(l: { date: string; collectUntil: string }, now = new Date()) {
+  if (l.date !== londonToday(now)) return false;
+  const t = new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/London', hour: '2-digit', minute: '2-digit', hour12: false }).format(now);
+  return toMins(t.replace(/^24/, '00')) < toMins(l.collectUntil);
 }
