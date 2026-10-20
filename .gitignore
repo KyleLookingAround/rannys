@@ -10,3 +10,4 @@ npm-debug.log*
 # generated before each build by scripts/images.mjs
 public/assets/_w/
 src/generated/
+__pycache__/

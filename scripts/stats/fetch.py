@@ -1,8 +1,8 @@
-"""Pull Ranny's visitor stats from GoatCounter, one row set per stats month.
+"""Pull Ranny's visitor stats from GoatCounter, one row set per calendar month.
 
-A stats month runs from the 4th to the 3rd (tracking began on 4 October 2026),
-so "October" is 4 Oct - 3 Nov. Every completed month is fetched, plus the
-current month so far when it has at least one full day. Each output file holds
+Months run from the 1st to the last day, except the first: tracking began on
+4 October 2026, so October covers 4-31 Oct. Every completed month is fetched,
+plus the current month so far when it has at least one full day. Each output file holds
 every month, tagged with a `month` column (e.g. "2026-10"), so the dashboard
 can flick between them.
 
@@ -63,15 +63,16 @@ def get(path):
             time.sleep(0.3)  # stay well inside the API rate limit
 
 
-def add_month(d):
-    return dt.date(d.year + (d.month == 12), d.month % 12 + 1, d.day)
+def next_month(d):
+    """The 1st of the month after d."""
+    return dt.date(d.year + (d.month == 12), d.month % 12 + 1, 1)
 
 
 def months(today):
     """(id, start, end, complete) for each month with at least one full day before today."""
     out, start = [], FIRST_DAY
     while start < today:
-        nxt = add_month(start)
+        nxt = next_month(start)
         end = min(nxt - dt.timedelta(days=1), today - dt.timedelta(days=1))
         out.append((start.strftime('%Y-%m'), start, end, end == nxt - dt.timedelta(days=1)))
         start = nxt

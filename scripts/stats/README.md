@@ -1,15 +1,15 @@
 # Visitor stats dashboard
 
 Ranny's GoatCounter stats live in a private online dashboard, one page per
-"stats month". Stats months run from the 4th to the 3rd, because tracking
-began on 4 October 2026. A scheduled task refreshes the dashboard on
-the 4th of every month. The dashboard's address is in that task's prompt.
+calendar month. The first month is the exception: tracking began on 4 October
+2026, so October covers 4-31 Oct. A scheduled task refreshes the dashboard on
+the 1st of every month, once the month before has finished. The dashboard's address is in that task's prompt.
 
 None of this is part of the website build.
 
 | File | What it does |
 |---|---|
-| `fetch.py` | Pulls every stats month from the GoatCounter API into seven JSON files, each row tagged with its `month` (e.g. `2026-10`). |
+| `fetch.py` | Pulls every month from the GoatCounter API into seven JSON files, each row tagged with its `month` (e.g. `2026-10`). |
 | `page.html` | The dashboard page: brand styles, the month switcher, the charts and tables. |
 | `build.cjs` | Builds the shareable copies: an A4 PDF of one month, or one self-contained `.html` with every month. |
 
