@@ -189,15 +189,17 @@ const rowSizes = '(min-width: 900px) 280px, (min-width: 640px) 40vw, 72vw';
 </section>
 
 <!-- BOOK + LIST -->
-<section class="band r-duo">
+<section class:list={['band r-duo', { 'r-solo': !h.mailingList.show }]}>
   <div class="band-burnt">
     <RHead kicker="Got a group?">Hire out <em>Ranny's.</em><Fragment slot="lede">{h.community.blurb}</Fragment></RHead>
     <a class="r-btn" href="/bookings.html">Ask about a booking</a>
   </div>
-  <div class="band-walnut">
-    <RHead kicker="On the list">Know what's <em>on.</em><Fragment slot="lede">{h.mailingList.blurb}</Fragment></RHead>
-    <a class="r-btn" href={listMailto}>Join the list</a>
-  </div>
+  {h.mailingList.show && (
+    <div class="band-walnut">
+      <RHead kicker="On the list">Know what's <em>on.</em><Fragment slot="lede">{h.mailingList.blurb}</Fragment></RHead>
+      <a class="r-btn" href={listMailto}>Join the list</a>
+    </div>
+  )}
 </section>
 
 <!-- VISIT -->
