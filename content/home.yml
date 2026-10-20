@@ -73,6 +73,7 @@ quote:
   by: Ranny's x
   image: /assets/interior.jpg
 mailingList:
+  show: false
   blurb: Now and then we'll send a quick note — new things on the menu, events worth turning up for. That's it.
   action: ''
   fieldName: email

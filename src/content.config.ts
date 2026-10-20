@@ -108,6 +108,7 @@ const home = defineCollection({
     community: z.object({ blurb: z.string() }),
     quote: z.object({ text: z.string(), by: z.string(), image: image }),
     mailingList: z.object({
+      show: z.boolean().default(true),
       blurb: z.string(),
       action: z.string().default(''),
       fieldName: z.string().default('email'),

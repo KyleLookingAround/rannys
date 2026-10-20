@@ -547,6 +547,7 @@ body.lbx-open :is(.tabs, .bar) { visibility: hidden; }
   .r-grid-collage .r-shot:is(:hover, :focus-visible) .r-cap { transform: none; }
   .r-grid-even { grid-template-columns: repeat(4, 1fr); }
   .r-duo { grid-template-columns: 1fr 1fr; }
+  .r-duo.r-solo { grid-template-columns: 1fr; }
   .r-duo > div:first-child { padding-left: max(var(--gutter), calc((100vw - 1160px) / 2 + var(--gutter))); }
   .r-duo > div:last-child { padding-right: max(var(--gutter), calc((100vw - 1160px) / 2 + var(--gutter))); }
   .r-events .event { grid-template-columns: 120px minmax(0, 1fr); }
