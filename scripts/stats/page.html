@@ -1,0 +1,486 @@
+<style>
+@font-face { font-family: 'Archivo'; font-style: normal; font-weight: 400 900; font-stretch: 62% 125%; font-display: swap; src: url(/_blob/3dfba8d93b6949aa4be9163daaf0e726) format('woff2'); }
+@font-face { font-family: 'DM Sans'; font-style: normal; font-weight: 400 700; font-display: swap; src: url(/_blob/c28c13dafcb8671e4dbc933ca7b0c196) format('woff2'); }
+@font-face { font-family: 'Caveat'; font-style: normal; font-weight: 400 700; font-display: swap; src: url(/_blob/89e79ab96ea0df832c7cc4eae343cfb0) format('woff2'); }
+/* Ranny's poster look, from public/styles.css: flat paper and olive bands on 2px ink rules,
+   Archivo wide capitals for heads and labels, DM Sans to read, Caveat for one handwritten note.
+   One deliberate light look, the same as the website, so colours are set explicitly. */
+#dash-root { --dash-gutter: 0; }
+.rs {
+  --rs-brick: #882603; --rs-biscuit: #d09d5a; --rs-biscuit-lt: #e6c595; --rs-olive: #4f4c24;
+  --rs-pickle: #7f7a1a; --rs-paper: #f3ead8; --rs-paper-2: #faf5ea; --rs-paper-3: #ebdfc6;
+  --rs-ink: #1a1206; --rs-ink-2: #4a3220; --rs-line: rgba(26, 18, 6, 0.16); --rs-bad: #bd3b22;
+  --rs-poster: 'Archivo', 'Arial Narrow', Arial, sans-serif;
+  --rs-text: 'DM Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --rs-hand: 'Caveat', 'Bradley Hand', cursive;
+  --rs-rule: 2px solid var(--rs-ink);
+  --rs-lift: 6px 6px 0 var(--rs-olive);
+  color-scheme: light;
+  background: var(--rs-paper); color: var(--rs-ink);
+  font-family: var(--rs-text); font-size: 16px; line-height: 1.55;
+  border: var(--rs-rule); border-radius: 4px; overflow: hidden;
+}
+.rs-band { padding-block: 40px; border-top: var(--rs-rule); }
+.rs-band:first-child { border-top: 0; }
+.rs-alt { background: var(--rs-paper-3); }
+.rs-olive { background: var(--rs-olive); color: var(--rs-paper); }
+.rs-wrap { max-width: 1160px; margin: 0 auto; padding-inline: 18px; display: grid; gap: 24px; min-width: 0; }
+
+.rs-kicker { display: flex; align-items: flex-start; gap: 10px; margin: 0; font-family: var(--rs-poster); font-stretch: 125%; font-weight: 800; font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--rs-brick); }
+.rs-kicker::before { content: ''; width: 10px; height: 10px; flex: none; margin-top: 0.2em; background: var(--rs-brick); }
+.rs-olive .rs-kicker { color: var(--rs-biscuit-lt); }
+.rs-olive .rs-kicker::before { background: var(--rs-biscuit-lt); }
+.rs-h1, .rs-h2 { margin: 0; font-family: var(--rs-poster); font-stretch: 125%; font-weight: 900; text-transform: uppercase; line-height: 0.98; letter-spacing: -0.01em; text-wrap: balance; overflow-wrap: break-word; }
+.rs-h1 { font-size: clamp(34px, 7vw, 64px); color: var(--rs-paper); }
+.rs-h1 em { font-style: normal; color: var(--rs-biscuit); }
+.rs-h2 { font-size: clamp(26px, 5vw, 40px); }
+.rs-h2 em { font-style: normal; color: var(--rs-brick); }
+.rs-h3 { margin: 0; font-family: var(--rs-poster); font-stretch: 112%; font-weight: 800; font-size: 17px; line-height: 1.2; text-transform: uppercase; }
+.rs-head { display: grid; gap: 12px; }
+.rs-take { margin: 0; font-size: 18.5px; line-height: 1.5; max-width: 60ch; color: var(--rs-paper); }
+.rs-take b { font-weight: 700; color: var(--rs-biscuit-lt); }
+.rs-period { margin: 0; font-size: 14.5px; color: var(--rs-biscuit-lt); }
+
+.rs-kpis { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr)); }
+.rs-kpi { display: grid; gap: 6px; align-content: start; background: var(--rs-paper-2); color: var(--rs-ink); border: var(--rs-rule); border-radius: 4px; padding: 18px; min-width: 0; }
+.rs-kpi-value { font-family: var(--rs-poster); font-stretch: 125%; font-weight: 900; font-size: clamp(32px, 5vw, 46px); line-height: 1; color: var(--rs-brick); font-variant-numeric: tabular-nums; min-height: 1em; }
+.rs-kpi-note { font-size: 14.5px; color: var(--rs-ink-2); }
+
+.rs-grid { display: grid; gap: 24px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); }
+.rs-card { display: grid; gap: 10px; align-content: start; background: var(--rs-paper-2); border: var(--rs-rule); border-radius: 4px; padding: 20px; min-width: 0; }
+.rs-feature { box-shadow: var(--rs-lift); }
+#items-card { grid-column: 1 / -1; }
+.rs-pdf { justify-self: start; display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; background: var(--rs-paper); color: var(--rs-ink); border: var(--rs-rule); border-radius: 4px; box-shadow: 4px 4px 0 var(--rs-ink); font-family: var(--rs-poster); font-stretch: 112%; font-weight: 800; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none; }
+.rs-pdf:hover { background: var(--rs-paper-2); }
+.rs-pdf:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--rs-ink); }
+.rs-pdf svg { width: 16px; height: 16px; flex: none; }
+.rs-note { margin: 0; font-size: 14.5px; color: var(--rs-ink-2); }
+.rs-hand { margin: 0; font-family: var(--rs-hand); font-size: 24px; line-height: 1.2; color: var(--rs-brick); }
+
+.rs-chart { position: relative; min-height: 220px; }
+.rs-chart svg { display: block; }
+.rs-tip { position: absolute; pointer-events: none; background: var(--rs-ink); color: var(--rs-paper); border-radius: 4px; padding: 6px 10px; font-size: 14px; white-space: nowrap; box-shadow: 4px 4px 0 var(--rs-biscuit); }
+.rs-tip .rs-tip-day { font-family: var(--rs-poster); font-weight: 800; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--rs-biscuit-lt); }
+
+.rs-tablebox { overflow-x: auto; }
+.rs-tablebox.rs-tall { max-height: 26rem; overflow-y: auto; }
+.rs-table { width: 100%; border-collapse: collapse; font-size: 15px; font-variant-numeric: tabular-nums; }
+.rs-table th { text-align: left; font-family: var(--rs-poster); font-stretch: 112%; font-weight: 800; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--rs-ink-2); padding: 0 0 6px; border-bottom: var(--rs-rule); position: sticky; top: 0; background: var(--rs-paper-2); }
+.rs-table td { padding: 7px 0; border-bottom: 1px solid var(--rs-line); vertical-align: middle; }
+.rs-table tr:last-child td { border-bottom: 0; }
+.rs-table td.rs-name { padding-right: 12px; overflow-wrap: anywhere; }
+.rs-table td.rs-sub { color: var(--rs-ink-2); font-size: 13.5px; padding-right: 12px; }
+.rs-table th.rs-num, .rs-table td.rs-num { text-align: right; white-space: nowrap; }
+.rs-table td.rs-num { font-weight: 700; }
+.rs-table td.rs-barcell { width: 40%; padding-right: 12px; }
+.rs-bar { height: 10px; border-radius: 2px; background: var(--rs-pickle); min-width: 2px; }
+.rs-bar.rs-lead { background: var(--rs-brick); }
+
+.rs-err { display: flex; align-items: center; justify-content: center; gap: 6px; min-height: inherit; color: var(--rs-ink-2); font-size: 13px; }
+.rs-err::before { content: ""; width: .375rem; height: .375rem; border-radius: 50%; background: var(--rs-bad); }
+.rs [data-dash-source-state=empty] { color: transparent; }
+.rs [data-dash-source-state=refreshing] { opacity: .5; transition: opacity var(--cds-dur-slow); }
+.rs :focus-visible { outline: 3px solid #a24d00; outline-offset: 3px; }
+@media (max-width: 34rem) { .rs-hide-narrow { display: none; } .rs-table td.rs-barcell { width: 30%; } .rs-band { padding-block: 32px; } }
+
+.rs-months { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 12px; max-width: 34rem; }
+.rs-month { display: grid; gap: 4px; min-width: 0; justify-items: start; }
+.rs-month-name { font-family: var(--rs-poster); font-stretch: 125%; font-weight: 900; font-size: clamp(17px, 4.6vw, 22px); line-height: 1.1; text-transform: uppercase; color: var(--rs-paper); overflow-wrap: anywhere; }
+.rs-month-dates { font-size: 14.5px; color: var(--rs-biscuit-lt); }
+.rs-step { width: 44px; height: 44px; flex: none; display: inline-flex; align-items: center; justify-content: center; padding: 0 0 4px; background: var(--rs-paper); color: var(--rs-ink); border: var(--rs-rule); border-radius: 4px; box-shadow: 3px 3px 0 var(--rs-ink); font-family: var(--rs-poster); font-weight: 900; font-size: 28px; line-height: 1; cursor: pointer; }
+.rs-step:active:not(:disabled) { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--rs-ink); }
+.rs-step:disabled { opacity: .35; cursor: default; box-shadow: none; }
+.rs-pill { margin-top: 2px; display: inline-flex; align-items: center; padding: 4px 10px; border-radius: 999px; background: var(--rs-biscuit); color: var(--rs-ink); font-family: var(--rs-poster); font-stretch: 112%; font-weight: 800; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; }
+.rs-kpi-note.rs-up { color: #2f7d31; font-weight: 700; }
+.rs-kpi-note.rs-down { color: var(--rs-brick); font-weight: 700; }
+.rs-table td.rs-none { color: var(--rs-ink-2); font-style: italic; }
+</style>
+
+<div class="rs">
+  <header class="rs-band rs-olive">
+    <div class="rs-wrap rs-head">
+      <p class="rs-kicker">Visitor stats</p>
+      <h1 class="rs-h1" id="title">Who's been <em>popping in</em> online</h1>
+      <nav class="rs-months" id="months" aria-label="Choose a month">
+        <button type="button" class="rs-step" id="m-prev" aria-label="Previous month">‹</button>
+        <div class="rs-month">
+          <span class="rs-month-name dash-skeleton" data-source="periods" data-field="name">—</span>
+          <span class="rs-month-dates" data-source="periods" data-field="label">—</span>
+          <span class="rs-pill" id="m-sofar" hidden>So far</span>
+        </div>
+        <button type="button" class="rs-step" id="m-next" aria-label="Next month">›</button>
+      </nav>
+      <p class="rs-take" id="takeaway"><b data-source="sources" data-field="source" class="dash-skeleton">—</b> sends the most visitors from outside the site, and the most-used button is <b data-source="actiongroups" data-field="group" class="dash-skeleton">—</b>.</p>
+      <p class="rs-period">rannys.co.uk · from GoatCounter · tracking began on 4 October 2026</p>
+      <a class="rs-pdf" id="pdf" href="#" target="_blank" rel="noopener" hidden><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5v9M4.5 7 8 10.5 11.5 7M2.5 13.5h11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"/></svg>Download PDF</a>
+    </div>
+  </header>
+
+  <section class="rs-band" aria-label="Headline figures">
+    <div class="rs-wrap">
+      <div class="rs-kpis" id="headline">
+        <div class="rs-kpi"><span class="rs-kicker">Visits</span><span class="rs-kpi-value dash-skeleton" data-source="monthly" data-field="visits">—</span><span class="rs-kpi-note" data-change="visits_change">All pages</span></div>
+        <div class="rs-kpi"><span class="rs-kicker">Per day</span><span class="rs-kpi-value dash-skeleton" data-source="monthly" data-field="perday">—</span><span class="rs-kpi-note" data-change="perday_change">Average visits a day</span></div>
+        <div class="rs-kpi"><span class="rs-kicker">Actions</span><span class="rs-kpi-value dash-skeleton" data-source="monthly" data-field="actions">—</span><span class="rs-kpi-note" data-change="actions_change">Directions, tickets, email, socials</span></div>
+        <div class="rs-kpi"><span class="rs-kicker">Phones</span><span class="rs-kpi-value dash-skeleton" data-source="monthly" data-field="phoneshare">—</span><span class="rs-kpi-note">Share of all visits</span></div>
+      </div>
+
+      <section class="rs-card rs-feature" id="daily-card">
+        <h3 class="rs-h3">Visits per day</h3>
+        <p class="rs-note">One visit is one person viewing a page.</p>
+        <div class="rs-chart" id="daily-chart" data-source="daily"></div>
+        <p class="rs-hand" id="launch-note" hidden>the big one's launch day!</p>
+      </section>
+
+      <div class="rs-grid">
+        <section class="rs-card" id="pages-card">
+          <h3 class="rs-h3">Pages</h3>
+          <p class="rs-note">Visits to each page.</p>
+          <div class="rs-tablebox">
+            <table class="rs-table" id="pages-table" data-source="pages" data-row-key="month,path">
+              <thead><tr><th data-field="page">Page</th><th class="rs-barcell" aria-hidden="true"></th><th class="rs-num" data-field="visits">Visits</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </section>
+        <section class="rs-card" id="sources-card">
+          <h3 class="rs-h3">Where they came from</h3>
+          <p class="rs-note">Outside sites only. Clicks between Ranny's own pages are left out.</p>
+          <div class="rs-tablebox">
+            <table class="rs-table" id="sources-table" data-source="sources" data-row-key="month,source">
+              <thead><tr><th data-field="source">Source</th><th class="rs-barcell" aria-hidden="true"></th><th class="rs-num" data-field="visits">Visits</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <section class="rs-band rs-alt" id="clicks">
+    <div class="rs-wrap">
+      <div class="rs-head"><p class="rs-kicker">Clicks</p><h2 class="rs-h2">What people <em>tapped</em></h2></div>
+      <div class="rs-grid">
+        <section class="rs-card" id="actions-card">
+          <h3 class="rs-h3">Actions</h3>
+          <p class="rs-note">Buttons and links that lead somewhere: directions, tickets, email, socials, suppliers, the mailing list and the booking form.</p>
+          <div class="rs-tablebox">
+            <table class="rs-table" id="actions-table" data-source="actiongroups" data-row-key="month,group">
+              <thead><tr><th data-field="group">Button or link</th><th class="rs-barcell" aria-hidden="true"></th><th class="rs-num" data-field="clicks">Count</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </section>
+        <section class="rs-card" id="photos-card">
+          <h3 class="rs-h3">Photo views</h3>
+          <p class="rs-note">Counted each time a photo settles on screen in the full-screen viewer, so swiping through four photos counts as four.</p>
+          <div class="rs-tablebox">
+            <table class="rs-table" id="photos-table" data-source="photogroups" data-row-key="month,group">
+              <thead><tr><th data-field="group">Photos</th><th class="rs-barcell" aria-hidden="true"></th><th class="rs-num" data-field="clicks">Count</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </section>
+        <section class="rs-card" id="items-card">
+          <h3 class="rs-h3">Everything tracked</h3>
+          <p class="rs-note">Every button, link and photo, highest first.</p>
+          <div class="rs-tablebox rs-tall">
+            <table class="rs-table" id="items-table" data-source="clicks" data-row-key="month,path">
+              <thead><tr><th data-field="item">Item</th><th class="rs-hide-narrow" data-field="group">Type</th><th class="rs-num" data-field="clicks">Count</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <section class="rs-band" id="audience">
+    <div class="rs-wrap">
+      <div class="rs-head"><p class="rs-kicker">Visitors</p><h2 class="rs-h2">Who <em>visits</em></h2></div>
+      <div class="rs-grid">
+        <section class="rs-card" id="device-card">
+          <h3 class="rs-h3">Device</h3>
+          <div class="rs-tablebox"><table class="rs-table rs-aud" data-dim="Device" data-source="audience" data-row-key="month,dimension,name">
+            <thead><tr><th data-field="name">Screen</th><th class="rs-barcell" aria-hidden="true"></th><th class="rs-num" data-field="visits">Visits</th></tr></thead><tbody></tbody></table></div>
+        </section>
+        <section class="rs-card" id="system-card">
+          <h3 class="rs-h3">Phone or computer</h3>
+          <div class="rs-tablebox"><table class="rs-table rs-aud" data-dim="System" data-source="audience" data-row-key="month,dimension,name">
+            <thead><tr><th data-field="name">System</th><th class="rs-barcell" aria-hidden="true"></th><th class="rs-num" data-field="visits">Visits</th></tr></thead><tbody></tbody></table></div>
+        </section>
+        <section class="rs-card" id="country-card">
+          <h3 class="rs-h3">Country</h3>
+          <div class="rs-tablebox"><table class="rs-table rs-aud" data-dim="Country" data-source="audience" data-row-key="month,dimension,name">
+            <thead><tr><th data-field="name">Country</th><th class="rs-barcell" aria-hidden="true"></th><th class="rs-num" data-field="visits">Visits</th></tr></thead><tbody></tbody></table></div>
+        </section>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+/* One row per month. The change figures compare with the month before;
+   totals are compared only when both months are complete, the daily average always. */
+dash.calc('monthly', {
+  title: 'Headline figures by month',
+  description: 'Visits, average visits a day, actions and the phone share for each month, with the change on the month before.',
+  inputs: ['periods', 'totals', 'clicks', 'audience'],
+  fn: (periods, totals, clicks, audience) => {
+    const sum = (rows) => rows.reduce((s, r) => s + Number(r.visits ?? r.clicks ?? r.value), 0);
+    const out = periods.map((p) => {
+      const visitsRow = totals.find((r) => r.month === p.month && r.metric === 'visits');
+      const visits = visitsRow ? Number(visitsRow.value) : 0;
+      const devices = audience.filter((r) => r.month === p.month && r.dimension === 'Device');
+      const phones = sum(devices.filter((r) => r.name === 'Phone'));
+      return {
+        month: p.month,
+        complete: p.complete === true || p.complete === 'true',
+        visits,
+        perday: Math.round(visits / Number(p.days)),
+        actions: sum(clicks.filter((r) => r.month === p.month && r.kind === 'Action')),
+        phoneshare: sum(devices) ? phones / sum(devices) : null,
+      };
+    });
+    return out.map((r, i) => {
+      const prev = out[i - 1];
+      const ch = (a, b) => (prev && b ? a / b - 1 : null);
+      const both = prev && r.complete && prev.complete;
+      return {
+        month: r.month, visits: r.visits, perday: r.perday, actions: r.actions, phoneshare: r.phoneshare,
+        visits_change: both ? ch(r.visits, prev.visits) : null,
+        perday_change: ch(r.perday, prev && prev.perday),
+        actions_change: both ? ch(r.actions, prev.actions) : null,
+      };
+    });
+  }
+});
+
+dash.calc('actiongroups', {
+  title: 'Actions by button, by month',
+  description: 'Action clicks added up by the kind of button or link, for each month.',
+  inputs: ['clicks'],
+  fn: (clicks) => {
+    const totals = {};
+    clicks.filter((r) => r.kind === 'Action').forEach((r) => {
+      const k = r.month + '|' + r.group;
+      totals[k] = totals[k] || { month: r.month, group: r.group, clicks: 0 };
+      totals[k].clicks += Number(r.clicks);
+    });
+    return Object.values(totals).sort((a, b) => b.clicks - a.clicks);
+  }
+});
+
+dash.calc('photogroups', {
+  title: 'Photo views by set, by month',
+  description: 'Photo views added up into menu photos and gallery photos, for each month.',
+  inputs: ['clicks'],
+  fn: (clicks) => {
+    const totals = {};
+    clicks.filter((r) => r.kind === 'Photo view').forEach((r) => {
+      const k = r.month + '|' + r.group;
+      totals[k] = totals[k] || { month: r.month, group: r.group, clicks: 0 };
+      totals[k].clicks += Number(r.clicks);
+    });
+    return Object.values(totals).sort((a, b) => b.clicks - a.clicks);
+  }
+});
+
+window.rsFmt = d3.format(',');
+window.rsEnc = (v) => encodeURIComponent(String(v));
+</script>
+
+<script>
+const fmt = window.rsFmt;
+const enc = window.rsEnc;
+const pct = d3.format('.0%');
+const signed = (v) => (v > 0 ? '+' : v < 0 ? '−' : '') + d3.format('.0%')(Math.abs(v));
+
+/* the month on show: the one picked, else the latest */
+function months() {
+  const p = dash.data('periods');
+  return p.status === 'ok' ? p.data.slice().sort((a, b) => (a.month < b.month ? -1 : 1)) : [];
+}
+function current() {
+  const all = months();
+  const want = dash.params().month;
+  return all.find((p) => p.month === want) || all[all.length - 1] || null;
+}
+
+document.getElementById('m-prev').addEventListener('click', () => step(-1));
+document.getElementById('m-next').addEventListener('click', () => step(1));
+function step(by) {
+  const all = months(), cur = current();
+  if (!cur) return;
+  const next = all[all.findIndex((p) => p.month === cur.month) + by];
+  if (next) dash.setParams({ month: next.month });
+}
+
+function setText(el, id, render) {
+  const d = dash.data(id);
+  if (d.status === 'ok') { el.classList.remove('dash-skeleton'); el.textContent = render(d.data); }
+  else if (d.status === 'loading') { el.classList.add('dash-skeleton'); el.textContent = '—'; }
+  else { el.classList.remove('dash-skeleton'); el.textContent = '—'; }
+}
+
+function errorLine(box) {
+  box.textContent = '';
+  const e = document.createElement('div');
+  e.className = 'rs-err';
+  e.textContent = 'Failed to load';
+  box.append(e);
+}
+
+/* a bar list table for one month: name, in-cell bar on one scale, number */
+function barTable(table, id, month, opts) {
+  const tbody = table.tBodies[0];
+  tbody.textContent = '';
+  const d = dash.data(id);
+  if (d.status !== 'ok') {
+    if (d.status === 'loading') return;
+    const tr = tbody.insertRow(); const td = tr.insertCell(); td.colSpan = 3; errorLine(td); return;
+  }
+  let rows = d.data.filter((r) => r.month === month);
+  if (opts.filter) rows = rows.filter(opts.filter);
+  rows.sort((a, b) => Number(b[opts.value]) - Number(a[opts.value]));
+  if (!rows.length) {
+    const tr = tbody.insertRow(); const td = tr.insertCell(); td.colSpan = 3; td.className = 'rs-none'; td.textContent = 'None this month.';
+    return;
+  }
+  const max = d3.max(rows, (r) => Number(r[opts.value])) || 1;
+  rows.forEach((r, i) => {
+    const tr = tbody.insertRow();
+    tr.dataset.key = [month, ...opts.key(r)].map(enc).join(',');
+    const name = tr.insertCell(); name.className = 'rs-name'; name.textContent = r[opts.label];
+    if (opts.sub) { const s = tr.insertCell(); s.className = 'rs-sub rs-hide-narrow'; s.textContent = r[opts.sub]; }
+    else {
+      const bc = tr.insertCell(); bc.className = 'rs-barcell';
+      const bar = document.createElement('div');
+      bar.className = 'rs-bar' + (i === 0 ? ' rs-lead' : '');
+      bar.style.width = (Number(r[opts.value]) / max * 100) + '%';
+      bc.append(bar);
+    }
+    const n = tr.insertCell(); n.className = 'rs-num'; n.textContent = fmt(Number(r[opts.value]));
+  });
+}
+
+function dailyChart(month) {
+  const box = document.getElementById('daily-chart');
+  const d = dash.data('daily');
+  box.textContent = '';
+  if (d.status === 'loading') { box.classList.add('dash-skeleton'); return; }
+  box.classList.remove('dash-skeleton');
+  if (d.status !== 'ok') { errorLine(box); return; }
+  const rows = d.data.filter((r) => r.month === month)
+    .map((r) => ({ day: new Date(String(r.day).slice(0, 10) + 'T00:00:00Z'), visits: Number(r.visits) }));
+  if (!rows.length) return;
+  const W = Math.max(box.clientWidth, 280), H = 220;
+  const svg = d3.select(box).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`);
+  const y = d3.scaleLinear([0, d3.max(rows, (r) => r.visits) || 1], [H - 24, 8]).nice();
+  const ticks = y.ticks(4);
+  const probe = svg.append('g').attr('font-size', '12px').attr('font-family', 'var(--rs-poster)').attr('font-weight', 700);
+  const tw = d3.max(ticks, (t) => probe.append('text').text(fmt(t)).node().getComputedTextLength()) || 20;
+  probe.remove();
+  const left = Math.ceil(tw) + 8;
+  const x = d3.scaleBand(rows.map((r) => +r.day), [left, W - 4]).padding(0.25);
+  svg.append('g').selectAll('line').data(ticks).join('line')
+    .attr('x1', left).attr('x2', W - 4).attr('y1', y).attr('y2', y)
+    .attr('stroke', 'var(--rs-line)').attr('stroke-width', 1);
+  svg.append('g').selectAll('text').data(ticks).join('text')
+    .attr('x', left - 6).attr('y', y).attr('dy', '0.32em').attr('text-anchor', 'end')
+    .attr('fill', 'var(--rs-ink-2)').attr('font-size', '12px').attr('font-family', 'var(--rs-poster)').attr('font-weight', 700).text(fmt);
+  const dayFmt = d3.utcFormat('%b %-d');
+  const every = Math.ceil(rows.length / Math.max(1, Math.floor((W - left) / 56)));
+  svg.append('g').selectAll('text').data(rows.filter((r, i) => i % every === 0)).join('text')
+    .attr('x', (r) => x(+r.day) + x.bandwidth() / 2).attr('y', H - 6).attr('text-anchor', 'middle')
+    .attr('fill', 'var(--rs-ink-2)').attr('font-size', '12px').attr('font-family', 'var(--rs-poster)').attr('font-weight', 700).text((r) => dayFmt(r.day));
+  const peak = d3.max(rows, (r) => r.visits);
+  const tip = document.createElement('div'); tip.className = 'rs-tip'; tip.hidden = true; box.append(tip);
+  svg.append('g').selectAll('rect').data(rows).join('rect')
+    .attr('x', (r) => x(+r.day)).attr('width', x.bandwidth())
+    .attr('y', (r) => y(r.visits)).attr('height', (r) => Math.max(0, y(0) - y(r.visits)))
+    .attr('rx', 2).attr('fill', (r) => (r.visits === peak ? 'var(--rs-brick)' : 'var(--rs-pickle)'))
+    .on('mouseenter mousemove', function (ev, r) {
+      d3.select(this).attr('opacity', 0.8);
+      tip.textContent = '';
+      const a = document.createElement('div'); a.className = 'rs-tip-day'; a.textContent = d3.utcFormat('%a %-d %b')(r.day);
+      const b = document.createElement('div'); b.textContent = fmt(r.visits) + ' visits';
+      tip.append(a, b); tip.hidden = false;
+      const [mx, my] = d3.pointer(ev, box);
+      const w = tip.offsetWidth;
+      tip.style.left = Math.min(Math.max(0, mx - w / 2), box.clientWidth - w) + 'px';
+      tip.style.top = Math.max(0, my - tip.offsetHeight - 10) + 'px';
+    })
+    .on('mouseleave', function () { d3.select(this).attr('opacity', 1); tip.hidden = true; });
+}
+
+dash.onData(() => {
+  const all = months();
+  const cur = current();
+  const m = cur ? cur.month : '';
+  const at = 'month=' + enc(m);
+  const idx = cur ? all.findIndex((p) => p.month === m) : -1;
+  const prev = idx > 0 ? all[idx - 1] : null;
+
+  /* month switcher */
+  const prevBtn = document.getElementById('m-prev'), nextBtn = document.getElementById('m-next');
+  prevBtn.disabled = !prev;
+  nextBtn.disabled = idx < 0 || idx >= all.length - 1;
+  prevBtn.setAttribute('aria-label', prev ? 'Previous month: ' + prev.name : 'No earlier month');
+  nextBtn.setAttribute('aria-label', !nextBtn.disabled ? 'Next month: ' + all[idx + 1].name : 'No later month');
+  document.querySelectorAll('#months [data-source="periods"]').forEach((el) => {
+    el.dataset.where = at;
+    setText(el, 'periods', () => (cur ? cur[el.dataset.field] : '—'));
+  });
+  document.getElementById('m-sofar').hidden = !cur || cur.complete === true || cur.complete === 'true';
+  const pdf = document.getElementById('pdf');
+  pdf.hidden = !(cur && cur.pdf);
+  if (cur && cur.pdf) pdf.href = cur.pdf;
+  document.getElementById('launch-note').hidden = m !== '2026-10';
+
+  /* headline figures */
+  const mon = dash.data('monthly');
+  const row = mon.status === 'ok' ? mon.data.find((r) => r.month === m) : null;
+  document.querySelectorAll('#headline [data-source="monthly"]').forEach((el) => {
+    el.dataset.where = at;
+    setText(el, 'monthly', () => {
+      const v = row ? row[el.dataset.field] : null;
+      if (v == null) return '—';
+      return el.dataset.field === 'phoneshare' ? pct(v) : fmt(v);
+    });
+  });
+  document.querySelectorAll('#headline [data-change]').forEach((el) => {
+    const f = el.dataset.change;
+    if (!el.dataset.base) el.dataset.base = el.textContent;
+    const v = row ? row[f] : null;
+    el.textContent = v == null || !prev ? el.dataset.base : `${signed(v)} on ${prev.name.split(' ')[0]}${f === 'perday_change' ? ' (daily average)' : ''}`;
+    el.classList.toggle('rs-up', v != null && !!prev && v > 0);
+    el.classList.toggle('rs-down', v != null && !!prev && v < 0);
+  });
+
+  /* takeaway: top outside source and top action this month */
+  const topSource = document.querySelector('#takeaway [data-source="sources"]');
+  setText(topSource, 'sources', (rows) => {
+    const r = rows.filter((x) => x.month === m).sort((a, b) => b.visits - a.visits)[0];
+    topSource.dataset.where = r ? at + '&source=' + enc(r.source) : at;
+    return r ? r.source : '—';
+  });
+  const topAction = document.querySelector('#takeaway [data-source="actiongroups"]');
+  setText(topAction, 'actiongroups', (rows) => {
+    const r = rows.filter((x) => x.month === m)[0];
+    topAction.dataset.where = r ? at + '&group=' + enc(r.group) : at;
+    return r ? r.group : '—';
+  });
+
+  dailyChart(m);
+  barTable(document.getElementById('pages-table'), 'pages', m, { label: 'page', value: 'visits', key: (r) => [r.path] });
+  barTable(document.getElementById('sources-table'), 'sources', m, { label: 'source', value: 'visits', key: (r) => [r.source] });
+  barTable(document.getElementById('actions-table'), 'actiongroups', m, { label: 'group', value: 'clicks', key: (r) => [r.group] });
+  barTable(document.getElementById('photos-table'), 'photogroups', m, { label: 'group', value: 'clicks', key: (r) => [r.group] });
+  barTable(document.getElementById('items-table'), 'clicks', m, { label: 'item', sub: 'group', value: 'clicks', key: (r) => [r.path] });
+  document.querySelectorAll('.rs-aud').forEach((t) => {
+    const dim = t.dataset.dim;
+    barTable(t, 'audience', m, { label: 'name', value: 'visits', filter: (r) => r.dimension === dim, key: (r) => [r.dimension, r.name] });
+  });
+});
+</script>
