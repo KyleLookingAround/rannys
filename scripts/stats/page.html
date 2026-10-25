@@ -93,6 +93,11 @@
 .rs-pill { margin-top: 2px; display: inline-flex; align-items: center; padding: 4px 10px; border-radius: 999px; background: var(--rs-biscuit); color: var(--rs-ink); font-family: var(--rs-poster); font-stretch: 112%; font-weight: 800; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; }
 .rs-kpi-note.rs-up { color: #2f7d31; font-weight: 700; }
 .rs-kpi-note.rs-down { color: var(--rs-brick); font-weight: 700; }
+.rs-key { display: flex; flex-wrap: wrap; gap: 6px 16px; margin: 0; padding: 0; list-style: none; font-family: var(--rs-poster); font-stretch: 112%; font-weight: 800; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--rs-ink-2); }
+.rs-key li { display: inline-flex; align-items: center; gap: 6px; }
+.rs-sw { display: inline-block; width: 10px; height: 10px; flex: none; }
+.rs-tip-row { display: flex; align-items: center; gap: 6px; }
+.rs-tip-total { margin-top: 2px; font-weight: 700; }
 .rs-table td.rs-none { color: var(--rs-ink-2); font-style: italic; }
 </style>
 
@@ -127,7 +132,12 @@
 
       <section class="rs-card rs-feature" id="daily-card">
         <h3 class="rs-h3">Visits per day</h3>
-        <p class="rs-note">One visit is one person viewing a page.</p>
+        <p class="rs-note">One visit is one person viewing a page, split by where they came from. Other is direct visits, other sites and moves between Ranny's own pages.</p>
+        <ul class="rs-key" aria-label="Key">
+          <li><span class="rs-sw" style="background: var(--rs-pickle)"></span>Google</li>
+          <li><span class="rs-sw" style="background: var(--rs-brick)"></span>Instagram</li>
+          <li><span class="rs-sw" style="background: var(--rs-biscuit)"></span>Other</li>
+        </ul>
         <div class="rs-chart" id="daily-chart" data-source="daily"></div>
         <p class="rs-hand" id="launch-note" hidden>the big one's launch day!</p>
       </section>
@@ -364,6 +374,13 @@ function barTable(table, id, month, opts) {
   });
 }
 
+/* where each day's visits came from, bottom to top */
+const SPLIT = [
+  { key: 'google', name: 'Google', color: 'var(--rs-pickle)' },
+  { key: 'instagram', name: 'Instagram', color: 'var(--rs-brick)' },
+  { key: 'other', name: 'Other', color: 'var(--rs-biscuit)' },
+];
+
 function dailyChart(month) {
   const box = document.getElementById('daily-chart');
   const d = dash.data('daily');
@@ -371,12 +388,17 @@ function dailyChart(month) {
   if (d.status === 'loading') { box.classList.add('dash-skeleton'); return; }
   box.classList.remove('dash-skeleton');
   if (d.status !== 'ok') { errorLine(box); return; }
-  const rows = d.data.filter((r) => r.month === month)
-    .map((r) => ({ day: new Date(String(r.day).slice(0, 10) + 'T00:00:00Z'), visits: Number(r.visits) }));
+  const rows = d.data.filter((r) => r.month === month).map((r) => {
+    const visits = Number(r.visits);
+    const google = Number(r.google) || 0, instagram = Number(r.instagram) || 0;
+    const other = r.other == null ? Math.max(0, visits - google - instagram) : Number(r.other);
+    return { day: new Date(String(r.day).slice(0, 10) + 'T00:00:00Z'), visits, google, instagram, other };
+  });
   if (!rows.length) return;
   const W = Math.max(box.clientWidth, 280), H = 220;
   const svg = d3.select(box).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`);
-  const y = d3.scaleLinear([0, d3.max(rows, (r) => r.visits) || 1], [H - 24, 8]).nice();
+  const top = (r) => r.google + r.instagram + r.other;
+  const y = d3.scaleLinear([0, d3.max(rows, top) || 1], [H - 24, 8]).nice();
   const ticks = y.ticks(4);
   const probe = svg.append('g').attr('font-size', '12px').attr('font-family', 'var(--rs-poster)').attr('font-weight', 700);
   const tw = d3.max(ticks, (t) => probe.append('text').text(fmt(t)).node().getComputedTextLength()) || 20;
@@ -394,24 +416,48 @@ function dailyChart(month) {
   svg.append('g').selectAll('text').data(rows.filter((r, i) => i % every === 0)).join('text')
     .attr('x', (r) => x(+r.day) + x.bandwidth() / 2).attr('y', H - 6).attr('text-anchor', 'middle')
     .attr('fill', 'var(--rs-ink-2)').attr('font-size', '12px').attr('font-family', 'var(--rs-poster)').attr('font-weight', 700).text((r) => dayFmt(r.day));
-  const peak = d3.max(rows, (r) => r.visits);
+
   const tip = document.createElement('div'); tip.className = 'rs-tip'; tip.hidden = true; box.append(tip);
+  const bars = svg.append('g').selectAll('g').data(rows).join('g').attr('class', 'rs-day');
+  bars.each(function (r) {
+    let base = 0;
+    const g = d3.select(this);
+    SPLIT.forEach((sr) => {
+      const v = r[sr.key];
+      if (v > 0) {
+        g.append('rect')
+          .attr('x', x(+r.day)).attr('width', x.bandwidth())
+          .attr('y', y(base + v)).attr('height', Math.max(0, y(base) - y(base + v)))
+          .attr('fill', sr.color);
+      }
+      base += v;
+    });
+    /* a 1px paper line between segments so the parts read as separate */
+    g.selectAll('rect').attr('stroke', 'var(--rs-paper-2)').attr('stroke-width', 1);
+  });
+  /* one invisible hit area per day, the full height, for the tooltip */
   svg.append('g').selectAll('rect').data(rows).join('rect')
-    .attr('x', (r) => x(+r.day)).attr('width', x.bandwidth())
-    .attr('y', (r) => y(r.visits)).attr('height', (r) => Math.max(0, y(0) - y(r.visits)))
-    .attr('rx', 2).attr('fill', (r) => (r.visits === peak ? 'var(--rs-brick)' : 'var(--rs-pickle)'))
+    .attr('x', (r) => x(+r.day) - (x.step() - x.bandwidth()) / 2).attr('width', x.step())
+    .attr('y', 0).attr('height', H - 24).attr('fill', 'transparent')
     .on('mouseenter mousemove', function (ev, r) {
-      d3.select(this).attr('opacity', 0.8);
+      bars.attr('opacity', (o) => (o === r ? 1 : 0.55));
       tip.textContent = '';
       const a = document.createElement('div'); a.className = 'rs-tip-day'; a.textContent = d3.utcFormat('%a %-d %b')(r.day);
-      const b = document.createElement('div'); b.textContent = fmt(r.visits) + ' visits';
-      tip.append(a, b); tip.hidden = false;
+      tip.append(a);
+      [...SPLIT].reverse().forEach((sr) => {
+        const line = document.createElement('div'); line.className = 'rs-tip-row';
+        const sw = document.createElement('span'); sw.className = 'rs-sw'; sw.style.background = sr.color;
+        const n = document.createElement('span'); n.textContent = `${sr.name} ${fmt(r[sr.key])}`;
+        line.append(sw, n); tip.append(line);
+      });
+      const t = document.createElement('div'); t.className = 'rs-tip-total'; t.textContent = fmt(r.visits) + ' visits';
+      tip.append(t); tip.hidden = false;
       const [mx, my] = d3.pointer(ev, box);
       const w = tip.offsetWidth;
       tip.style.left = Math.min(Math.max(0, mx - w / 2), box.clientWidth - w) + 'px';
       tip.style.top = Math.max(0, my - tip.offsetHeight - 10) + 'px';
     })
-    .on('mouseleave', function () { d3.select(this).attr('opacity', 1); tip.hidden = true; });
+    .on('mouseleave', function () { bars.attr('opacity', 1); tip.hidden = true; });
 }
 
 dash.onData(() => {

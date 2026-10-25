@@ -63,6 +63,22 @@ def get(path):
             time.sleep(0.3)  # stay well inside the API rate limit
 
 
+def day_sources(day, visits):
+    """One day's visits split into Google, Instagram and everything else.
+
+    "Other" is the rest: direct visits, other sites, and moves between Ranny's own pages.
+    """
+    split = {'google': 0, 'instagram': 0}
+    for s in get(f'/stats/toprefs?start={day}&end={day + dt.timedelta(days=1)}&limit=100')['stats']:
+        name = REFERRERS.get(s.get('name') or '', s.get('name') or '')
+        if name == 'Google':
+            split['google'] += s['count']
+        elif name == 'Instagram':
+            split['instagram'] += s['count']
+    split['other'] = max(0, visits - split['google'] - split['instagram'])
+    return split
+
+
 def next_month(d):
     """The 1st of the month after d."""
     return dt.date(d.year + (d.month == 12), d.month % 12 + 1, 1)
@@ -102,8 +118,10 @@ def main():
         t = get(f'/stats/total?{q}')
         files['totals'] += [{'month': month, 'metric': 'visits', 'value': t['total']},
                             {'month': month, 'metric': 'clicks', 'value': t['total_events']}]
-        files['daily'] += [{'month': month, 'day': d['day'], 'visits': d['daily']}
-                           for d in t['stats'] if start <= dt.date.fromisoformat(d['day']) <= end]
+        for d in t['stats']:
+            day = dt.date.fromisoformat(d['day'])
+            if start <= day <= end:
+                files['daily'].append({'month': month, 'day': d['day'], 'visits': d['daily'], **day_sources(day, d['daily'])})
 
         for h in get(f'/stats/hits?{q}&limit=100')['hits']:
             if not h['event']:
