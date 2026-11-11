@@ -4,7 +4,7 @@ events:
     title: Pop-Up Shop — Ranny's × Mardy
     when: Tue 30 June · 10am–1pm · free in
     description: Cool kids' vintage clothes & accessories with Mardy Kids Vintage, popping up here at Ranny's. Don't be basic. First ten customers through the door get a free coffee — just show the flyer to redeem.
-    soldOut: true
+    soldOut: false
     poster: /assets/event-mardy.jpg
     link: https://www.instagram.com/mardykidsvintage
     linkText: Mardy Kids Vintage on Instagram
