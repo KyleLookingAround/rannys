@@ -30,7 +30,7 @@ events:
     title: Make a Mug workshop with @Franks__studio
     when: Thursday 10th September
     description: The workshops are 2.5 hours long, and you'll get to hand build your mug before choosing one of the glaze options available for it to be fired in.
-    soldOut: false
+    soldOut: true
     poster: /assets/event-pottery.jpg
     link: http://www.franksstudio.co.uk
     linkText: Tickets here!
@@ -69,7 +69,7 @@ events:
       Location: Ranny's Café, Offerton, Stockport
       Spaces: Limited to 8
       All materials are included. Simply arrive, relax, and leave with a beautiful handmade wreath ready to hang on your door!
-    soldOut: false
+    soldOut: true
     poster: /assets/Workshop.jpeg
     link: https://sweetbud.co.uk/products/christmas-wreath-making-at-rannys-thursday-18th-november-7-9pm
     linkText: Tickets available here!
