@@ -19,24 +19,16 @@ story:
   signature: Ranny's x
 inside:
   - title: Coffee, done right
-    body: A medium-roast blend of dark chocolate, Hazelnut and Molasses by Atkinsons of Lancaster.
+    body: A medium-roast blend of chocolate, caramel and dried fruits by Atkinsons of Lancaster.
   - title: Only Stockport bakes here
-    body: Pastries fresh from Sticky Fingers every morning, cakes and cookies from Silver Apples — plus flourless and plant-based options. Miniature cheesecakes in a variety of flavours by “Lulabellecheesecakes& Bakes”.  Brownies supplied by local baker “Brownie points by Amy”. Bakes change with the day, so ask what's in.
+    body: Pastries fresh every morning, cakes and cookies from Silver Apples — plus flourless and plant-based options. Miniature cheesecakes in a variety of flavours by “Lulabellecheesecakes& Bakes”.  Brownies supplied by local baker “Brownie points by Amy”. Bakes change with the day, so ask what's in.
   - title: A room to linger in
     body: Speckled stoneware, fresh flowers, a wooden board menu, and walls in coffee shades — Milk & Honey and Roasted Hazelnut, finished with a smart border. Mismatched, much loved and dog-friendly — somewhere, not anywhere.
 partners:
-  - category: Cakes & Bakes
-    name: Silver Apples Bakery
-    url: https://silverapplesbakery.com/
-    body: The cakes and cookies on our stand — plus a proper variety of flourless and plant-based options for everyone.
-  - category: Pastries
-    name: Sticky Fingers
-    url: https://www.instagram.com/stickyfingersstockport/
-    body: Pastries delivered fresh every morning — croissants, pain au chocolat, and the famous cinnamon rolls.
-  - category: Cheesecakes
-    name: Lulabelle cheesecakes & bakes
-    url: https://www.instagram.com/lulabellecheesecakesandbakes?stkn=aDdmZ21udGVsaTFh
-    body: Variety of 3 flavours changed weekly
+  - category: Bakes
+    name: Silver apples
+    url: ''
+    body: A range of cookies, muffins and also gluten free and vegan bakes on rotation daily
 localArt:
   image: /assets/sketch-stockport.jpg
   caption: Our shopfront, painted by Sketch Stockport — hung on the wall by the window.
@@ -58,12 +50,8 @@ localCredits:
     name: Atkinsons of Lancaster
     url: ''
     note: Roasted since 1837
-  - role: Decaf
-    name: Worker Bee Coffee
-    url: ''
-    note: Round the corner in Edgeley
   - role: Bakes
-    name: Silver Apples & Sticky Fingers
+    name: Silver Apples
     url: ''
     note: Only Stockport bakes here
 community:
@@ -73,7 +61,7 @@ quote:
   by: Ranny's x
   image: /assets/interior.jpg
 mailingList:
-  show: false
+  show: true
   blurb: Now and then we'll send a quick note — new things on the menu, events worth turning up for. That's it.
   action: ''
   fieldName: email
