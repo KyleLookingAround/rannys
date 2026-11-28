@@ -50,10 +50,6 @@
 .rs-card { display: grid; gap: 10px; align-content: start; background: var(--rs-paper-2); border: var(--rs-rule); border-radius: 4px; padding: 20px; min-width: 0; }
 .rs-feature { box-shadow: var(--rs-lift); }
 #items-card { grid-column: 1 / -1; }
-.rs-pdf { justify-self: start; display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; background: var(--rs-paper); color: var(--rs-ink); border: var(--rs-rule); border-radius: 4px; box-shadow: 4px 4px 0 var(--rs-ink); font-family: var(--rs-poster); font-stretch: 112%; font-weight: 800; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none; }
-.rs-pdf:hover { background: var(--rs-paper-2); }
-.rs-pdf:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--rs-ink); }
-.rs-pdf svg { width: 16px; height: 16px; flex: none; }
 .rs-note { margin: 0; font-size: 14.5px; color: var(--rs-ink-2); }
 .rs-hand { margin: 0; font-family: var(--rs-hand); font-size: 24px; line-height: 1.2; color: var(--rs-brick); }
 
@@ -112,7 +108,6 @@
       </nav>
       <p class="rs-take" id="takeaway"><b data-source="sources" data-field="source" class="dash-skeleton">—</b> sends the most visitors from outside the site, and the most-used button is <b data-source="actiongroups" data-field="group" class="dash-skeleton">—</b>.</p>
       <p class="rs-period">rannys.co.uk · from GoatCounter · tracking began on 4 October 2026</p>
-      <a class="rs-pdf" id="pdf" href="#" target="_blank" rel="noopener" hidden><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5v9M4.5 7 8 10.5 11.5 7M2.5 13.5h11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"/></svg>Download PDF</a>
     </div>
   </header>
 
@@ -433,9 +428,6 @@ dash.onData(() => {
     setText(el, 'periods', () => (cur ? cur[el.dataset.field] : '—'));
   });
   document.getElementById('m-sofar').hidden = !cur || cur.complete === true || cur.complete === 'true';
-  const pdf = document.getElementById('pdf');
-  pdf.hidden = !(cur && cur.pdf);
-  if (cur && cur.pdf) pdf.href = cur.pdf;
   document.getElementById('launch-note').hidden = m !== '2026-10';
 
   /* headline figures */
